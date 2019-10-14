@@ -1,14 +1,13 @@
 package com.damo.examsys.entity;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
 
 
 /**
- * @author sanriyue
+ * @author liujiulong
+ * @date 2019/10/14  14:45:00
  */
 @Data
 public class Questions implements Serializable {
