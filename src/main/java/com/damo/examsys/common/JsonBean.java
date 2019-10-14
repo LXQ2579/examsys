@@ -19,7 +19,8 @@ public class JsonBean<T> {
 	public JsonBean() {
 	}
 
-	public JsonBean(Integer code, String message) {
+	public JsonBean(Integer code, T data) {
+		this.code = code;
+		this.data = data;
 	}
-
 }
