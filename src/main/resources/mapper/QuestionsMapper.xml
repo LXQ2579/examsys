@@ -18,6 +18,7 @@ dao层接口中的方法名和映射文件中增删改查配置的statement id�
         <result property="optionC" column="optionC"/>
         <result property="optionD" column="optionD"/>
         <result property="standardAnswer" column="standardAnswer"/>
+        <result property="answerDetail" column="answerDetail"/>
         <result property="subjectId" column="subjectId"/>
         <result property="typeId" column="typeId"/>
         <result property="remark" column="remark"/>
