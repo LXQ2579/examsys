@@ -10,12 +10,34 @@ dao层接口中的方法名和映射文件中增删改查配置的statement id�
  -->
 <mapper namespace="com.damo.examsys.dao.QuestionsDao">
 
-    <select id="findAll" resultMap="questionMap">
-        select * from questions
+    <resultMap id="questionsMap" type="questions">
+        <id property="qId" column="qId"/>
+        <result property="title" column="title"/>
+        <result property="optionA" column="optionA"/>
+        <result property="optionB" column="optionB"/>
+        <result property="optionC" column="optionC"/>
+        <result property="optionD" column="optionD"/>
+        <result property="standardAnswer" column="standardAnswer"/>
+        <result property="subjectId" column="subjectId"/>
+        <result property="typeId" column="typeId"/>
+        <result property="remark" column="remark"/>
+        <result property="score" column="score"/>
+        <association property="subject" javaType="subject">
+            <id property="sId" column="sId"/>
+            <result property="sName" column="sName"/>
+        </association>
+        <association property="questionsType" javaType="questionsType">
+            <id property="tId" column="tId"/>
+            <result property="tName" column="tName"/>
+        </association>
+    </resultMap>
+
+    <select id="findAll" resultMap="questionsMap">
+        select * from questions q, questions_type t, subject s where q.subjectId = s.sid and q.typeId = t.tid
     </select>
-    
-<!--    <insert id="addUser" parameterType="user">-->
-<!--        insert into user(username, phone, password, photo_url ) values (#{username}, #{phone}, #{password}, #{photoUrl})-->
-<!--    </insert>-->
+
+    <!--    <insert id="addUser" parameterType="user">-->
+    <!--        insert into user(username, phone, password, photo_url ) values (#{username}, #{phone}, #{password}, #{photoUrl})-->
+    <!--    </insert>-->
 
 </mapper>

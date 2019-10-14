@@ -18,6 +18,7 @@ public class Paper implements Serializable {
     private Integer pId;
     private String pName;
     private Integer subjectId;
+    private Subject subject;
     private Integer state;
     private Date allowTime;
     private String remark;

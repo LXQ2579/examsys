@@ -21,8 +21,10 @@ public class Questions implements Serializable {
     private String optionD;
     private String standardAnswer;
     private Integer subjectId;
+    private Subject subject;
     //类型编号: 0 为 选择题, 1 为 判断题, 2 为简答题
     private Integer typeId;
+    private QuestionsType questionsType;
     private String remark;
     private Integer score;
 

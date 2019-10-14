@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class questionsType {
+public class QuestionsType {
 
     private Integer tId;
     private String tName;
