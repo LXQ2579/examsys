@@ -1,6 +1,6 @@
 package com.damo.examsys.exception;
 
-import com.damo.examsys.common.ExceptionResult;
+import com.damo.examsys.common.JsonBean;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionResolver {
 
     @ExceptionHandler(MyException.class)
-    public ExceptionResult myException(MyException ex){
-        return new ExceptionResult(ex.getCode(), ex.getMessage());
+    public JsonBean myException(MyException ex){
+        return new JsonBean(ex.getCode(), ex.getMessage());
     }
 
 
     @ExceptionHandler(Exception.class)
-    public ExceptionResult commonException(Exception ex){
-        return new ExceptionResult(500, ex.getMessage());
+    public JsonBean commonException(Exception ex){
+        return new JsonBean(500, ex.getMessage());
     }
 
 }

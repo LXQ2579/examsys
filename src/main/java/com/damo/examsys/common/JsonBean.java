@@ -14,10 +14,12 @@ public class JsonBean<T> {
 	@ApiModelProperty(value = "返回数据状态码, 0 正常返回, 其他 表示异常")
 	private Integer code;
 	@ApiModelProperty(value = "返回具体数据, 可以为null")
-	private String msg;
-
-	private Integer count;
-
 	private T data;
+
+	public JsonBean() {
+	}
+
+	public JsonBean(Integer code, String message) {
+	}
 
 }
