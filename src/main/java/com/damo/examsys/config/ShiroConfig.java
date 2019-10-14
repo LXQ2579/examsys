@@ -43,22 +43,25 @@ public class ShiroConfig {
 
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+
+        filterChainDefinitionMap.put("/**", "anon");
+
         // authc:必须认证通过才可以访问;
         // anon: 匿名访问
-        filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/css/**", "anon");
-        filterChainDefinitionMap.put("/login", "anon");
-        //退出是, 指定logout过滤器
-        filterChainDefinitionMap.put("/logout", "logout");
-
-//        filterChainDefinitionMap.put("/user/list", "perms[user:list]");
-
-        filterChainDefinitionMap.put("/admin/**", "authc");
-        filterChainDefinitionMap.put("/user/**", "authc");
-
-
-        //必须放在所有权限设置的最后，匹配的是不满足前面匹配条件的资源
-        filterChainDefinitionMap.put("/**", "authc");
+//        filterChainDefinitionMap.put("/js/**", "anon");
+//        filterChainDefinitionMap.put("/css/**", "anon");
+//        filterChainDefinitionMap.put("/login", "anon");
+//        //退出是, 指定logout过滤器
+//        filterChainDefinitionMap.put("/logout", "logout");
+//
+////        filterChainDefinitionMap.put("/user/list", "perms[user:list]");
+//
+//        filterChainDefinitionMap.put("/admin/**", "authc");
+//        filterChainDefinitionMap.put("/user/**", "authc");
+//
+//
+//        //必须放在所有权限设置的最后，匹配的是不满足前面匹配条件的资源
+//        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
 
