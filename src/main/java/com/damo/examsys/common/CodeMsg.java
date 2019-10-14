@@ -18,4 +18,7 @@ public class CodeMsg {
 
     @Value("${code.3003}")
     private String seckillFail;
+
+    @Value("${code.1920}")
+    private String studentNull;
 }

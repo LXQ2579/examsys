@@ -1,5 +1,6 @@
 package com.damo.examsys.dao;
 
+import com.damo.examsys.common.JsonBean;
 import com.damo.examsys.entity.Student;
 
 import java.util.List;
@@ -11,27 +12,27 @@ import java.util.List;
 public interface StudentDao {
 
     /**
-     * 通过stuNum获得stu对象，得到学生个人资料
+     * 通过stuNum获得stu对象，得到学生个人资料,学生调用
      * @param stuNum
      * @return
      */
-    public Student stuInfo(Integer stuNum);
+    public Student findStuByNum(Integer stuNum);
 
     /**
      * 添加学生信息
      */
-    public void addStudent();
+    public JsonBean addStudent();
 
     /**
      * 修改学生信息
      */
-    public void updateStudent();
+    public JsonBean updateStudent(Integer stuNum);
 
     /**
      * 删除
      * @param stuNum
      */
-    public void deleteStudent(Integer stuNum);
+    public JsonBean deleteStudent(Integer stuNum);
 
     /**
      * 教师得到所有考生信息列表调用此方法

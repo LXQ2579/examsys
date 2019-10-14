@@ -30,4 +30,7 @@ public class ErrorCode {
     // 生成静态页面错误
     public static int CREATE_HTML_ERROR = 4001;
 
+    // 生成静态页面错误
+    public static int STUDENT_NULL = 1920;
+
 }
