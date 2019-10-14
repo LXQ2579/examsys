@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDao userDao;
     @Override
-    public PageInfo findAllUser(int pageNum, int pageSize) {
+    public PageInfo<User> findAllUser(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         return new PageInfo<>(userDao.findAllUser());
     }

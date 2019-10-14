@@ -17,17 +17,9 @@
                     javaType="java.util.ArrayList" select="getRoleList"
                     column="uid">
         </collection>
-
-        <collection property="roleList" ofType="role">
-            <id column="rid" property="rid"/>
-            <result column="rname" property="rname"/>
-            <result column="rdesc" property="rdesc"/>
-        </collection>
     </resultMap>
     <select id="findAllUser" resultMap="userMap">
         select * from t_user tu
---         left join t_user_role tur on tu.uid = tur.uid
---         left join t_role tr on tur.rid = tr.rid
         inner join t_userinfo on userid = tu.uid
     </select>
     <select id="getRoleList" resultType="role">
