@@ -9,13 +9,13 @@ public class GlobalExceptionResolver {
 
     @ExceptionHandler(MyException.class)
     public JsonBean myException(MyException ex){
-        return new JsonBean(ex.getCode(), ex.getMessage());
+        return new JsonBean<>(ex.getCode(), ex.getMessage());
     }
 
 
     @ExceptionHandler(Exception.class)
     public JsonBean commonException(Exception ex){
-        return new JsonBean(500, ex.getMessage());
+        return new JsonBean<>(500, ex.getMessage());
     }
 
 }
