@@ -1,11 +1,13 @@
-package com.damo.examsys.entity;
+package com.damo.examsys.service.impl;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import com.damo.examsys.dao.ExamListDao;
+import com.damo.examsys.entity.ExamList;
+import com.damo.examsys.service.ExamListService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 /**
  *                     .::::.
@@ -36,40 +38,50 @@ import java.util.Date;
  *          奔驰宝马贵者趣，公交自行程序员。
  *          别人笑我忒疯癫，我笑自己命太贱；
  *          只见满街漂亮妹，哪个得归程序员？
- *
- *
- *
- * @Description: 考试场次实体类
+ * @Description:
  * @Author: lufang.zhang
  * @Date: 2019/10/14
  */
-@ApiModel("考试场次信息")
-@Data
-public class ExamList implements Serializable {
-    //考试场次id
-    @ApiModelProperty("考试场次id")
-    private Integer listId;
-    //考试开始时间
-    @ApiModelProperty("考试开始时间")
-    private Date beginTime;
-    //结束时间
-    @ApiModelProperty("结束时间")
-    private Date endTime;
-    //年级id
-    @ApiModelProperty("年级id")
-    private Integer gradeId;
-    //考试科目id
-    @ApiModelProperty("考试科目id")
-    private Integer subjectId;
-    //考试地点
-    @ApiModelProperty("考试地点")
-    private String examAddress;
-    //监考老师id
-    @ApiModelProperty("监考老师id")
-    private Integer Invigilator;
-    //操作人id
-    @ApiModelProperty("操作人id")
-    private Integer operatorId;
+@Transactional
+@Service
+public class ExamListServiceImpl implements ExamListService {
 
+    @Autowired(required = false)
+    private ExamListDao examListDao;
 
+    /**
+     * 获取所有考试场次
+     * @return
+     */
+    @Override
+    public List<ExamList> getExamList() {
+        return examListDao.getExamList();
+    }
+
+    /**
+     * 添加考试场次信息
+     * @param examList
+     */
+    @Override
+    public void addExam(ExamList examList) {
+
+    }
+
+    /**
+     * 修改考试场次信息
+     * @param examList
+     */
+    @Override
+    public void updateExam(ExamList examList) {
+
+    }
+
+    /**
+     * 根据id删除考试场次
+     * @param listId
+     */
+    @Override
+    public void delExam(Integer listId) {
+
+    }
 }
