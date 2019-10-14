@@ -13,6 +13,11 @@
             <result column="name" property="name"/>
             <result column="userid" property="userid"/>
         </association>
+        <collection property="roleList" ofType="role"
+                    javaType="java.util.ArrayList" select="getRoleList"
+                    column="uid">
+        </collection>
+
         <collection property="roleList" ofType="role">
             <id column="rid" property="rid"/>
             <result column="rname" property="rname"/>
@@ -21,9 +26,13 @@
     </resultMap>
     <select id="findAllUser" resultMap="userMap">
         select * from t_user tu
-        left join t_user_role tur on tu.uid = tur.uid
-        left join t_role tr on tur.rid = tr.rid
+--         left join t_user_role tur on tu.uid = tur.uid
+--         left join t_role tr on tur.rid = tr.rid
         inner join t_userinfo on userid = tu.uid
     </select>
-
+    <select id="getRoleList" resultType="role">
+        select tr.rid,rname,rdesc from t_role tr
+        left join t_user_role tur on tr.rid = tur.rid
+				WHERE tur.uid = #{uid}
+    </select>
 </mapper>
