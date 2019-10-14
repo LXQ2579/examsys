@@ -6,7 +6,7 @@
 <mapper namespace="com.damo.examsys.dao.ExamListDao">
 
     <select id="getExamList" resultType="examList">
-        SELECT list_id,begin_time,end_time,subject_id,exam_address,Invigilator,grade_id
+        SELECT list_id,begin_time,end_time,subject_id,exam_address,Invigilator,grade_id,operator_id
           FROM exam_list
     </select>
 
