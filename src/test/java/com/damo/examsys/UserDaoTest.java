@@ -23,8 +23,8 @@ public class UserDaoTest {
     @Test
     public void testFindAll(){
         PageHelper.startPage(1, 2);
-        List<User> allUser = userDao.findAllUser();
-//        PageInfo<User> userPageInfo = new PageInfo<>(allUser);
-        System.out.println(allUser);
+
+        PageInfo<User> pageInfo = new PageInfo<>(userDao.findAllUser());
+        System.out.println(pageInfo);
     }
 }

@@ -10,16 +10,16 @@
     <link rel="stylesheet" href="layui/css/layui.css"  media="all">
 </head>
 <body>
-    <div id="bodyDiv">
-         <table class="layui-table">
-             <thead>
+    <div id="bodyDiv" style="width: 99%;margin: auto">
+         <table class="layui-table" style="text-align: center">
+             <thead >
                  <tr>
-                     <th>序号</th>
-                     <th>科目</th>
-                     <th>开始时间</th>
-                     <th>结束时间</th>
-                     <th>考试地点</th>
-                     <th>监考老师</th>
+                     <td>序号</td>
+                     <td>科目</td>
+                     <td>开始时间</td>
+                     <td>结束时间</td>
+                     <td>考试地点</td>
+                     <td>监考老师</td>
                      <td>操作</td>
                  </tr>
              </thead>
@@ -30,12 +30,12 @@
                  <td>{{exam.endTime}}</td>
                  <td>{{exam.examAddress}}</td>
                  <td>{{exam.Invigilator}}</td>
-                 <td><a class="layui-btn layui-btn-xs" >编辑</a></td>
-                 <td><a class="layui-btn layui-btn-danger layui-btn-xs">删除</a></td>
+                 <td><a class="layui-btn layui-btn-xs" >编辑</a>
+                     <a class="layui-btn layui-btn-danger layui-btn-xs">删除</a></td>
              </tr>
          </table>
     </div>
-<script type="text/javascript" src="js/jquery-1.10.1.min.js" ></script>
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
 <script src="js/vue.js" charset="utf-8"></script>
 
 
@@ -53,7 +53,6 @@
                      url:"http://localhost:8080/examsys/examList",
                      dataType:"json",
                      success:function (data) {
-                         alert(data.data);
                           _this.examList = data.data;
                      }
                  })
