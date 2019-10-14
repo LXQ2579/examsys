@@ -1,38 +1,32 @@
-package com.damo.examsys.dao;
+package com.damo.examsys.service;
 
 import com.damo.examsys.entity.ExamList;
-import io.swagger.models.auth.In;
 
 import java.util.List;
 
-public interface ExamListDao {
+public interface ExamListService {
 
     /**
      * 获取所有考试场次
      * @return
      */
-      List<ExamList> getExamList();
+    List<ExamList> getExamList();
 
     /**
      * 添加考试场次信息
      * @param examList
-     * @return
      */
-      int addExam(ExamList examList);
+    void addExam(ExamList examList);
 
     /**
      * 修改考试场次信息
      * @param examList
-     * @return
      */
-    int updateExam(ExamList examList);
+    void updateExam(ExamList examList);
 
     /**
      * 根据id删除考试场次
      * @param listId
-     * @return
      */
-    int delExam(Integer listId);
-
-
+    void delExam(Integer listId);
 }

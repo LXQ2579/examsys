@@ -1,11 +1,17 @@
-package com.damo.examsys.entity;
+package com.damo.examsys.controller;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import com.damo.examsys.common.ErrorCode;
+import com.damo.examsys.common.JsonBean;
+import com.damo.examsys.entity.ExamList;
+import com.damo.examsys.service.ExamListService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 /**
  *                     .::::.
@@ -36,40 +42,33 @@ import java.util.Date;
  *          奔驰宝马贵者趣，公交自行程序员。
  *          别人笑我忒疯癫，我笑自己命太贱；
  *          只见满街漂亮妹，哪个得归程序员？
- *
- *
- *
- * @Description: 考试场次实体类
+ * @Description:
  * @Author: lufang.zhang
  * @Date: 2019/10/14
  */
-@ApiModel("考试场次信息")
-@Data
-public class ExamList implements Serializable {
-    //考试场次id
-    @ApiModelProperty("考试场次id")
-    private Integer listId;
-    //考试开始时间
-    @ApiModelProperty("考试开始时间")
-    private Date beginTime;
-    //结束时间
-    @ApiModelProperty("结束时间")
-    private Date endTime;
-    //年级id
-    @ApiModelProperty("年级id")
-    private Integer gradeId;
-    //考试科目id
-    @ApiModelProperty("考试科目id")
-    private Integer subjectId;
-    //考试地点
-    @ApiModelProperty("考试地点")
-    private String examAddress;
-    //监考老师id
-    @ApiModelProperty("监考老师id")
-    private Integer Invigilator;
-    //操作人id
-    @ApiModelProperty("操作人id")
-    private Integer operatorId;
+@Api(tags = "考试管理（考试场次管理）")
+@Controller
+public class ExamListController {
 
+    @Autowired
+    private ExamListService examListService;
 
+    @ApiOperation("跳转到考试场次管理页面")
+    @RequestMapping("/examListPage")
+    public String examListPage(){
+        return "after/examList";
+    }
+
+    @ApiOperation("查询所有考试")
+    @RequestMapping("/examList")
+    @ResponseBody
+    public JsonBean<List<ExamList>> findExamList(){
+
+        List<ExamList> list = examListService.getExamList();
+
+        JsonBean<List<ExamList>> jb = new JsonBean<>();
+        jb.setCode(ErrorCode.SUCCESS);
+        jb.setData(list);
+        return jb;
+    }
 }
