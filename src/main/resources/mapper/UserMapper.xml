@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.damo.examsys.dao.UserDao">
+    <resultMap id="userMap" type="user">
+        <id column="uid" property="uid"/>
+        <result column="uname" property="uname"/>
+        <result column="password" property="password"/>
+        <association property="userInfo" javaType="userInfo">
+            <id column="userinfoid" property="userinfoid"/>
+            <result column="name" property="name"/>
+            <result column="userid" property="userid"/>
+        </association>
+        <collection property="roleList" ofType="role">
+            <id column="rid" property="rid"/>
+            <result column="rname" property="rname"/>
+            <result column="rdesc" property="rdesc"/>
+        </collection>
+    </resultMap>
+    <select id="findAllUser" resultMap="userMap">
+        select * from t_user tu
+        left join t_user_role tur on tu.uid = tur.uid
+        left join t_role tr on tur.rid = tr.rid
+        inner join t_userinfo on userid = tu.uid
+    </select>
+
+</mapper>
