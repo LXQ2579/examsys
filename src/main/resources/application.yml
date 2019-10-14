@@ -43,3 +43,10 @@ logging:
   level:
     org:
       thymeleaf: info
+
+#pagehelper配置信息
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
