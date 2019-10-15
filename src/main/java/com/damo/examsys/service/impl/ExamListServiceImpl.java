@@ -102,4 +102,9 @@ public class ExamListServiceImpl implements ExamListService {
             }
         }
     }
+
+    @Override
+    public ExamList getExamListById(Integer listId) {
+        return examListDao.getExamListById(listId);
+    }
 }

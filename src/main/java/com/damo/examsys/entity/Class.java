@@ -11,5 +11,7 @@ public class Class {
 
     private Integer classId;
     private String className;
+    private String  buildNum;
+    private String classroom;
 
 }

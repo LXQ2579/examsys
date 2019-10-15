@@ -29,4 +29,13 @@ public interface ExamListService {
      * @param listId
      */
     void delExam(Integer listId);
+
+    /**
+     * 根据id查询单个考试场次信息
+     * @param listId
+     * @return
+     */
+    ExamList getExamListById(Integer listId);
+
+
 }

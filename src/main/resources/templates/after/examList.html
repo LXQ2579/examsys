@@ -32,7 +32,7 @@
                  <td>{{exam.endTime}}</td>
                  <td>{{exam.examAddress}}</td>
                  <td>{{exam.uname}}</td>
-                 <td><a class="layui-btn layui-btn-xs" @click.prevent="editExam()" >编辑</a>
+                 <td><a class="layui-btn layui-btn-xs" @click.prevent="editExam(exam.listId)" >编辑</a>
                      <a class="layui-btn layui-btn-danger layui-btn-xs" @click.prevent="deleteExam(exam.listId)">删除</a></td>
              </tr>
          </table>
@@ -40,13 +40,14 @@
             <div style="margin:3% auto 3% auto;text-align:center">
                 <h2>考试场次信息</h2><hr>
             </div>
-            <form class="layui-form" action="" style="margin: auto">
+            <form class="layui-form" action="" style="margin: auto" @submit.prevent="">
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">考试科目</label>
                         <div class="layui-input-inline">
-                            <select name="subject" v-for="subject in subjects">
-                                <option v-model="subjects.sid" v-if="">{{subjects.sname}}</option>
+                            <select id="subjectId" name="subject" v-model="exam.subjectId" >
+                                <option value="">请选择</option>
+                                <option v-for="subject in subjects" :value="subject.sId">{{subject.sName}}</option>
                             </select>
                         </div>
                     </div>
@@ -54,17 +55,15 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">考试地点</label>
                     <div class="layui-input-inline">
-                        <select name="examAddress">
+                        <select id="buildNumId" name="buildNum" v-model="buildNum">
                             <option value="">请选择楼栋</option>
-                            <option value="浙江" >浙江省</option>
-                            <option value="你的工号">江西省</option>
+                            <option v-for="clas in classes" :value="class.buildNum">{{clas.buildNum}}</option>
                         </select>
                     </div>
                     <div class="layui-input-inline">
-                        <select name="quiz2">
+                        <select id="classroomId" name="classroom" v-model="classroom">
                             <option value="">请选择教室</option>
-                            <option value="杭州">杭州</option>
-                            <option value="宁波" disabled="">宁波</option>
+                            <option v-for="clas in classes" :value="clas.classroom">{{clas.classroom}}</option>
                         </select>
                     </div>
                 </div>
@@ -72,10 +71,10 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">考试时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="beginTime" placeholder="开始时间">
+                            <input type="text" class="layui-input" id="beginTime" name="beginTime" v-model="exam.beginTime" placeholder="开始时间">
                         </div>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="endTime" placeholder="结束时间">
+                            <input type="text" class="layui-input" id="endTime" name="endTime" v-model="exam.endTime" placeholder="结束时间">
                         </div>
                     </div>
                 </div>
@@ -83,17 +82,16 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">监考老师</label>
                         <div class="layui-input-inline">
-                            <select name="invigilator">
-                                <option value="">请选择老师</option>
-                                <option value="浙江">浙江省</option>
-                                <option value="你的工号">江西省</option>
+                            <select id="invigilatorId" name="invigilator" v-model="exam.invigilator">
+                                <option value="">请选择</option>
+                                <option v-for="user in users" :value="user.userInfo.userid">{{user.userInfo.name}}</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                        <button type="submit" class="layui-btn">立即提交</button>
                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         <button type="button" class="layui-btn layui-btn-primary" @click="closeEditDiv()">关闭</button>
                     </div>
@@ -110,7 +108,13 @@
      var vue = new Vue({
          el:"#bodyDiv",
          data:{
-            examList:[]
+             examList:[],
+             exam:{},
+             subjects:[],
+             users:[],
+             classes:[],
+             buildNum:'',
+             classroom:''
          },
          methods:{
              loadData:function () {
@@ -124,10 +128,27 @@
                      }
                  })
              },
-             editExam:function(){
+             editExam:function(examId){
                  $('#editDiv').show();  //显示弹窗
                  $('#cover').css('display','block'); //显示遮罩层
                  $('#cover').css('height','100%'); //设置遮罩层的高度为当前页面高度
+                 var _this = this;
+                 $.ajax({
+                     type:"get",
+                     url:"http://localhost:8080/examsys/getExamListById?listId="+examId,
+                     dataType:"json",
+                     success:function (data) {
+                         if(data.code == 0){
+                             _this.exam=data.data;
+                             var _index=data.data.examAddress.index("-");
+                             _this.buildNum = data.data.examAddress.substr(0,_index);
+                             _this.classroom = data.data.examAddress.substr(_index+1);
+                             _this.refreshRender();
+                         }else{
+                             alert("请求错误，请重试");
+                         }
+                     }
+                 })
              },
              closeEditDiv:function(){
                  $('#editDiv').hide();  //隐藏弹窗
@@ -152,29 +173,73 @@
                  }else{
                      return false;
                  }
+             },
+             getSubjects:function () {
+                 var _this= this;
+                 $.ajax({
+                     type:"get",
+                     url:"http://localhost:8080/examsys/subject/findAll.do",
+                     dataType:"json",
+                     success:function (data) {
+                         if(data.code == 0){
+                             _this.subjects = data.data;
+                         }
+                     }
+                 })
+             },
+             getExamAddress:function () {
+                 var _this= this;
+                 $.ajax({
+                     type:"get",
+                     url:"http://localhost:8080/examsys/student/getClass.do",
+                     dataType:"json",
+                     success:function (data) {
+                         if(data.code == 0){
+                             _this.classes=data.data;
+                         }
+                     }
+                 })
+             },
+             getInvigilators:function () {
+                 var _this= this;
+                 $.ajax({
+                     type:"get",
+                     url:"http://localhost:8080/examsys/user/allUser.do?pageSize=999999999",
+                     dataType:"json",
+                     success:function (data) {
+                         if(data.code == 0){
+                             _this.users = data.data.list;
+                         }
+                     }
+                 })
+             },
+             refreshRender:function () {
+                 layui.use(['form','laydate'], function(){
+                     var form = layui.form
+                         ,laydate = layui.laydate;
+                     //日期
+                     laydate.render({
+                         elem: '#beginTime',
+                         type: 'datetime',
+                         format:'yyyy-MM-dd HH:mm'
+                     });
+                     laydate.render({
+                         elem: '#endTime',
+                         type: 'datetime',
+                         format:'yyyy-MM-dd HH:mm'
+                     });
+                     layui.form.render();
+                 });
              }
+
          },
          created : function(){
              this.loadData();
+             this.getSubjects();
+             this.getExamAddress();
+             this.getInvigilators();
          }
 
-     });
-
-     layui.use(['form','laydate'], function(){
-         var form = layui.form
-             ,laydate = layui.laydate;
-         //日期
-         laydate.render({
-             elem: '#beginTime',
-             type: 'datetime',
-             format:'yyyy-MM-dd HH:mm'
-         });
-         laydate.render({
-             elem: '#endTime',
-             type: 'datetime',
-             format:'yyyy-MM-dd HH:mm'
-         });
-         form.render();
      });
 
 </script>
