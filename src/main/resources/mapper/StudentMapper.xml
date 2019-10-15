@@ -27,4 +27,12 @@
         where e.subject_id=su.sId and s.stu_num=#{stuNum}
     </select>
 
+    <insert id="addStudent" parameterType="student">
+        INSERT INTO student(stu_num,stu_name,stu_pwd,stu_gender,stu_idnum,class_id) VALUES(#{stuNum},#{stuName},#{stuPwd},#{stuGender},#{stuIdnum},#{classId})
+    </insert>
+
+    <select id="classList" resultType="com.damo.examsys.entity.Class">
+        select * from class
+    </select>
+
 </mapper>

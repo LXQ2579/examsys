@@ -1,6 +1,7 @@
 package com.damo.examsys.dao;
 
 import com.damo.examsys.common.JsonBean;
+import com.damo.examsys.entity.Class;
 import com.damo.examsys.entity.Student;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface StudentDao {
     /**
      * 添加学生信息
      */
-    public JsonBean addStudent();
+    public void addStudent(Student student);
 
     /**
      * 修改学生信息
@@ -46,5 +47,11 @@ public interface StudentDao {
      * @return
      */
     public List<Student> getStudentsBySubjectId(Integer subjectId);
+
+    /**
+     * 所有班级资料
+     * @return
+     */
+    public List<Class> classList();
 
 }

@@ -28,4 +28,17 @@ public class StudentTest {
 
     }
 
+    @Test
+    public void testAddStu(){
+        Student student = new Student();
+        student.setStuNum(1006);
+        student.setStuPwd("1006");
+        student.setStuName("mike");
+        student.setStuGender("男");
+        student.setStuIdnum("777777888888999999");
+        student.setClassId(3);
+//        JsonBean jsonBean = studentController.addStu(student);
+//        System.out.println(jsonBean.getData());
+    }
+
 }
