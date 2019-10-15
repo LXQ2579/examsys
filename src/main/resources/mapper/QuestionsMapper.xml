@@ -37,6 +37,22 @@ dao层接口中的方法名和映射文件中增删改查配置的statement id�
         select * from questions q, questions_type t, subject s where q.subjectId = s.sid and q.typeId = t.tid
     </select>
 
+    <select id="findById" resultMap="questionsMap" parameterType="integer">
+        select * from questions q, questions_type t, subject s where q.subjectId = s.sid and q.typeId = t.tid where q.qId = #{qId}
+    </select>
+
+    <update id="update" parameterType="questions">
+        update  questions q set(title, optionA, optionB, optionC, optionD, standardAnswer, answerDetail, subjectId, typeId, remark, score) values (#{title}, #{optionA}, #{optionB}, #{optionC}, #{optionD}, #{standardAnswer}, #{answerDetail}, #{subjectId}, #{typeId}, #{remark}, #{score}) where q.qId = #{qId}
+    </update>
+
+    <insert id="add" parameterType="questions">
+        insert into questions values (null, #{title}, #{typeId}, #{optionA}, #{optionB}, #{optionC}, #{optionD}, #{standardAnswer}, #{answerDetail}, #{subjectId}, #{remark}, #{score})
+    </insert>
+
+    <delete id="delete" parameterType="integer">
+        delete from  questions q where q.qId = #{qId}
+    </delete>
+
     <!--    <insert id="addUser" parameterType="user">-->
     <!--        insert into user(username, phone, password, photo_url ) values (#{username}, #{phone}, #{password}, #{photoUrl})-->
     <!--    </insert>-->

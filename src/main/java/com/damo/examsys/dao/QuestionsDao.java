@@ -14,4 +14,12 @@ public interface QuestionsDao {
 
     List<Questions> findAll();
 
+    Questions findById(Integer qId);
+
+    void update(Questions questions);
+
+    void deleteById(Integer qId);
+
+    void add(Questions questions);
+
 }

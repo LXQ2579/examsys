@@ -23,6 +23,13 @@ public class QuestionsController {
     @Autowired
     private QuestionsService questionsService;
 
+    @GetMapping("/gotoList.do")
+    public String gotoList(){
+
+
+        return "after/JudgeQuestionList";
+    }
+
     @PostMapping("/findAll.do")
     @ResponseBody
     public JsonBean findAll(){
@@ -32,11 +39,40 @@ public class QuestionsController {
         return new JsonBean<>(0, list);
     }
 
-    @GetMapping("/gotoList.do")
-    public String gotoList(){
+    @PostMapping("/findById.do")
+    @ResponseBody
+    public JsonBean findById(Integer qId){
 
+        Questions questions = questionsService.findById(qId);
 
-        return "after/JudgeQuestionList";
+        return new JsonBean<>(0, questions);
+    }
+
+    @PostMapping("/update.do")
+    @ResponseBody
+    public JsonBean update(Questions questions){
+
+       questionsService.update(questions);
+
+        return new JsonBean<>(0, "试题修改成功");
+    }
+
+    @PostMapping("/deleteById.do")
+    @ResponseBody
+    public JsonBean deleteById(Integer qId){
+
+        questionsService.deleteById(qId);
+
+        return new JsonBean<>(0, "试题删除成功");
+    }
+
+    @PostMapping("/add.do")
+    @ResponseBody
+    public JsonBean add(Questions questions){
+
+        questionsService.add(questions);
+
+        return new JsonBean<>(0, "试题添加成功");
     }
 
 }
