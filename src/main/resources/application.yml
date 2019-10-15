@@ -13,6 +13,8 @@ mybatis:
 
 
 spring:
+#  mvc:
+#    static-path-pattern: /**
 
   # redis数据库服务器id 端口号 密码
   redis:
@@ -47,3 +49,5 @@ logging:
 #pagehelper配置信息
 pagehelper:
   helperDialect: mysql
+
+

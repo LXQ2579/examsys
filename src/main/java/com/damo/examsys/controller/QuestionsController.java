@@ -36,7 +36,7 @@ public class QuestionsController {
     public String gotoList(){
 
 
-        return "after/questionList";
+        return "after/JudgeQuestionList";
     }
 
 }

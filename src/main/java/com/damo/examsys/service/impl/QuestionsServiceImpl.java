@@ -21,7 +21,7 @@ public class QuestionsServiceImpl implements QuestionsService {
 
     @Override
     public List<Questions> findAll() {
-//        PageHelper.startPage(pageNum,pageSize);
+//        PageHelper.startPage(page,limit);
         return questionsDao.findAll();
     }
 }
