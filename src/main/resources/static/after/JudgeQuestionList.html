@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>考试场次管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--css路径-->
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.12.2.min.js"></script>
+    <script src="../js/vue.js" charset="utf-8"></script>
+</head>
+<body>
+
+<div style="height: 70px;text-align: center; background-color: #C8EBFA;">
+    <h1 style="text-align: center;padding-top: 20px">试题管理</h1>
+</div>
+
+<div id="searchDiv" class="layui-form searchDiv">
+    <div class="layui-form-item" style="margin-left:470px">
+
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="questionName" name="questionName" placeholder="题干名称">
+        </div>
+        <div class="layui-input-inline">
+            <select name="typeId" id="typeId" class="layui-input" style="display:block">
+                <option value="">题目类型</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="subjectId" id="subjectId" class="layui-input" style="display:block">
+                <option value="">科目</option>
+            </select>
+        </div>
+
+        <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" data-type="reload"
+                style="height:38px">
+            <i class="layui-icon layui-icon-search"></i>
+        </button>
+
+    </div>
+
+</div>
+<div>
+    <button type="button" class="layui-btn" style="height: auto; margin-left:5px;" id="test3">
+        <i class="layui-icon"></i>导入Excel文件
+    </button>
+    <button type="button" class="layui-btn"
+            style="height: auto; margin-top:5px; margin-right:5px;text-align: right; background-color: orange;"
+            onclick="add()">
+        添加试卷
+    </button>
+</div>
+
+<div id="bodyDiv" style="width: 99%;margin: auto">
+    <table class="layui-table" toolbar="#toolbarDemo" id="test" lay-filter="test" style="text-align: center">
+        <thead>
+        <th>
+        <td>题干</td>
+        <td>题目类型</td>
+        <td>选项A</td>
+        <td>选项B</td>
+        <td>选项C</td>
+        <td>选项D</td>
+        <td>答案</td>
+        <td>详解</td>
+        <td>科目</td>
+        <td>说明</td>
+        <td>分数</td>
+        <td>操作</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr v-for="(ques,index) in quesList">
+            <td>{{index+1}}</td>
+            <td>{{ques.title}}</td>
+            <td>{{ques.questionsType.tName}}</td>
+            <td>{{ques.optionA}}</td>
+            <td>{{ques.optionB}}</td>
+            <td>{{ques.optionC}}</td>
+            <td>{{ques.optionD}}</td>
+            <td>{{ques.standardAnswer}}</td>
+            <td>{{ques.answerDetail}}</td>
+            <td>{{ques.subject.sName}}</td>
+            <td>{{ques.remark}}</td>
+            <td>{{ques.score}}</td>
+            <td><a class="layui-btn layui-btn-xs" @click.prevent="update(ques.qId)">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" @click.prevent="deleteById(ques.qId)">删除</a></td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+<!--头工具栏-->
+
+
+<script>
+    var vue = new Vue({
+        el: "#bodyDiv",
+        data: {
+            quesList: []
+        },
+        methods: {
+            findAll: function () {
+                var _this = this;
+                $.ajax({
+                    type: "post",
+                    url: "/examsys/questions/findAll.do",
+                    dataType: "json",
+                    success: function (data) {
+                        _this.quesList = data.data;
+                    }
+                })
+            },
+
+            deleteById: function (qId) {
+                alert(qId);
+                if (confirm('是否删除？')) {
+                    //发送请求到后台
+                    $.ajax({
+                        type: "post",
+                        url: "../questions/deleteById.do",
+                        data: {"qId": qId},
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.code === 0) {
+                                alert("删除成功!", {
+                                    icon: 6,
+                                    time: 1500
+                                }, function () {
+                                    window.location.reload();// 重新加载页面,demo 表示父窗体table标签的id值
+                                });
+                            } else {
+                                alert(data.info)
+                            }
+                        }
+                    })
+                }
+            },
+
+            update: function (qId) {
+                window.open('questionModify.html?questionId=' + qId
+                    , '修改试题信息'
+                    , 'height=720, width=620px, top=0,left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no,status=no')
+
+            }
+
+        },
+        created: function () {
+            this.findAll();
+        }
+
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            url: "/examsys/type/findAll.do",
+            dataType: "json",
+            type: "post",
+            success: function (data) {
+                $(data.data).each(function (index, item) {
+                    var html = "<option value=" + item.tId + ">" + item.tName + "</option>";
+                    $("#typeId").append(html);
+                })
+            }
+        });
+        $.ajax({
+            url: "/examsys/subject/findAll.do",
+            dataType: "json",
+            type: "post",
+            success: function (returnData) {
+                $(returnData.data).each(function (index, item) {
+                    var html = "<option value=" + item.sId + ">" + item.sName + "</option>";
+                    $("#subjectId").append(html);
+                })
+            }
+        });
+
+    });
+</script>
+<script>
+    function add() {
+        layer.open({
+            type: 2 //此处以iframe举例
+            , title: '添加试题'
+            , area: ['720px', '620px']
+            , content: 'questionModify.html'
+        });
+    }
+</script>
+
+
+</body>
+</html>

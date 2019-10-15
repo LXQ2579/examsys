@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>试题修改</title>
+	<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+	<script type="text/javascript" src="../layui/layui.all.js"></script>
+	<script type="text/javascript" src="../js/jquery-1.12.2.min.js"></script>
+	<script src="../js/vue.js" charset="utf-8"></script>
+
+</head>
+<body>
+
+
+<form class="layui-form" id="add-form" lay-filter="example">
+	<input hidden type="text" name="questionId">
+	<div class="layui-form-item">
+		<label class="layui-form-label">科目：</label>
+		<div class="layui-input-block">
+			<select name="subjectId" id="courseNameHide" class="courseName" lay-filter="aihao" style="width: 300px">
+				<option value="">请选择科目...</option>
+
+			</select>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">题目类型：</label>
+		<div class="layui-input-block">
+			<select name="typeId" id="typeNameHide" class="typeName" lay-filter="aihao"  style="width: 300px">
+				<option value="">请选择题目类型...</option>
+
+			</select>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">题干：</label>
+		<div class="layui-input-block">
+			<input type="text" name="title" lay-verify="title" class="layui-input"  style="width: 300px">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">选项A：</label>
+		<div class="layui-input-block">
+			<input type="text" name="optionA" lay-verify="title"  class="layui-input"  style="width: 300px">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">选项B：</label>
+		<div class="layui-input-block">
+			<input type="text" name="optionB" lay-verify="title"  class="layui-input"  style="width: 300px">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">选项C：</label>
+		<div class="layui-input-block">
+			<input type="text" name="optionC" lay-verify="title"  class="layui-input"  style="width: 300px">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">选项D：</label>
+		<div class="layui-input-block">
+			<input type="text" name="optionD" lay-verify="title" class="layui-input"  style="width: 300px">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">答案：</label>
+		<div class="layui-input-block">
+			<input type="text" name="standardAnswer" lay-verify="title" class="layui-input"  style="width: 300px">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">详解：</label>
+		<div class="layui-input-block">
+			<input type="text" name="answerDetail" lay-verify="title"  class="layui-input"  style="width: 300px">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">说明：</label>
+		<div class="layui-input-block">
+			<input type="text" name="remark" lay-verify="title" class="layui-input"  style="width: 300px">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">分数：</label>
+		<div class="layui-input-block">
+			<input type="text" name="score" lay-verify="title" class="layui-input"  style="width: 300px">
+		</div>
+	</div>
+
+
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+			<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		</div>
+	</div>
+</form>
+
+<script>
+    layui.use(['form','layer', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate
+            ,$ = layui.jquery;
+
+
+		InitForm();
+		InitTypeForm();
+        function InitForm() {
+            $.ajax({
+                type: 'post',
+                url: '../subject/findAll.do',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.data.length > 0) {
+                        //加载课程
+                        var courseName = $("#courseNameHide").val();
+                        for (var i = 0; i < data.data.length; i++) {
+                            var title = data.data[i].sName;
+                            var id = data.data[i].sId;
+                            if (courseName == title) {
+                                $(".courseName").append('<option value="' + id + '" selected="">' + title + '</option>');
+                            } else {
+                                $(".courseName").append('<option value="' + id + '">' + title + '</option>');
+                            }
+                        }
+                        form.render('select');
+
+                    } else {
+                        layer.msg("下拉数据加载失败。。。");
+                    }
+
+                }
+            })
+        }
+
+        function InitTypeForm() {
+            $.ajax({
+                type: 'post',
+                url: '../type/findAll.do',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.data.length > 0) {
+                        //加载课程
+                        var typeName = $("#typeNameHide").val();
+                        for (var i = 0; i < data.data.length; i++) {
+                            var title = data.data[i].tName;
+                            var id = data.data[i].tId;
+                            if (typeName == title) {
+                                $(".typeName").append('<option value="' + id + '" selected="">' + title + '</option>');
+                            } else {
+                                $(".typeName").append('<option value="' + id + '">' + title + '</option>');
+                            }
+                        }
+                        form.render('select');
+
+                    } else {
+                        layer.msg("下拉数据加载失败。。。");
+                    }
+
+                }
+            })
+        }
+
+
+        function findOne() {
+            $.ajax({
+                type: "post",
+                url: "../questions/findById.do" + window.location.search,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code === 0) {
+                        //表单初始赋值
+                        form.val('example', data.info);
+                    }
+                }
+            })
+        }
+
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            $.ajax({
+                type: "post",
+                url: "../questions/add.do",
+                data: data.field,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code === 0) {
+                        layer.msg("操作成功", {icon: 6, time: 1500},
+                            function () {
+                                var t = parent.layui.table;
+                                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                parent.layer.close(index); //再执行关闭
+                            });
+                    } else {
+
+                        layer.alert("修改失败", {icon: 2, time: 2000});
+                    }
+                }
+
+            });
+            return false;
+        });
+
+
+    });
+</script>
+
+
+</body>
+</html>
