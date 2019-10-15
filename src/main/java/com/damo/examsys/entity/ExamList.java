@@ -64,12 +64,18 @@ public class ExamList implements Serializable {
     //考试科目id
     @ApiModelProperty("考试科目id")
     private Integer subjectId;
+    //考试科目
+    @ApiModelProperty("考试科目")
+    private String sName;
     //考试地点
     @ApiModelProperty("考试地点")
     private String examAddress;
     //监考老师id
     @ApiModelProperty("监考老师id")
-    private Integer Invigilator;
+    private Integer invigilator;
+    //监考老师
+    @ApiModelProperty("监考老师")
+    private String uName;
     //操作人id
     @ApiModelProperty("操作人id")
     private Integer operatorId;

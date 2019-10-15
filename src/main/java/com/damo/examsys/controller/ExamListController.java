@@ -71,4 +71,16 @@ public class ExamListController {
         jb.setData(list);
         return jb;
     }
+
+    @ApiOperation("查询所有考试")
+    @RequestMapping("/deleteExam")
+    @ResponseBody
+    public JsonBean<String> deleteExam(Integer listId){
+
+        examListService.delExam(listId);
+
+        JsonBean<String> jb = new JsonBean<>();
+        jb.setCode(ErrorCode.SUCCESS);
+        return jb;
+    }
 }

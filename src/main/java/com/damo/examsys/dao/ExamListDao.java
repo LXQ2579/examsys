@@ -34,5 +34,11 @@ public interface ExamListDao {
      */
     int delExam(Integer listId);
 
+    /**
+     * 获取所有考试场次
+     * @return
+     */
+    ExamList getExamListById(Integer listId);
+
 
 }

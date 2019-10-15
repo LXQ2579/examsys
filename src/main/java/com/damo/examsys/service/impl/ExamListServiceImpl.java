@@ -2,11 +2,13 @@ package com.damo.examsys.service.impl;
 
 import com.damo.examsys.dao.ExamListDao;
 import com.damo.examsys.entity.ExamList;
+import com.damo.examsys.exception.MyException;
 import com.damo.examsys.service.ExamListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -82,6 +84,22 @@ public class ExamListServiceImpl implements ExamListService {
      */
     @Override
     public void delExam(Integer listId) {
-
+        ExamList exam = examListDao.getExamListById(listId);
+        if(exam == null){
+            throw new MyException(1,"考试场次信息不存在，请刷新后重试。");
+        }else {
+            Date now = new Date();
+            //还没开始考试
+            if(now.before(exam.getBeginTime())){
+                //执行删除操作
+                examListDao.delExam(listId);
+                //考试已经开始，还没有结束
+            }else if(now.after(exam.getBeginTime()) && now.before(exam.getEndTime())){
+                throw new MyException(1,"考试已开始,无法删除");
+            }else {
+                //考试已经结束
+                throw new MyException(1,"考试已结束,无法删除");
+            }
+        }
     }
 }
