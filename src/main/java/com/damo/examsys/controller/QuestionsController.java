@@ -3,9 +3,9 @@ package com.damo.examsys.controller;
 import com.damo.examsys.common.JsonBean;
 import com.damo.examsys.entity.Questions;
 import com.damo.examsys.service.QuestionsService;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,7 +29,14 @@ public class QuestionsController {
 
         List<Questions> list = questionsService.findAll();
 
-        return new JsonBean<List<Questions>>(0, list);
+        return new JsonBean<>(0, list);
+    }
+
+    @GetMapping("/gotoList.do")
+    public String gotoList(){
+
+
+        return "after/questionList";
     }
 
 }

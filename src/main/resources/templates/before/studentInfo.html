@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>考生信息</title>
+</head>
+<script src="/examsys/js/jquery-1.12.2.min.js"></script>
+<body>
+<form action="#" >
+    <input type="text" id="stuNum" name="stuNum" value="">
+    <input type="text" id="sName" name="sName" value="">
+</form>
+</body>
+
+<script>
+    $(function () {
+        $.ajax({
+            type:"get",
+            url:"myInfo?stuNum=1001",
+            dataType:"json",
+            success:function (data) {
+                if (data.code == 0){
+                    $("#stuNum").val(data.data.stuNum);
+                    $("#sName").val(data.data.stuInfo.subject.sName);
+                }
+                if (data.code == 1920){
+                    alert(data.data);
+                }
+            }
+        })
+    })
+</script>
+
+</html>
