@@ -21,7 +21,7 @@
             success:function (data) {
                 if (data.code == 0){
                     $("#stuNum").val(data.data.stuNum);
-                    $("#sName").val(data.data.stuInfo.subject.sname);
+                    $("#sName").val(data.data.stuInfo.subject.sName);
                 }
                 if (data.code == 1920){
                     alert(data.data);
