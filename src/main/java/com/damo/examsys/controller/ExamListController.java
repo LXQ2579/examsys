@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -48,6 +49,7 @@ import java.util.List;
  * @Date: 2019/10/14
  */
 @Api(tags = "考试管理（考试场次管理）")
+@CrossOrigin
 @Controller
 public class ExamListController {
 
