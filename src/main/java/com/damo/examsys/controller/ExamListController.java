@@ -3,11 +3,13 @@ package com.damo.examsys.controller;
 import com.damo.examsys.common.ErrorCode;
 import com.damo.examsys.common.JsonBean;
 import com.damo.examsys.entity.ExamList;
+import com.damo.examsys.entity.Grade;
 import com.damo.examsys.service.ExamListService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -47,6 +49,7 @@ import java.util.List;
  * @Date: 2019/10/14
  */
 @Api(tags = "考试管理（考试场次管理）")
+@CrossOrigin
 @Controller
 public class ExamListController {
 
@@ -93,6 +96,45 @@ public class ExamListController {
         JsonBean<ExamList> jb = new JsonBean<>();
         jb.setCode(ErrorCode.SUCCESS);
         jb.setData(examList);
+        return jb;
+    }
+
+    @ApiOperation("查询所有年级信息")
+    @RequestMapping("/getGradeList")
+    @ResponseBody
+    public JsonBean<List<Grade>> getGradeList(){
+
+        List<Grade> list = examListService.getGradeList();
+
+        JsonBean<List<Grade>> jb = new JsonBean<>();
+        jb.setCode(ErrorCode.SUCCESS);
+        jb.setData(list);
+        return jb;
+    }
+
+    @ApiOperation("添加考试场次信息")
+    @RequestMapping("/addExam")
+    @ResponseBody
+    public JsonBean<String> addExam(ExamList examList){
+
+        examListService.addExam(examList);
+
+        JsonBean<String> jb = new JsonBean<>();
+        jb.setCode(ErrorCode.SUCCESS);
+        jb.setData("添加成功");
+        return jb;
+    }
+
+    @ApiOperation("修改考试场次信息")
+    @RequestMapping("/updateExam")
+    @ResponseBody
+    public JsonBean<String> updateExam(ExamList examList){
+
+        examListService.updateExam(examList);
+
+        JsonBean<String> jb = new JsonBean<>();
+        jb.setCode(ErrorCode.SUCCESS);
+        jb.setData("修改成功");
         return jb;
     }
 }

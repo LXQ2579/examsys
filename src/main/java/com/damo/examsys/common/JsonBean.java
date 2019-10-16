@@ -16,11 +16,22 @@ public class JsonBean<T> {
 	@ApiModelProperty(value = "返回具体数据, 可以为null")
 	private T data;
 
+	private String msg;
+
+	private Integer count;
+
 	public JsonBean() {
 	}
 
 	public JsonBean(Integer code, T data) {
 		this.code = code;
 		this.data = data;
+	}
+
+	public JsonBean(Integer code, T data, String msg, Integer count) {
+		this.code = code;
+		this.data = data;
+		this.msg = msg;
+		this.count = count;
 	}
 }

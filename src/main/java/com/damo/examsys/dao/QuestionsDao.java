@@ -1,9 +1,11 @@
 package com.damo.examsys.dao;
 
 import com.damo.examsys.entity.Questions;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liujiulong
@@ -12,7 +14,8 @@ import java.util.List;
 @Repository
 public interface QuestionsDao {
 
-    List<Questions> findAll();
+    List<Questions> findAll(@Param(value = "questionName") String questionName, @Param(value = "typeId") Integer typeId
+            , @Param(value = "subjectId") Integer subjectId);
 
     Questions findById(Integer qId);
 
@@ -21,5 +24,7 @@ public interface QuestionsDao {
     void deleteById(Integer qId);
 
     void add(Questions questions);
+
+    void batchInsert(List<Questions> questionsList);
 
 }

@@ -1,6 +1,5 @@
 package com.damo.examsys.service;
 
-import com.damo.examsys.entity.QuestionsType;
 import com.damo.examsys.entity.Subject;
 
 import java.util.List;
@@ -12,5 +11,7 @@ import java.util.List;
 public interface SubjectService {
 
     List<Subject> findAll();
+
+    Subject findByName(String subjectName);
 
 }

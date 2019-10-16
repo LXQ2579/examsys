@@ -1,8 +1,5 @@
 package com.damo.examsys.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
 
