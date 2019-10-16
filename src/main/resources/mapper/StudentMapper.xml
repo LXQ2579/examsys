@@ -38,4 +38,8 @@
         select * from class
     </select>
 
+    <delete id="deleteStudent">
+        delete from student where stu_num=#{stuNum}
+    </delete>
+
 </mapper>

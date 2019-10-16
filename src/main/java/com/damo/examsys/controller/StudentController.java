@@ -76,4 +76,13 @@ public class StudentController {
         return "before/updateStudent";
     }
 
+    @RequestMapping("/delStu.do")
+    @ResponseBody
+    public JsonBean delStudent(HttpServletRequest request){
+        String stuNum = request.getParameter("stuNum");
+        JsonBean jsonBean = studentService.deleteStudent(Integer.parseInt(stuNum));
+        return jsonBean;
+    }
+
+
 }
