@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -52,15 +53,20 @@ public class ExamList implements Serializable {
     private Integer listId;
     //考试开始时间
     @ApiModelProperty("考试开始时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private Date beginTime;
     //结束时间
     @ApiModelProperty("结束时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private Date endTime;
     //年级id
     @ApiModelProperty("年级id")
     private Integer gradeId;
+    //年级名
+    @ApiModelProperty("年级名")
+    private String gradeName;
     //考试科目id
     @ApiModelProperty("考试科目id")
     private Integer subjectId;
@@ -79,6 +85,12 @@ public class ExamList implements Serializable {
     //操作人id
     @ApiModelProperty("操作人id")
     private Integer operatorId;
+    //试卷id
+    @ApiModelProperty("试卷id")
+    private Integer paperId;
+    //试卷名称
+    @ApiModelProperty("试卷名称")
+    private String paperName;
 
 
 }

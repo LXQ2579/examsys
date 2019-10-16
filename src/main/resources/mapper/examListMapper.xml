@@ -7,30 +7,33 @@
 
     <!--查找所有考试信息，按照时间排序-->
     <select id="getExamList" resultType="examList">
-        SELECT   e.list_id,e.begin_time,e.end_time,e.subject_id,s.sName,
-	             e.exam_address,e.Invigilator,u.name uName,e.grade_id,e.operator_id
+        SELECT   e.list_id,e.begin_time,e.end_time,e.subject_id,s.sName,e.paper_id,
+	             e.exam_address,e.Invigilator,u.name uName,e.grade_id,e.operator_id,
+                 g.grade_name,p.pName paperName
 	    FROM  exam_list e
         LEFT JOIN subject s ON e.subject_id = s.sId
         LEFT JOIN t_userinfo u ON e.Invigilator = u.userid
+        LEFT JOIN t_grade g ON g.grade_id = e.grade_id
+        LEFT JOIN paper p ON p.pid = e.paper_id
         ORDER BY e.begin_time desc
     </select>
 
     <!--添加考试场次-->
     <insert id="addExam" parameterType="examList">
-        insert into exam_list(list_id,begin_time,end_time,
+        insert into exam_list(begin_time,end_time,paper_id,
                  subject_id,exam_address,Invigilator,grade_id,operator_id)
-               values (null,#(beginTime),#(endTime),#{subjectId},
-                 #{examAddress},#{invigilator}, #{gradeId},#{operatorId})
+               values (#{beginTime},#{endTime},#{paperId},#{subjectId},
+                 #{examAddress},#{invigilator},#{gradeId},#{operatorId})
     </insert>
 
     <!--修改考试场次信息-->
     <update id="updateExam" parameterType="examList">
         UPDATE exam_list
          <set>
-             <if test="beginTime != null and beginTime != ''">
+             <if test="beginTime != null">
                  begin_time = #{beginTime},
              </if>
-             <if test="endTime != null and endTime != ''">
+             <if test="endTime != null">
                  end_time = #{endTime},
              </if>
              <if test="subjectId != null and subjectId != ''">
@@ -48,6 +51,9 @@
              <if test="operatorId != null and operatorId != ''">
                  operator_id = #{operatorId},
              </if>
+             <if test="paperId != null and paperId != ''">
+                 paper_id = #{paperId},
+             </if>
          </set>
          where list_id = #{listId}
     </update>
@@ -59,9 +65,25 @@
 
     <!--根据id查询考试场次信息-->
     <select id="getExamListById" resultType="examList">
-        SELECT   e.list_id,e.begin_time,e.end_time,e.subject_id,
+        SELECT   e.list_id,e.begin_time,e.end_time,e.subject_id,e.paper_id,
 	             e.exam_address,e.Invigilator,e.grade_id,e.operator_id
 	    FROM  exam_list e where list_id = #{listId}
+    </select>
+
+    <select id="getGradeList" resultType="grade">
+        select grade_id,grade_name from t_grade
+    </select>
+
+    <select id="findExamAddress" resultType="int">
+        select count(list_id) from exam_list
+         <where>
+             <if test="beginTime != null ">
+                 end_time > #{beginTime}
+             </if>
+             <if test="examAddress != null ">
+                 and exam_address = #{examAddress}
+             </if>
+         </where>
     </select>
 
 </mapper>

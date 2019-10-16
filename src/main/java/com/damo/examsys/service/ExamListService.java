@@ -1,6 +1,7 @@
 package com.damo.examsys.service;
 
 import com.damo.examsys.entity.ExamList;
+import com.damo.examsys.entity.Grade;
 
 import java.util.List;
 
@@ -36,6 +37,12 @@ public interface ExamListService {
      * @return
      */
     ExamList getExamListById(Integer listId);
+
+    /**
+     * 获取所有年级信息
+     * @return
+     */
+    List<Grade> getGradeList();
 
 
 }

@@ -16,36 +16,58 @@
          <table class="layui-table" style="text-align: center">
              <thead >
                  <tr>
+                     <th colspan="9">
+                         <button type="button" class="layui-btn layui-btn-lg layui-btn-normal layui-btn-radius"
+                                 @click="showExamAddDiv()">+添加考试+</button>
+                     </th>
+                 </tr>
+                 <tr>
                      <td>序号</td>
+                     <td>年级</td>
                      <td>科目</td>
                      <td>开始时间</td>
                      <td>结束时间</td>
                      <td>考试地点</td>
+                     <td>试卷名称</td>
                      <td>监考老师</td>
                      <td>操作</td>
                  </tr>
              </thead>
              <tr v-for="(exam,index) in examList">
                  <td>{{index+1}}</td>
+                 <td>{{exam.gradeName}}</td>
                  <td>{{exam.sname}}</td>
                  <td>{{exam.beginTime}}</td>
                  <td>{{exam.endTime}}</td>
                  <td>{{exam.examAddress}}</td>
+                 <td>{{exam.paperName}}</td>
                  <td>{{exam.uname}}</td>
-                 <td><a class="layui-btn layui-btn-xs" @click.prevent="editExam(exam.listId)" >编辑</a>
+                 <td><a class="layui-btn layui-btn-xs" @click.prevent="showEditExamDiv(exam.listId)" >编辑</a>
                      <a class="layui-btn layui-btn-danger layui-btn-xs" @click.prevent="deleteExam(exam.listId)">删除</a></td>
              </tr>
          </table>
-        <div id="editDiv"  style="width: 40%; margin: auto; border: 1px solid #999; display: none; position: absolute; top: 30%; left: 30%; z-index: 3; background: #fff">
+        <div id="editDiv"  style="width: 40%; margin: auto; border: 1px solid #999; display: none; position: absolute; top: 20%; left: 30%; z-index: 3; background: #fff">
             <div style="margin:3% auto 3% auto;text-align:center">
                 <h2>考试场次信息</h2><hr>
             </div>
-            <form class="layui-form" action="" style="margin: auto" @submit.prevent="">
+            <form id="examForm" class="layui-form" action="" style="margin: auto" @submit.prevent="editExam(exam.listId)">
+                <input type="hidden" name="userId" value="">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">年级</label>
+                        <div class="layui-input-inline">
+                            <select id="gradeId" name="gradeId" v-model="exam.gradeId" >
+                                <option value="">请选择</option>
+                                <option v-for="grade in grades" :value="grade.gradeId" >{{grade.gradeName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">考试科目</label>
                         <div class="layui-input-inline">
-                            <select id="subjectId" name="subject" v-model="exam.subjectId" >
+                            <select id="subjectId" name="subjectId" v-model="exam.subjectId" >
                                 <option value="">请选择</option>
                                 <option v-for="subject in subjects" :value="subject.sId">{{subject.sName}}</option>
                             </select>
@@ -57,13 +79,13 @@
                     <div class="layui-input-inline">
                         <select id="buildNumId" name="buildNum" v-model="buildNum">
                             <option value="">请选择楼栋</option>
-                            <option v-for="clas in classes" :value="class.buildNum">{{clas.buildNum}}</option>
+                            <option v-for="cla in classList" :value="cla.buildNum">{{cla.buildNum}}</option>
                         </select>
                     </div>
                     <div class="layui-input-inline">
                         <select id="classroomId" name="classroom" v-model="classroom">
                             <option value="">请选择教室</option>
-                            <option v-for="clas in classes" :value="clas.classroom">{{clas.classroom}}</option>
+                            <option v-for="cla in classList" :value="cla.classroom">{{cla.classroom}}</option>
                         </select>
                     </div>
                 </div>
@@ -112,7 +134,8 @@
              exam:{},
              subjects:[],
              users:[],
-             classes:[],
+             classList:[],
+             grades:[],
              buildNum:'',
              classroom:''
          },
@@ -128,11 +151,9 @@
                      }
                  })
              },
-             editExam:function(examId){
-                 $('#editDiv').show();  //显示弹窗
-                 $('#cover').css('display','block'); //显示遮罩层
-                 $('#cover').css('height','100%'); //设置遮罩层的高度为当前页面高度
+             showEditExamDiv:function(examId){
                  var _this = this;
+                 _this.showEditDiv();
                  $.ajax({
                      type:"get",
                      url:"http://localhost:8080/examsys/getExamListById?listId="+examId,
@@ -140,19 +161,15 @@
                      success:function (data) {
                          if(data.code == 0){
                              _this.exam=data.data;
-                             var _index=data.data.examAddress.index("-");
-                             _this.buildNum = data.data.examAddress.substr(0,_index);
-                             _this.classroom = data.data.examAddress.substr(_index+1);
+                             var _index=data.data.examAddress.toString().indexOf("-")
+                             _this.buildNum = data.data.examAddress.toString().substring(0,_index);
+                             _this.classroom = data.data.examAddress.toString().substring(_index+1);
                              _this.refreshRender();
                          }else{
                              alert("请求错误，请重试");
                          }
                      }
                  })
-             },
-             closeEditDiv:function(){
-                 $('#editDiv').hide();  //隐藏弹窗
-                 $('#cover').css('display','none');   //隐藏遮罩层
              },
              deleteExam:function (examId) {
                  var _this = this;
@@ -174,6 +191,37 @@
                      return false;
                  }
              },
+             showExamAddDiv:function(){
+                 var _this = this;
+                 _this.showEditDiv();
+                 _this.refreshRender();
+                 $('form')[0].reset();
+             },
+             editExam:function(examId){
+               var _this = this;
+               var url="";
+               var formJson = this.getFormJson();
+               if(examId == null){
+                   url="http://localhost:8080/examsys/addExam";
+               }else{
+                   url="http://localhost:8080/examsys/updateExam";
+               }
+               $.ajax({
+                   type:"post",
+                   url:url,
+                   data:formJson,
+                   dataType:"json",
+                   success:function (data) {
+                       if(data.code == 0){
+                           if(confirm(data.data+"，是否继续") == false){
+                               _this.closeEditDiv();
+                           }
+                       }else{
+                           alert(data.data);
+                       }
+                   }
+               })
+             },
              getSubjects:function () {
                  var _this= this;
                  $.ajax({
@@ -187,6 +235,19 @@
                      }
                  })
              },
+             getGrades:function () {
+                 var _this= this;
+                 $.ajax({
+                     type:"get",
+                     url:"http://localhost:8080/examsys/getGradeList",
+                     dataType:"json",
+                     success:function (data) {
+                         if(data.code == 0){
+                             _this.grades = data.data;
+                         }
+                     }
+                 })
+             },
              getExamAddress:function () {
                  var _this= this;
                  $.ajax({
@@ -195,7 +256,7 @@
                      dataType:"json",
                      success:function (data) {
                          if(data.code == 0){
-                             _this.classes=data.data;
+                             _this.classList=data.data;
                          }
                      }
                  })
@@ -212,6 +273,31 @@
                          }
                      }
                  })
+             },
+             getFormJson:function(){
+                 alert($("#beginTime").val());
+                 var formJson = {
+                     "listId":this.exam.listId,
+                     "operatorId":0,
+                     "beginTime":$("#beginTime").val(),
+                     "endTime":$("#endTime").val(),
+                     "subjectId":$("#subjectId").val(),
+                     "examAddress": $("#buildNumId").val()+"-"+$("#classroomId").val(),
+                     "invigilator":$("#invigilatorId").val(),
+                     "gradeId":$("#gradeId").val(),
+                     "paperId":0
+                 };
+                 return formJson;
+             },
+             showEditDiv:function(){
+                 $('#editDiv').show();  //显示弹窗
+                 $('#cover').css('display','block'); //显示遮罩层
+                 $('#cover').css('height','100%'); //设置遮罩层的高度为当前页面高度
+             },
+             closeEditDiv:function(){
+                 $('#editDiv').hide();  //隐藏弹窗
+                 $('#cover').css('display','none');   //隐藏遮罩层
+                 window.location.reload();
              },
              refreshRender:function () {
                  layui.use(['form','laydate'], function(){
@@ -235,9 +321,11 @@
          },
          created : function(){
              this.loadData();
+             this.getGrades();
              this.getSubjects();
              this.getExamAddress();
              this.getInvigilators();
+
          }
 
      });

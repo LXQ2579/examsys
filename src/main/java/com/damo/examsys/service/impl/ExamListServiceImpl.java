@@ -1,7 +1,9 @@
 package com.damo.examsys.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.damo.examsys.dao.ExamListDao;
 import com.damo.examsys.entity.ExamList;
+import com.damo.examsys.entity.Grade;
 import com.damo.examsys.exception.MyException;
 import com.damo.examsys.service.ExamListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *                     .::::.
@@ -66,7 +71,16 @@ public class ExamListServiceImpl implements ExamListService {
      */
     @Override
     public void addExam(ExamList examList) {
-
+        Date date = new Date();
+        if(examList.getBeginTime().after(examList.getEndTime()) || examList.getBeginTime().before(date)){
+            throw  new MyException(1,"时间选择错误，请重新选择");
+        }
+        Integer address = examListDao.findExamAddress(examList);
+        if(address >0 ){
+            throw  new MyException(1,"该时间段该教室已有考试场次，请重新选择");
+        }else{
+           examListDao.addExam(examList);
+        }
     }
 
     /**
@@ -75,7 +89,19 @@ public class ExamListServiceImpl implements ExamListService {
      */
     @Override
     public void updateExam(ExamList examList) {
-
+        ExamList examList1 = examListDao.getExamListById(examList.getListId());
+        Date date = new Date();
+        if(examList1.getBeginTime().before(date) && examList1.getEndTime().after(date)){
+            throw  new MyException(1,"考试已开始，无法修改");
+        }else if(examList1.getEndTime().before(date)){
+            throw  new MyException(1,"考试已结束，无法修改");
+        }
+        Integer address = examListDao.findExamAddress(examList);
+        if(address >0 ){
+            throw  new MyException(1,"该时间段该教室已有考试场次，请重新选择");
+        }else{
+            examListDao.updateExam(examList);
+        }
     }
 
     /**
@@ -103,8 +129,21 @@ public class ExamListServiceImpl implements ExamListService {
         }
     }
 
+    /**
+     *
+     * @param listId
+     * @return
+     */
     @Override
     public ExamList getExamListById(Integer listId) {
         return examListDao.getExamListById(listId);
+    }
+
+    /**
+     * 获取所有年级信息
+     * @return
+     */
+   public   List<Grade> getGradeList(){
+        return examListDao.getGradeList();
     }
 }

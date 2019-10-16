@@ -3,6 +3,7 @@ package com.damo.examsys.controller;
 import com.damo.examsys.common.ErrorCode;
 import com.damo.examsys.common.JsonBean;
 import com.damo.examsys.entity.ExamList;
+import com.damo.examsys.entity.Grade;
 import com.damo.examsys.service.ExamListService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -93,6 +94,45 @@ public class ExamListController {
         JsonBean<ExamList> jb = new JsonBean<>();
         jb.setCode(ErrorCode.SUCCESS);
         jb.setData(examList);
+        return jb;
+    }
+
+    @ApiOperation("查询所有年级信息")
+    @RequestMapping("/getGradeList")
+    @ResponseBody
+    public JsonBean<List<Grade>> getGradeList(){
+
+        List<Grade> list = examListService.getGradeList();
+
+        JsonBean<List<Grade>> jb = new JsonBean<>();
+        jb.setCode(ErrorCode.SUCCESS);
+        jb.setData(list);
+        return jb;
+    }
+
+    @ApiOperation("添加考试场次信息")
+    @RequestMapping("/addExam")
+    @ResponseBody
+    public JsonBean<String> addExam(ExamList examList){
+
+        examListService.addExam(examList);
+
+        JsonBean<String> jb = new JsonBean<>();
+        jb.setCode(ErrorCode.SUCCESS);
+        jb.setData("添加成功");
+        return jb;
+    }
+
+    @ApiOperation("修改考试场次信息")
+    @RequestMapping("/updateExam")
+    @ResponseBody
+    public JsonBean<String> updateExam(ExamList examList){
+
+        examListService.updateExam(examList);
+
+        JsonBean<String> jb = new JsonBean<>();
+        jb.setCode(ErrorCode.SUCCESS);
+        jb.setData("修改成功");
         return jb;
     }
 }
