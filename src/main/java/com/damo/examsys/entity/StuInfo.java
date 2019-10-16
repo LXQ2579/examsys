@@ -15,6 +15,7 @@ public class StuInfo implements Serializable {
     private Date beginTime;
     private Date endTime;
     private String examAddress;
-    private Subject subject;
+    private String className;
+    private String sName;
 
 }

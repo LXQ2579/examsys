@@ -5,16 +5,41 @@
 <mapper namespace="com.damo.examsys.dao.MenuDao">
     <resultMap id="menuMap" type="menu">
         <id column="menu_id" property="menuId"/>
-        <result column="menu_name" property="menuName"/>
+        <result column="title" property="title"/>
         <result column="parent_id" property="parentId"/>
-        <collection property="menus" ofType="menu" column="menu_id"
+        <result column="href" property="href"/>
+        <result column="target" property="target"/>
+        <result column="icon" property="icon"/>
+        <collection property="child" ofType="menu" column="menu_id"
                     select="findMenuByParentId"/>
     </resultMap>
-<!--                select * from t_menu where parent_id = '' or parent_id is NULL-->
-        <select id="getRootMenu" resultMap="menuMap">
-                select * from t_menu where menu_id = #{menuId}
-        </select>
-        <select id="findMenuByParentId" resultMap="menuMap" parameterType="int">
+    <resultMap id="menuModuleMap" type="menuModule">
+        <id column="menuModule_id" property="menuModuleId"/>
+
+        <result column="menuModule_name" property="menuModuleName"/>
+
+        <collection property="child" ofType="menu" column="menuModule_id" 
+                    select="findMenuByModuleId"/>
+    </resultMap>
+<!--    private String menuId; //主键ID-->
+<!--    private String title; //菜单名称-->
+<!--    private String href;-->
+<!--    private Boolean spread;-->
+<!--    private String icon;-->
+<!--    private String parentId; //上一级菜单-->
+<!--    private List<Menu> children; //子菜单列表-->
+    <select id="findMenuByModuleId" resultMap="menuMap">
+        select * from t_menu where module_id = #{menuModuleId}
+    </select>
+
+
+    <select id="getMenu" resultMap="menuMap">
+            select * from t_menu where menu_id = #{menuId}
+    </select>
+    <select id="findMenuByParentId" resultMap="menuMap" parameterType="int">
             select * from t_menu where parent_id =#{menuId}
-        </select>
+    </select>
+    <select id="getRootMenu" resultMap="menuModuleMap">
+            select * from t_menumodule
+    </select>
 </mapper>

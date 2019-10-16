@@ -38,4 +38,12 @@ public class StudentServiceImpl implements StudentService {
     public List<Class> classList() {
         return studentDao.classList();
     }
+
+    @Override
+    public JsonBean deleteStudent(Integer stuNum) {
+        JsonBean jsonBean = studentDao.deleteStudent(stuNum);
+        jsonBean.setCode(0);
+        jsonBean.setData("删除成功");
+        return jsonBean;
+    }
 }

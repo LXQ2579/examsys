@@ -14,4 +14,6 @@ public interface SubjectDao {
 
     List<Subject> findAll();
 
+    Subject findByName(String subjectName);
+
 }

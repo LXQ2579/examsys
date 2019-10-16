@@ -32,7 +32,6 @@
             success:function (data) {
                 if (data.code == 0){
                     $.each(data.data,function () {
-
                         $("#options").append("<option value='"+this.classId+"'>"+this.className+"</option>");
                     })
                 }

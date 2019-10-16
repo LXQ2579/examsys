@@ -46,7 +46,7 @@ public class ShiroConfig {
 
         filterChainDefinitionMap.put("/**", "anon");
 
-        filterChainDefinitionMap.put("/examSys/**", "authc");
+//        filterChainDefinitionMap.put("/examSys/**", "authc");
 
         // authc:必须认证通过才可以访问;
         // anon: 匿名访问

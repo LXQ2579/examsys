@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import springfox.documentation.spring.web.json.Json;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -36,7 +37,7 @@ public class StudentController {
 
     @RequestMapping("/stuInfo.do")
     public String goStuInfo(){
-        return "before/studentInfo";
+        return "before/test";
     }
 
     @RequestMapping("/toAddStu.do")
@@ -60,5 +61,28 @@ public class StudentController {
         List<Class> list = studentService.classList();
         return new JsonBean(0,list);
     }
+
+//    @RequestMapping("/goToUpdate.do")
+//    public String  goUpdate(){
+//
+//        return "before/updateStudent";
+//    }
+
+    @RequestMapping("/getUpdateInfo.do")
+    public String getStuPageInfo(Student student){
+
+        System.out.println(student.getStuNum());
+        System.out.println(student.getStuName());
+        return "before/updateStudent";
+    }
+
+    @RequestMapping("/delStu.do")
+    @ResponseBody
+    public JsonBean delStudent(HttpServletRequest request){
+        String stuNum = request.getParameter("stuNum");
+        JsonBean jsonBean = studentService.deleteStudent(Integer.parseInt(stuNum));
+        return jsonBean;
+    }
+
 
 }

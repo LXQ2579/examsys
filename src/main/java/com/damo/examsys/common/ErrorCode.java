@@ -33,4 +33,9 @@ public class ErrorCode {
     // 生成静态页面错误
     public static int STUDENT_NULL = 1920;
 
+    //不能为空
+    public static int MENUID_NULL=9001;
+
+    //不能为空
+    public static int MENU_NULL=9002;
 }
