@@ -19,9 +19,9 @@ public class QuestionServiceTest extends ExamsysApplicationTests{
     @Test
     public void testFindAll(){
 
-        List<Questions> list = questionsService.findAll();
+//        List<Questions> list = questionsService.findAll();
 
-        System.out.println(list);
+//        System.out.println(list);
     }
 
 }

@@ -1,9 +1,8 @@
 package com.damo.examsys.service.impl;
 
 import com.damo.examsys.dao.QuestionsTypeDao;
-import com.damo.examsys.entity.QuestionsType;
+import com.damo.examsys.entity.QuesType;
 import com.damo.examsys.service.QuestionsTypeService;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,14 @@ public class QuestionsTypeServiceImpl implements QuestionsTypeService {
     private QuestionsTypeDao questionsTypeDao;
 
     @Override
-    public List<QuestionsType> findAll() {
+    public List<QuesType> findAll() {
         return questionsTypeDao.findAll();
     }
+
+    @Override
+    public QuesType findByName(String quesTypeName) {
+        return questionsTypeDao.findByName(quesTypeName);
+    }
+
+
 }

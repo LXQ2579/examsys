@@ -1,6 +1,6 @@
 package com.damo.examsys.service;
 
-import com.damo.examsys.entity.QuestionsType;
+import com.damo.examsys.entity.QuesType;
 
 import java.util.List;
 
@@ -10,6 +10,9 @@ import java.util.List;
  */
 public interface QuestionsTypeService {
 
-    List<QuestionsType> findAll();
+    List<QuesType> findAll();
+
+
+    QuesType findByName(String quesTypeName);
 
 }

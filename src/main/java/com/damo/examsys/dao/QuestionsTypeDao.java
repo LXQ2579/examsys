@@ -1,6 +1,6 @@
 package com.damo.examsys.dao;
 
-import com.damo.examsys.entity.QuestionsType;
+import com.damo.examsys.entity.QuesType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface QuestionsTypeDao {
 
-    List<QuestionsType> findAll();
+    List<QuesType> findAll();
+
+    QuesType findByName(String quesTypeName);
 
 }

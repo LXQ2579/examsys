@@ -1,7 +1,6 @@
 package com.damo.examsys.service.impl;
 
 import com.damo.examsys.dao.SubjectDao;
-import com.damo.examsys.entity.QuestionsType;
 import com.damo.examsys.entity.Subject;
 import com.damo.examsys.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +21,10 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public List<Subject> findAll() {
         return subjectDao.findAll();
+    }
+
+    @Override
+    public Subject findByName(String subjectName) {
+        return subjectDao.findByName(subjectName);
     }
 }

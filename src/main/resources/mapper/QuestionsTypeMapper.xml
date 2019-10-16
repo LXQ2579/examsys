@@ -10,11 +10,19 @@ dao层接口中的方法名和映射文件中增删改查配置的statement id�
  -->
 <mapper namespace="com.damo.examsys.dao.QuestionsTypeDao">
 
+    <resultMap id="typeMap" type="quesType">
+        <id property="quesTypeId" column="tId"/>
+        <result property="quesTypeName" column="tName"/>
+    </resultMap>
 
-    <select id="findAll" resultType="questionsType">
+
+    <select id="findAll" parameterType="string" resultMap="typeMap">
         select * from questions_type
     </select>
 
+    <select id="findByName" parameterType="string" resultMap="typeMap">
+        select * from questions_type where tName = #{quesTypeName}
+    </select>
     <!--    <insert id="addUser" parameterType="user">-->
     <!--        insert into user(username, phone, password, photo_url ) values (#{username}, #{phone}, #{password}, #{photoUrl})-->
     <!--    </insert>-->
