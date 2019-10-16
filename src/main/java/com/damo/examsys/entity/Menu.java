@@ -11,9 +11,11 @@ import java.util.List;
 @Data
 public class Menu implements Serializable {
     private String menuId; //主键ID
-    private String menuName; //菜单名称
-    private String menuUrl;
+    private String title; //菜单名称
+    private String href;
+    private String target;
+    private String icon;
     private String parentId; //上一级菜单
-    private List<Menu> menus; //子菜单列表
+    private List<Menu> child; //子菜单列表
 
 }

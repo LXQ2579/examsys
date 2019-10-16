@@ -21,4 +21,9 @@ public class CodeMsg {
 
     @Value("${code.1920}")
     private String studentNull;
+
+    @Value("${code.9001}")
+    private String menuIdNull;
+    @Value("${code.9002}")
+    private String menuNull;
 }
