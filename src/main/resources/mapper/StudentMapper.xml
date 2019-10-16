@@ -10,21 +10,24 @@
         <result column="stu_name" property="stuName"/>
         <result column="stu_gender" property="stuGender"/>
         <result column="stu_idnum" property="stuIdnum"/>
+        <result column="class_id" property="classId" />
+        <result column="exam_id" property="examId" />
         <association property="stuInfo" javaType="stuInfo">
             <result column="begin_time" property="beginTime"/>
             <result column="end_time" property="endTime"/>
             <result column="exam_address" property="examAddress"/>
-            <association property="subject" javaType="subject">
+            <result column="class_name" property="className" />
+<!--            <association property="subject" javaType="subject">-->
                 <result column="sName" property="sName" />
-            </association>
+<!--            </association>-->
         </association>
 
     </resultMap>
 
     <select id="findStuByNum" resultMap="stuMapper">
-        SELECT s.stu_num,s.stu_name,s.stu_gender,s.stu_idnum,e.begin_time,e.end_time,e.exam_address,su.sName
-        from student s,exam_list e,subject su
-        where e.subject_id=su.sId and s.stu_num=#{stuNum}
+        SELECT s.stu_num,s.stu_name,s.stu_gender,s.stu_idnum,s.class_id,s.exam_id,c.class_name,e.begin_time,e.end_time,e.exam_address,su.sName
+        from student s,exam_list e,subject su,class c
+        where e.subject_id=su.sId and s.class_id=c.class_id and s.stu_num=#{stuNum}
     </select>
 
     <insert id="addStudent" parameterType="student">

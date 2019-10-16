@@ -6,9 +6,15 @@
 </head>
 <script src="/examsys/js/jquery-1.12.2.min.js"></script>
 <body>
-<form action="#" >
-    <input type="text" id="stuNum" name="stuNum" value="">
-    <input type="text" id="sName" name="sName" value="">
+<form action="../student/getUpdateInfo.do" >
+    学号：<input type="text" id="stuNum" name="stuNum" value=""><br />
+    密码：<input type="password" id="stuPwd" name="stuPwd" value=""><br />
+    姓名：<input type="text" id="stuName" name="stuName" value=""><br />
+    性别：<input type="text" id="stuGender" name="stuGender" value=""><br />
+    身份证号：<input type="text" id="stuIdnum" name="stuIdnum" value=""><br />
+    班级：<input type="text" id="classId" name="classId" value=""><br />
+    学科：<input type="text" id="sName" name="sName" value=""><br />
+    <input type="submit" value="修改">
 </form>
 </body>
 
@@ -21,6 +27,11 @@
             success:function (data) {
                 if (data.code == 0){
                     $("#stuNum").val(data.data.stuNum);
+                    $("#stuPwd").val(data.data.stuPwd);
+                    $("#stuName").val(data.data.stuName);
+                    $("#stuGender").val(data.data.stuGender);
+                    $("#stuIdnum").val(data.data.stuIdnum);
+                    $("#classId").val(data.data.classId);
                     $("#sName").val(data.data.stuInfo.subject.sName);
                 }
                 if (data.code == 1920){

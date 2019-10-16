@@ -18,4 +18,5 @@ public interface StudentService {
 
     public List<Class> classList();
 
+    public JsonBean deleteStudent(Integer stuNum);
 }
