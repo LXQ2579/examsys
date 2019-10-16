@@ -1,9 +1,7 @@
 package com.damo.examsys.controller;
 
 import com.damo.examsys.common.JsonBean;
-import com.damo.examsys.entity.QuestionsType;
 import com.damo.examsys.entity.Subject;
-import com.damo.examsys.service.QuestionsTypeService;
 import com.damo.examsys.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

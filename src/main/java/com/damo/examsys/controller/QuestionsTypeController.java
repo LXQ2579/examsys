@@ -1,7 +1,7 @@
 package com.damo.examsys.controller;
 
 import com.damo.examsys.common.JsonBean;
-import com.damo.examsys.entity.QuestionsType;
+import com.damo.examsys.entity.QuesType;
 import com.damo.examsys.service.QuestionsTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +23,7 @@ public class QuestionsTypeController {
     @RequestMapping("/findAll.do")
     public JsonBean findAll(){
 
-        List<QuestionsType> list = questionsTypeService.findAll();
+        List<QuesType> list = questionsTypeService.findAll();
 
 
         return new JsonBean<>(0, list);

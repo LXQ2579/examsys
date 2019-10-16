@@ -1,12 +1,16 @@
 package com.damo.examsys.service.impl;
 
 import com.damo.examsys.dao.QuestionsDao;
+import com.damo.examsys.dao.QuestionsTypeDao;
+import com.damo.examsys.dao.SubjectDao;
 import com.damo.examsys.entity.Questions;
 import com.damo.examsys.service.QuestionsService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liujiulong
@@ -18,10 +22,17 @@ public class QuestionsServiceImpl implements QuestionsService {
     @Autowired
     private QuestionsDao questionsDao;
 
+    @Autowired
+    private QuestionsTypeDao questionsTypeDao;
+
+    @Autowired
+    private SubjectDao subjectDao;
+
+
     @Override
-    public List<Questions> findAll() {
-//        PageHelper.startPage(page,limit);
-        return questionsDao.findAll();
+    public List<Questions> findAll(Map<String, Integer> pageMap, String questionName, Integer typeId, Integer subjectId) {
+        PageHelper.startPage(pageMap.get("page"), pageMap.get("limit"));
+        return questionsDao.findAll(questionName, typeId, subjectId);
     }
 
     @Override
@@ -42,5 +53,25 @@ public class QuestionsServiceImpl implements QuestionsService {
     @Override
     public void add(Questions questions) {
         questionsDao.add(questions);
+    }
+
+    @Override
+    public void batchInsert(List<Questions> questionsList) {
+        //设置导入试题的typeId和subjectId
+        for (Questions q : questionsList) {
+            Integer subjectId = subjectDao.findByName(q.getSubjectName()).getsId();
+            if ( subjectId != null){
+                q.setSubjectId(subjectId);
+            }
+            String quesTypeName = q.getQuesTypeName();
+            if (quesTypeName != null){
+
+                Integer quesTypeId = questionsTypeDao.findByName(quesTypeName).getQuesTypeId();
+                if (quesTypeId != null){
+                    q.setTypeId(quesTypeId);
+                }
+            }
+        }
+        questionsDao.batchInsert(questionsList);
     }
 }
