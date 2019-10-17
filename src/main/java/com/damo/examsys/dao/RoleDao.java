@@ -11,7 +11,7 @@ import java.util.Map;
 public interface RoleDao {
     List<Role> findAllRole();
 
-    Integer updateUserRole(List<Map<String, Object>> list);
+    Integer updateUserRole(List<Map<String, Integer>> list);
 
     Integer deleteUserRoleByUserId(Integer uid);
 }

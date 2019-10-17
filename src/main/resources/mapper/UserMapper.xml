@@ -12,6 +12,7 @@
             <id column="userinfoid" property="userinfoid"/>
             <result column="name" property="name"/>
             <result column="userid" property="userid"/>
+            <result column="sex" property="sex"/>
         </association>
         <collection property="roleList" ofType="role"
                     javaType="java.util.ArrayList" select="getRoleList"
@@ -20,12 +21,13 @@
     </resultMap>
     <select id="findAllUser" resultMap="userMap">
         select * from t_user tu
-        inner join t_userinfo on userid = tu.uid
+        inner join t_userinfo on userid = tu.uid where tu.is_deleted = 0
     </select>
     <select id="getRoleList" resultType="role">
         select tr.rid,rname,rdesc from t_role tr
         left join t_user_role tur on tr.rid = tur.rid
-				WHERE tur.uid = #{uid}
+				WHERE tur.uid = #{uid} and tur.is_deleted = 0
+				ORDER BY rid
     </select>
     <update id="updateUserInfo" parameterType="hashmap">
         update t_userinfo tui
@@ -34,5 +36,8 @@
             <if test="userInfosex != null" >tui.sex = #{userInfosex},</if>
         </trim>
         WHERE tui.userinfoid=#{userInfouserinfoid}
+    </update>
+    <update id="deleteUserById" parameterType="int">
+        update t_user set is_deleted = 1 where uid = #{uid}
     </update>
 </mapper>

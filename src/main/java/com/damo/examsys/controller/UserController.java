@@ -1,16 +1,10 @@
 package com.damo.examsys.controller;
 
 import com.damo.examsys.common.JsonBean;
-import com.damo.examsys.entity.Role;
-import com.damo.examsys.entity.User;
 import com.damo.examsys.service.UserService;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,17 +19,20 @@ public class UserController {
     UserService userService;
     @RequestMapping("/allUser.do")
     public Map<String,Object> findAllUser(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit){
-        Map<String, Object> allUser = userService.findAllUser(page, limit);
 
-        return allUser;
+        return userService.findAllUser(page, limit);
     }
 
     @RequestMapping("/updateUser.do")
-    public JsonBean<String> updateUser(@RequestParam HashMap<String, Object> params ){
+    public JsonBean updateUser(@RequestParam HashMap<String, Object> params ){
 
-        JsonBean<String> jsonBean = userService.updateUserById(params);
-        return jsonBean;
+        return userService.updateUserById(params);
 
+    }
+    @RequestMapping("/deleteUser.do")
+    public JsonBean deleteUser(@RequestParam Integer uid){
+
+        return userService.deleteUserById(uid);
     }
 
 }

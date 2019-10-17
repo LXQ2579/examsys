@@ -23,4 +23,6 @@ public interface UserDao {
      * @return
      */
     Integer updateUserInfo(HashMap map);
+
+    Integer deleteUserById(Integer uid);
 }

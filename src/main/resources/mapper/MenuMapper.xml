@@ -30,6 +30,7 @@
 <!--    private List<Menu> children; //子菜单列表-->
     <select id="findMenuByModuleId" resultMap="menuMap">
         select * from t_menu where module_id = #{menuModuleId}
+        ORDER BY menu_id asc
     </select>
 
 
@@ -41,5 +42,6 @@
     </select>
     <select id="getRootMenu" resultMap="menuModuleMap">
             select * from t_menumodule
+            ORDER BY menuModule_id asc
     </select>
 </mapper>

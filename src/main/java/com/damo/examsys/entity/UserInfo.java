@@ -10,4 +10,5 @@ public class UserInfo {
     private Integer userinfoid;
     private String name;
     private Integer userid;
+    private String sex;
 }

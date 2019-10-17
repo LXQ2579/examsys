@@ -53,12 +53,12 @@ public class UserServiceImpl implements UserService {
         Integer integer = userDao.updateUserInfo(hashMap);
         String o = (String)map.get("uid");
         Integer uid = Integer.valueOf(o);
-        List<Map<String, Object>> list=new ArrayList<>();
+        List<Map<String, Integer>> list=new ArrayList<>();
         for (Map.Entry<String, Object> entity : map.entrySet()) {
             if(entity.getKey().indexOf("roleList[")>-1){
-                Map<String, Object> roleMap = new HashMap<>();
-                roleMap.put("uid",map.get("uid"));
-                roleMap.put("rid",entity.getValue());
+                Map<String, Integer> roleMap = new HashMap<>();
+                roleMap.put("uid",Integer.valueOf(map.get("uid").toString()));
+                roleMap.put("rid",Integer.valueOf(entity.getValue().toString()));
                 list.add(roleMap);
             }
         }
@@ -70,4 +70,18 @@ public class UserServiceImpl implements UserService {
         }
         return new JsonBean<>(1,"更新失败");
     }
+
+    @Override
+    public JsonBean<String> deleteUserById(Integer uid) {
+        if (uid == null){
+            return new JsonBean<String>(1,"参数错误");
+        }
+        Integer integer = userDao.deleteUserById(uid);
+        if (integer<1 ){
+            throw new RuntimeException("删除错误，请检查");
+        }
+        return new JsonBean<>(0,"删除成功");
+    }
+
+
 }

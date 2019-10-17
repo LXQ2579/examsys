@@ -16,4 +16,6 @@ public interface UserService {
     Map<String,Object> findAllUser (int pageNum, int pageSize);
 
     JsonBean updateUserById(HashMap<String, Object> map);
+
+    JsonBean deleteUserById(Integer uid);
 }

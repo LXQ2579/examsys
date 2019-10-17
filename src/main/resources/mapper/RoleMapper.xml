@@ -11,16 +11,16 @@
         insert into t_user_role   (urid,uid,rid)
         values
         <foreach  collection="list" item="item" index="index" separator=",">
-            (
-                null ,
+            (   (SELECT nullif ((SELECT urid FROM t_user_role t2 WHERE t2.uid = #{item.uid} and t2.rid =  #{item.rid}),null))
+                ,
                 #{item.uid},
                 #{item.rid}
             )
         </foreach>
-        ON duplicate KEY UPDATE urid = urid
+        ON duplicate KEY UPDATE is_deleted = 0
 
     </insert>
-    <delete id="deleteUserRoleByUserId" parameterType="int">
-        delete from t_user_role where uid = #{uid}
-    </delete>
+    <update id="deleteUserRoleByUserId" parameterType="int">
+        update t_user_role set is_deleted =1 where uid = #{uid}
+    </update>
 </mapper>
