@@ -4,6 +4,7 @@ import com.damo.examsys.common.ErrorCode;
 import com.damo.examsys.common.JsonBean;
 import com.damo.examsys.entity.ExamList;
 import com.damo.examsys.entity.Grade;
+import com.damo.examsys.entity.Paper;
 import com.damo.examsys.service.ExamListService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -65,9 +66,9 @@ public class ExamListController {
     @ApiOperation("查询所有考试")
     @RequestMapping("/examList")
     @ResponseBody
-    public JsonBean<List<ExamList>> findExamList(){
+    public JsonBean<List<ExamList>> findExamList(ExamList examList){
 
-        List<ExamList> list = examListService.getExamList();
+        List<ExamList> list = examListService.getExamList(examList);
 
         JsonBean<List<ExamList>> jb = new JsonBean<>();
         jb.setCode(ErrorCode.SUCCESS);
@@ -135,6 +136,32 @@ public class ExamListController {
         JsonBean<String> jb = new JsonBean<>();
         jb.setCode(ErrorCode.SUCCESS);
         jb.setData("修改成功");
+        return jb;
+    }
+
+    @ApiOperation("查询所有试卷信息")
+    @RequestMapping("/getPaperList")
+    @ResponseBody
+    public JsonBean<List<Paper>> getPaperList(){
+
+        List<Paper> list = examListService.getPaperList();
+
+        JsonBean<List<Paper>> jb = new JsonBean<>();
+        jb.setCode(ErrorCode.SUCCESS);
+        jb.setData(list);
+        return jb;
+    }
+
+    @ApiOperation("获取数据总数")
+    @RequestMapping("/getDataCount")
+    @ResponseBody
+    public JsonBean<Integer> getDataCount(ExamList examList){
+
+        Integer dataCount = examListService.dataCount(examList);
+
+        JsonBean<Integer> jb = new JsonBean<>();
+        jb.setCode(ErrorCode.SUCCESS);
+        jb.setData(dataCount);
         return jb;
     }
 }

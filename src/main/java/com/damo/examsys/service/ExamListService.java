@@ -2,6 +2,7 @@ package com.damo.examsys.service;
 
 import com.damo.examsys.entity.ExamList;
 import com.damo.examsys.entity.Grade;
+import com.damo.examsys.entity.Paper;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface ExamListService {
      * 获取所有考试场次
      * @return
      */
-    List<ExamList> getExamList();
+    List<ExamList> getExamList(ExamList examList);
 
     /**
      * 添加考试场次信息
@@ -43,6 +44,18 @@ public interface ExamListService {
      * @return
      */
     List<Grade> getGradeList();
+
+    /**
+     * 获取所有试卷
+     * @return
+     */
+    List<Paper> getPaperList();
+
+    /**
+     * 获取数据总数
+     * @return
+     */
+    Integer dataCount(ExamList examList);
 
 
 }

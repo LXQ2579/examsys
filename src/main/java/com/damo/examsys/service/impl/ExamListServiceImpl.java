@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.damo.examsys.dao.ExamListDao;
 import com.damo.examsys.entity.ExamList;
 import com.damo.examsys.entity.Grade;
+import com.damo.examsys.entity.Paper;
 import com.damo.examsys.exception.MyException;
 import com.damo.examsys.service.ExamListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +62,21 @@ public class ExamListServiceImpl implements ExamListService {
      * @return
      */
     @Override
-    public List<ExamList> getExamList() {
-        return examListDao.getExamList();
+    public List<ExamList> getExamList(ExamList examList) {
+        Date beginTime = examList.getBeginTime();
+        Date endTime = examList.getEndTime();
+        if(beginTime !=null && endTime != null){
+            if(beginTime.after(endTime)){
+                throw  new MyException(1,"开始时间不能小于结束时间");
+            }
+        }
+        if(examList.getPageNum() == null){
+            examList.setPageNum(0);
+        }
+        if(examList.getPageSize() == null){
+            examList.setPageSize(3);
+        }
+        return examListDao.getExamList(examList);
     }
 
     /**
@@ -143,7 +157,33 @@ public class ExamListServiceImpl implements ExamListService {
      * 获取所有年级信息
      * @return
      */
+    @Override
    public   List<Grade> getGradeList(){
         return examListDao.getGradeList();
+    }
+
+    /**
+     * 获取所有试卷
+     * @return
+     */
+    @Override
+    public List<Paper> getPaperList(){
+        return examListDao.getPaperList();
+    }
+
+    /**
+     * 获取数据总数
+     * @return
+     */
+    @Override
+    public Integer dataCount(ExamList examList){
+        Date beginTime = examList.getBeginTime();
+        Date endTime = examList.getEndTime();
+        if(beginTime !=null && endTime != null){
+            if(beginTime.after(endTime)){
+                throw  new MyException(1,"开始时间不能小于结束时间");
+            }
+        }
+        return examListDao.dataCount(examList);
     }
 }
