@@ -9,13 +9,32 @@
     <select id="getExamList" resultType="examList">
         SELECT   e.list_id,e.begin_time,e.end_time,e.subject_id,s.sName,e.paper_id,
 	             e.exam_address,e.Invigilator,u.name uName,e.grade_id,e.operator_id,
-                 g.grade_name,p.pName paperName
+                 g.grade_name,p.paperName paperName
 	    FROM  exam_list e
         LEFT JOIN subject s ON e.subject_id = s.sId
         LEFT JOIN t_userinfo u ON e.Invigilator = u.userid
         LEFT JOIN t_grade g ON g.grade_id = e.grade_id
-        LEFT JOIN paper p ON p.pid = e.paper_id
-        ORDER BY e.begin_time desc
+        LEFT JOIN paper p ON p.paperId = e.paper_id
+        <where>
+            <if test="gradeId != null and gradeId != ''">
+                e.grade_id = #{gradeId}
+            </if>
+            <if test="subjectId != null and subjectId != ''">
+                and e.subject_id = #{subjectId}
+            </if>
+            <if test="beginTime != null or endTime != null">
+                <if test="beginTime != null and endTime == null">
+                    and e.begin_time > #{beginTime}
+                </if>
+                <if test="beginTime == null and endTime != null">
+                    and e.begin_time <![CDATA[<]]> #{beginTime}
+                </if>
+                <if test="beginTime != null and endTime != null">
+                    and e.begin_time between #{beginTime} and #{endTime}
+                </if>
+            </if>
+        </where>
+        ORDER BY e.begin_time desc limit #{pageNum},#{pageSize}
     </select>
 
     <!--添加考试场次-->
@@ -83,7 +102,37 @@
              <if test="examAddress != null ">
                  and exam_address = #{examAddress}
              </if>
+             <if test="listId != null">
+                 and list_id != #{listId}
+             </if>
          </where>
+    </select>
+
+    <select id="getPaperList" resultType="paper">
+        select paperid pid,papername pname from paper
+    </select>
+
+    <select id="dataCount" resultType="int">
+        select count(list_id) from exam_list
+        <where>
+            <if test="gradeId != null and gradeId != ''">
+                grade_id = #{gradeId}
+            </if>
+            <if test="subjectId != null and subjectId != ''">
+               and subject_d = #{subjectId}
+            </if>
+            <if test="beginTime != null or endTime != null">
+                <if test="beginTime != null and endTime == null">
+                   and begin_ime > #{beginTime}
+                </if>
+                <if test="beginTime == null and endTime != null">
+                    and begin_ime <![CDATA[<]]> #{beginTime}
+                </if>
+                <if test="beginTime != null and endTime != null">
+                    and begin_ime between #{beginTime} and #{endTime}
+                </if>
+            </if>
+        </where>
     </select>
 
 </mapper>

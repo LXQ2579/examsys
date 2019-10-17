@@ -2,6 +2,7 @@ package com.damo.examsys.dao;
 
 import com.damo.examsys.entity.ExamList;
 import com.damo.examsys.entity.Grade;
+import com.damo.examsys.entity.Paper;
 import io.swagger.models.auth.In;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface ExamListDao {
      * 获取所有考试场次
      * @return
      */
-      List<ExamList> getExamList();
+      List<ExamList> getExamList(ExamList examList);
 
     /**
      * 添加考试场次信息
@@ -59,6 +60,18 @@ public interface ExamListDao {
      * @return
      */
     List<Grade> getGradeList();
+
+    /**
+     * 获取所有试卷
+     * @return
+     */
+    List<Paper> getPaperList();
+
+    /**
+     * 获取数据总数
+     * @return
+     */
+    Integer dataCount(ExamList examList);
 
 
 }

@@ -93,4 +93,13 @@ public class ExamList implements Serializable {
     private String paperName;
 
 
+    //当前页码
+    @ApiModelProperty("查询条件时使用的：当前页码")
+    private Integer pageNum;
+
+    //每页显示条数
+    @ApiModelProperty("查询条件时使用的：每页显示条数")
+    private Integer pageSize;
+
+
 }

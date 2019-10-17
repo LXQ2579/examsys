@@ -17,8 +17,39 @@
              <thead >
                  <tr>
                      <th colspan="9">
-                         <button type="button" class="layui-btn layui-btn-lg layui-btn-normal layui-btn-radius"
-                                 @click="showExamAddDiv()">+添加考试+</button>
+
+                         <form id="searchForm" class="layui-form" action="" @submit.prevent="searchExam()">
+                             <input type="hidden" name="pageNum">
+                             <input type="hidden" name="pageSize">
+                             年级：
+                             <div class="layui-inline ">
+                                 <select  name="gradeId"  >
+                                     <option value="">请选择</option>
+                                     <option v-for="grade in grades" :value="grade.gradeId" >{{grade.gradeName}}</option>
+                                 </select>
+                             </div>
+                             科目：
+                             <div class="layui-inline">
+                                 <select name="subjectId"  >
+                                     <option value="">请选择</option>
+                                     <option v-for="subject in subjects" :value="subject.sId">{{subject.sName}}</option>
+                                 </select>
+                             </div>
+                             开始时间：
+                             <div class="layui-inline">
+                                 <div class="layui-input-inline">
+                                     <input type="text" class="layui-input" id="searchBeginTime" name="beginTime"  placeholder="开始时间">
+                                 </div>
+                                 <div class="layui-input-inline">
+                                     <input type="text" class="layui-input" id="searchEndTime" name="endTime" placeholder="结束时间">
+                                 </div>
+                             </div>
+                             <button type="submit" class="layui-btn">搜索</button>
+                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                             <button type="button" class="layui-btn layui-btn-normal"
+                                     @click="showExamAddDiv()">添加考试</button>
+                         </form>
+
                      </th>
                  </tr>
                  <tr>
@@ -33,6 +64,7 @@
                      <td>操作</td>
                  </tr>
              </thead>
+             <tbody id="tbodyId">
              <tr v-for="(exam,index) in examList">
                  <td>{{index+1}}</td>
                  <td>{{exam.gradeName}}</td>
@@ -45,7 +77,9 @@
                  <td><a class="layui-btn layui-btn-xs" @click.prevent="showEditExamDiv(exam.listId)" >编辑</a>
                      <a class="layui-btn layui-btn-danger layui-btn-xs" @click.prevent="deleteExam(exam.listId)">删除</a></td>
              </tr>
+             </tbody>
          </table>
+        <div id="pageDiv" style="margin-top: -20px;float: right"></div>
         <div id="editDiv"  style="width: 40%; margin: auto; border: 1px solid #999; display: none; position: absolute; top: 20%; left: 30%; z-index: 3; background: #fff">
             <div style="margin:3% auto 3% auto;text-align:center">
                 <h2>考试场次信息</h2><hr>
@@ -75,6 +109,17 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">试卷名称</label>
+                        <div class="layui-input-inline">
+                            <select id="paperId" name="paperId" v-model="exam.paperId" >
+                                <option value="">请选择</option>
+                                <option v-for="pape in papers" :value="pape.pid">{{pape.pname}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label">考试地点</label>
                     <div class="layui-input-inline">
                         <select id="buildNumId" name="buildNum" v-model="buildNum">
@@ -95,6 +140,7 @@
                         <div class="layui-input-inline">
                             <input type="text" class="layui-input" id="beginTime" name="beginTime" v-model="exam.beginTime" placeholder="开始时间">
                         </div>
+                        <div class="layui-form-mid">-</div>
                         <div class="layui-input-inline">
                             <input type="text" class="layui-input" id="endTime" name="endTime" v-model="exam.endTime" placeholder="结束时间">
                         </div>
@@ -136,18 +182,21 @@
              users:[],
              classList:[],
              grades:[],
+             papers:[],
              buildNum:'',
-             classroom:''
+             classroom:'',
+             dataCount:''
          },
          methods:{
-             loadData:function () {
+             searchExam:function(){
                  var _this = this;
                  $.ajax({
-                     type:"get",
+                     type:"post",
                      url:"http://localhost:8080/examsys/examList",
+                     data:$("#searchForm").serialize(),
                      dataType:"json",
                      success:function (data) {
-                          _this.examList = data.data;
+                         _this.examList = data.data;
                      }
                  })
              },
@@ -164,7 +213,7 @@
                              var _index=data.data.examAddress.toString().indexOf("-")
                              _this.buildNum = data.data.examAddress.toString().substring(0,_index);
                              _this.classroom = data.data.examAddress.toString().substring(_index+1);
-                             _this.refreshRender();
+
                          }else{
                              alert("请求错误，请重试");
                          }
@@ -181,7 +230,8 @@
                          success:function (data) {
                              if(data.code == 0){
                                  alert("删除成功");
-                                 window.location.reload();
+                                 this.searchExam();
+                                // window.location.reload();
                              }else{
                                  alert(data.data);
                              }
@@ -194,8 +244,10 @@
              showExamAddDiv:function(){
                  var _this = this;
                  _this.showEditDiv();
-                 _this.refreshRender();
-                 $('form')[0].reset();
+                _this.exam={};
+                 _this.buildNum='';
+                 _this.classroom='';
+                 $('form')[1].reset();
              },
              editExam:function(examId){
                var _this = this;
@@ -274,8 +326,33 @@
                      }
                  })
              },
+             getPapers:function () {
+                 var _this= this;
+                 $.ajax({
+                     type:"get",
+                     url:"http://localhost:8080/examsys/getPaperList",
+                     dataType:"json",
+                     success:function (data) {
+                         if(data.code == 0){
+                             _this.papers = data.data;
+                         }
+                     }
+                 })
+             },
+             getDataCount:function(){
+                 var _this= this;
+                 $.ajax({
+                     type:"get",
+                     url:"http://localhost:8080/examsys/getDataCount",
+                     dataType:"json",
+                     success:function (data) {
+                         if(data.code == 0){
+                             _this.dataCount = data.data;
+                         }
+                     }
+                 });
+             },
              getFormJson:function(){
-                 alert($("#beginTime").val());
                  var formJson = {
                      "listId":this.exam.listId,
                      "operatorId":0,
@@ -285,7 +362,7 @@
                      "examAddress": $("#buildNumId").val()+"-"+$("#classroomId").val(),
                      "invigilator":$("#invigilatorId").val(),
                      "gradeId":$("#gradeId").val(),
-                     "paperId":0
+                     "paperId":$("#paperId").val()
                  };
                  return formJson;
              },
@@ -297,12 +374,14 @@
              closeEditDiv:function(){
                  $('#editDiv').hide();  //隐藏弹窗
                  $('#cover').css('display','none');   //隐藏遮罩层
-                 window.location.reload();
+                 this.searchExam();
              },
-             refreshRender:function () {
-                 layui.use(['form','laydate'], function(){
+             formRender:function () {
+                 var _this = this;
+                 layui.use(['form','laydate','laypage'], function(){
                      var form = layui.form
-                         ,laydate = layui.laydate;
+                         ,laydate = layui.laydate
+                         ,laypage = layui.laypage;
                      //日期
                      laydate.render({
                          elem: '#beginTime',
@@ -314,18 +393,39 @@
                          type: 'datetime',
                          format:'yyyy-MM-dd HH:mm'
                      });
+                     laydate.render({
+                         elem: '#searchBeginTime',
+                         type: 'datetime',
+                         format:'yyyy-MM-dd HH:mm'
+                     });
+                     laydate.render({
+                         elem: '#searchEndTime',
+                         type: 'datetime',
+                         format:'yyyy-MM-dd HH:mm'
+                     });
+                     laypage.render({
+                         elem: 'pageDiv'
+                         ,count: _this.dataCount
+                         ,limit:3
+                         ,theme: '#1E9FFF'
+                     });
                      layui.form.render();
                  });
              }
 
          },
          created : function(){
-             this.loadData();
+             this.searchExam();
              this.getGrades();
+             this.getPapers();
              this.getSubjects();
+             this.getDataCount();
              this.getExamAddress();
              this.getInvigilators();
-
+             this.formRender();
+         },
+         updated:function(){
+             this.formRender();
          }
 
      });
