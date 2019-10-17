@@ -32,8 +32,7 @@ public class UserController {
 
     @RequestMapping("/updateUser.do")
     public JsonBean<String> updateUser(@RequestParam HashMap<String, Object> params ){
-        System.out.println(1);
-        System.out.println(params);
+
         JsonBean<String> jsonBean = userService.updateUserById(params);
         return jsonBean;
 
