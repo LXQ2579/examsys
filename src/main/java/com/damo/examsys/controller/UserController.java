@@ -1,29 +1,41 @@
 package com.damo.examsys.controller;
 
 import com.damo.examsys.common.JsonBean;
+import com.damo.examsys.entity.Role;
 import com.damo.examsys.entity.User;
 import com.damo.examsys.service.UserService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author sanriyue
  */
-@RestController
 @CrossOrigin
+@RestController
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     UserService userService;
     @RequestMapping("/allUser.do")
-    public JsonBean<PageInfo<User>> findAllUser(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize){
+    public Map<String,Object> findAllUser(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit){
+        Map<String, Object> allUser = userService.findAllUser(page, limit);
 
-        return new JsonBean<PageInfo<User>>(0,userService.findAllUser(pageNum,pageSize));
+        return allUser;
+    }
+
+    @RequestMapping("/updateUser.do")
+    public JsonBean<String> updateUser(@RequestParam HashMap<String, Object> params ){
+
+        JsonBean<String> jsonBean = userService.updateUserById(params);
+        return jsonBean;
+
     }
 
 }

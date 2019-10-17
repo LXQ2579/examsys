@@ -27,4 +27,12 @@
         left join t_user_role tur on tr.rid = tur.rid
 				WHERE tur.uid = #{uid}
     </select>
+    <update id="updateUserInfo" parameterType="hashmap">
+        update t_userinfo tui
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userInfoname != null">tui.name = #{userInfoname},</if>
+            <if test="userInfosex != null" >tui.sex = #{userInfosex},</if>
+        </trim>
+        WHERE tui.userinfoid=#{userInfouserinfoid}
+    </update>
 </mapper>

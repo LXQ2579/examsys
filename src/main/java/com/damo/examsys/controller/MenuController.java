@@ -28,7 +28,7 @@ public class MenuController {
     @CrossOrigin
     @GetMapping("/rootMenu.do")
     public String rootMenu(){
-        System.out.println("测试");
+
         String rootMenu = menuService.getRootMenu();
 
         return indexInitUtils.indexInit(rootMenu);
@@ -37,7 +37,7 @@ public class MenuController {
     @CrossOrigin
     @GetMapping("/getMenu.do")
     public JsonBean<Menu> getMenu(String menuId){
-        System.out.println(menuId+"111");
+
         return new JsonBean<>(0,menuService.getMenu(1));
     }
 

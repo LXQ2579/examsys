@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.damo.examsys.dao.RoleDao">
+    <select id="findAllRole" resultType="role">
+        select * from t_role
+    </select>
+    <insert id="updateUserRole" parameterType="list">
+        insert into t_user_role   (urid,uid,rid)
+        values
+        <foreach  collection="list" item="item" index="index" separator=",">
+            (
+                null ,
+                #{item.uid},
+                #{item.rid}
+            )
+        </foreach>
+        ON duplicate KEY UPDATE urid = urid
+
+    </insert>
+    <delete id="deleteUserRoleByUserId" parameterType="int">
+        delete from t_user_role where uid = #{uid}
+    </delete>
+</mapper>
