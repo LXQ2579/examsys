@@ -4,6 +4,7 @@ import com.damo.examsys.entity.User;
 import com.github.pagehelper.Page;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,4 +16,11 @@ public interface UserDao {
      * @return
      */
     Page<User> findAllUser();
+
+    /**
+     * 根据用户的ID更新用户的信息
+     * @param map
+     * @return
+     */
+    Integer updateUserInfo(HashMap map);
 }

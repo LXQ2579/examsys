@@ -1,11 +1,13 @@
 package com.damo.examsys.controller;
 
 import com.damo.examsys.common.JsonBean;
+import com.damo.examsys.entity.Role;
 import com.damo.examsys.entity.User;
 import com.damo.examsys.service.UserService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,11 +30,12 @@ public class UserController {
         return allUser;
     }
 
-    @PostMapping("/updateUser.do")
-    public JsonBean updateUser(@RequestBody String data, HttpServletRequest request){
+    @RequestMapping("/updateUser.do")
+    public JsonBean<String> updateUser(@RequestParam HashMap<String, Object> params ){
         System.out.println(1);
-        System.out.println(data);
-        return new JsonBean<>(0,"1234");
+        System.out.println(params);
+        JsonBean<String> jsonBean = userService.updateUserById(params);
+        return jsonBean;
 
     }
 
