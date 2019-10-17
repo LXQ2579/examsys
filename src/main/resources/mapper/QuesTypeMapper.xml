@@ -8,11 +8,12 @@ dao层接口中的方法名和映射文件中增删改查配置的statement id�
 方法的参数和配置的输入参数保持一致
 方法的返回值类型和配置中返回类型保持一致
  -->
-<mapper namespace="com.damo.examsys.dao.QuestionsTypeDao">
+<mapper namespace="com.damo.examsys.dao.QuesTypeDao">
 
     <resultMap id="typeMap" type="quesType">
         <id property="quesTypeId" column="tId"/>
         <result property="quesTypeName" column="tName"/>
+        <result property="remark" column="remark"/>
     </resultMap>
 
 
@@ -23,8 +24,21 @@ dao层接口中的方法名和映射文件中增删改查配置的statement id�
     <select id="findByName" parameterType="string" resultMap="typeMap">
         select * from questions_type where tName = #{quesTypeName}
     </select>
-    <!--    <insert id="addUser" parameterType="user">-->
-    <!--        insert into user(username, phone, password, photo_url ) values (#{username}, #{phone}, #{password}, #{photoUrl})-->
-    <!--    </insert>-->
+
+    <select id="findById" resultMap="typeMap" parameterType="integer">
+        select * from questions_type where tId = #{quesTypeId}
+    </select>
+
+    <update id="update" parameterType="quesType">
+        update questions_type set tName = #{quesTypeName}, remark = #{remark} where tId = #{quesTypeId}
+    </update>
+
+    <insert id="add" parameterType="quesType">
+        insert into questions_type values (null, #{quesTypeName}, #{remark})
+    </insert>
+
+    <delete id="deleteById" parameterType="integer">
+        delete from questions_type where tId = #{quesTypeId}
+    </delete>
 
 </mapper>

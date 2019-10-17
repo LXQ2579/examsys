@@ -1,5 +1,6 @@
 package com.damo.examsys.dao;
 
+import com.damo.examsys.entity.QuesType;
 import com.damo.examsys.entity.Subject;
 import org.springframework.stereotype.Repository;
 
@@ -15,5 +16,13 @@ public interface SubjectDao {
     List<Subject> findAll();
 
     Subject findByName(String subjectName);
+
+    Subject findById(Integer subjectId);
+
+    void update(Subject subject);
+
+    void deleteById(Integer subjectId);
+
+    void add(Subject subject);
 
 }

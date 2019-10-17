@@ -12,6 +12,7 @@ public class Subject implements Serializable {
 
     private Integer sId;
     private String sName;
+    private String remark;
 
     public Integer getsId() {
         return sId;
@@ -27,5 +28,13 @@ public class Subject implements Serializable {
 
     public void setsName(String sName) {
         this.sName = sName;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

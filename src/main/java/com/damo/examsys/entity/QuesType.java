@@ -10,6 +10,7 @@ public class QuesType implements Serializable {
 
     private Integer quesTypeId;
     private String quesTypeName;
+    private String remark;
 
     public Integer getQuesTypeId() {
         return quesTypeId;
@@ -25,5 +26,13 @@ public class QuesType implements Serializable {
 
     public void setQuesTypeName(String quesTypeName) {
         this.quesTypeName = quesTypeName;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,15 +14,17 @@ import java.util.List;
 @Setter
 public class Paper implements Serializable {
 
-    private Integer pId;
-    private String pName;
+    private Integer paperId;
+    private String paperName;
     private Integer subjectId;
+    private String subjectName;
     private Subject subject;
-    private Integer state;
-    private Date allowTime;
-    private String remark;
-    private Integer totalScore;
+    private String questionIds;
     private List<Questions> questions;
+    private Integer allowTime;
+    private String remark;
+    private Integer score;
+    private Integer state;
 
 }
 

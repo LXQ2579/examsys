@@ -4,7 +4,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<title>超级变态考试系统</title>
-		<link rel="stylesheet" href="../../static/layui/css/layui.css">
+
+		<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+		<script type="text/javascript" src="../layui/layui.all.js"></script>
+		<script type="text/javascript" src="../js/jquery-1.12.2.min.js"></script>
 		<style>
 			.layui-tab-content {
 				padding: 0;
@@ -69,12 +72,12 @@
 					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
 					<ul class="layui-nav layui-nav-tree" lay-filter="test">
 						<li class="layui-nav-item layui-nav-itemed">
-							<a class="" href="javascript:loadPage('paperList.html')">试题列表</a>
+							<a class="" href="javascript:loadPage('questionList1.html')">试题列表</a>
 						</li>
 						<li class="layui-nav-item">
-							<a href="javascript:loadPage('paperList.html');">试题类型</a>
+							<a href="javascript:loadPage('quesTypeList.html');">试题类型</a>
 						</li>
-						<li class="layui-nav-item"><a href="javascript:loadPage('paperList.html');">试题所属科目</a></li>
+						<li class="layui-nav-item"><a href="javascript:loadPage('subjectList.html');">试题所属科目</a></li>
 					</ul>
 				</div>
 			</div>
@@ -96,7 +99,6 @@
 				© layui.com - 底部固定区域
 			</div>
 		</div>
-		<script src="../../static/layui/lay/modules/layer.js"></script>
 		<script>
 		//JavaScript代码区域
 		layui.use('element', function(){

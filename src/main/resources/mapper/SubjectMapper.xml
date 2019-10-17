@@ -19,8 +19,20 @@ dao层接口中的方法名和映射文件中增删改查配置的statement id�
         select * from subject where sName = #{subjectName}
     </select>
 
-    <!--    <insert id="addUser" parameterType="user">-->
-    <!--        insert into user(username, phone, password, photo_url ) values (#{username}, #{phone}, #{password}, #{photoUrl})-->
-    <!--    </insert>-->
+    <select id="findById" resultType="subject" parameterType="integer">
+        select * from subject where sId = #{subjectId}
+    </select>
+
+    <update id="update" parameterType="subject">
+        update subject set sName = #{sName}, remark = #{remark} where sId = #{sId}
+    </update>
+
+    <insert id="add" parameterType="subject">
+        insert into subject values (null, #{sName}, #{remark})
+    </insert>
+
+    <delete id="deleteById" parameterType="integer">
+        delete from subject where sId = #{subjectId}
+    </delete>
 
 </mapper>

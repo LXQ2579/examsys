@@ -1,7 +1,7 @@
 package com.damo.examsys.service.impl;
 
 import com.damo.examsys.dao.QuestionsDao;
-import com.damo.examsys.dao.QuestionsTypeDao;
+import com.damo.examsys.dao.QuesTypeDao;
 import com.damo.examsys.dao.SubjectDao;
 import com.damo.examsys.entity.Questions;
 import com.damo.examsys.service.QuestionsService;
@@ -23,7 +23,7 @@ public class QuestionsServiceImpl implements QuestionsService {
     private QuestionsDao questionsDao;
 
     @Autowired
-    private QuestionsTypeDao questionsTypeDao;
+    private QuesTypeDao quesTypeDao;
 
     @Autowired
     private SubjectDao subjectDao;
@@ -66,7 +66,7 @@ public class QuestionsServiceImpl implements QuestionsService {
             String quesTypeName = q.getQuesTypeName();
             if (quesTypeName != null){
 
-                Integer quesTypeId = questionsTypeDao.findByName(quesTypeName).getQuesTypeId();
+                Integer quesTypeId = quesTypeDao.findByName(quesTypeName).getQuesTypeId();
                 if (quesTypeId != null){
                     q.setTypeId(quesTypeId);
                 }

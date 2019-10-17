@@ -76,14 +76,15 @@ dao层接口中的方法名和映射文件中增删改查配置的statement id�
 
 
     <select id="findById" resultMap="questionsMap" parameterType="integer">
-          select q.qId, q.title, q.optionA, q.optionB, q.optionB, q.optionC, q.optionD, q.standardAnswer, q.answerDetail, q.subjectId, q.typeId, t.tName as quesTypeName, q.remark, q.score, t.tId, s.sId, s.sName as subjectName
-        from
-        questions q, questions_type t, subject s
-        where q.subjectId = s.sid and q.typeId = t.tid where q.qId = #{qId}
+       select q.qId, q.title, q.optionA, q.optionB, q.optionB, q.optionC, q.optionD, q.standardAnswer, q.answerDetail, q.subjectId, q.typeId, t.tName as quesTypeName, q.remark, q.score, t.tId, s.sId, s.sName as subjectName
+        from questions q
+        left join questions_type t on q.typeId = t.tid
+        left join subject s on q.subjectId = s.sid
+         where q.qId = #{qId}
     </select>
 
     <update id="update" parameterType="questions">
-        update questions q set(title, optionA, optionB, optionC, optionD, standardAnswer, answerDetail, subjectId, typeId, remark, score) values (#{title}, #{optionA}, #{optionB}, #{optionC}, #{optionD}, #{standardAnswer}, #{answerDetail}, #{subjectId}, #{typeId}, #{remark}, #{score}) where q.qId = #{qId}
+        update questions  set title = #{title}, optionA = #{optionA}, optionB = #{optionB}, optionC = #{optionC}, optionD = #{optionD}, standardAnswer = #{standardAnswer}, answerDetail = #{answerDetail}, subjectId = #{subjectId}, typeId = #{typeId}, remark = #{remark}, score = #{score} where qId = #{qId}
     </update>
 
     <insert id="add" parameterType="questions">

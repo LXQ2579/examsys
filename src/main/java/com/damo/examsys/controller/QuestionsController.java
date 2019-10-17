@@ -21,6 +21,7 @@ import java.util.Map;
  * @author liujiulong
  * @date 2019/10/14  16:01:00
  */
+@CrossOrigin
 @Controller
 @RequestMapping("/questions")
 public class QuestionsController {
@@ -42,7 +43,7 @@ public class QuestionsController {
             long total = ((Page) list).getTotal();
 
 
-        return new JsonBean<>(0, list, "", (int) total);
+        return new JsonBean<>(0, list, "试题遍历成功", (int) total);
     }
 
 
@@ -84,11 +85,18 @@ public class QuestionsController {
         return new JsonBean<>(0, questions);
     }
 
-    @PostMapping("/update.do")
+    @PostMapping("/addOrUpdate.do")
     @ResponseBody
-    public JsonBean update(Questions questions){
+    public JsonBean addOrUpdate(Questions questions){
 
-       questionsService.update(questions);
+        Integer qId = questions.getqId();
+        if (qId == null){
+            questionsService.add(questions);
+
+            return new JsonBean<>(0, "试题添加成功");
+        }
+
+        questionsService.update(questions);
 
         return new JsonBean<>(0, "试题修改成功");
     }
@@ -102,13 +110,5 @@ public class QuestionsController {
         return new JsonBean<>(0, "试题删除成功");
     }
 
-    @PostMapping("/add.do")
-    @ResponseBody
-    public JsonBean add(Questions questions){
-
-        questionsService.add(questions);
-
-        return new JsonBean<>(0, "试题添加成功");
-    }
 
 }
