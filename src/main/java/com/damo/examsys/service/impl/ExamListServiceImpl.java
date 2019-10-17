@@ -7,6 +7,7 @@ import com.damo.examsys.entity.Grade;
 import com.damo.examsys.entity.Paper;
 import com.damo.examsys.exception.MyException;
 import com.damo.examsys.service.ExamListService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,11 +71,15 @@ public class ExamListServiceImpl implements ExamListService {
                 throw  new MyException(1,"开始时间不能小于结束时间");
             }
         }
-        if(examList.getPageNum() == null){
-            examList.setPageNum(0);
-        }
         if(examList.getPageSize() == null){
-            examList.setPageSize(3);
+            examList.setPageSize(2);
+        }
+        if(examList.getPageNum() == null){
+            examList.setPageNum(1);
+            examList.setFirstNum(0);
+        }else{
+            Integer firstNum = (examList.getPageNum() - 1)*examList.getPageSize();
+            examList.setFirstNum(firstNum);
         }
         return examListDao.getExamList(examList);
     }

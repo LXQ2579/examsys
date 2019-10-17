@@ -18,9 +18,9 @@
                  <tr>
                      <th colspan="9">
 
-                         <form id="searchForm" class="layui-form" action="" @submit.prevent="searchExam()">
-                             <input type="hidden" name="pageNum">
-                             <input type="hidden" name="pageSize">
+                         <form id="searchForm" class="layui-form" action="" @submit.prevent="searchExam(1)">
+                             <input type="hidden" id="pageNumId" name="pageNum">
+                             <input type="hidden" id="pageSizeId" name="pageSize">
                              年级：
                              <div class="layui-inline ">
                                  <select  name="gradeId"  >
@@ -114,7 +114,7 @@
                         <div class="layui-input-inline">
                             <select id="paperId" name="paperId" v-model="exam.paperId" >
                                 <option value="">请选择</option>
-                                <option v-for="pape in papers" :value="pape.pid">{{pape.pname}}</option>
+                                <option v-for="pape in papers" :value="pape.paperId">{{pape.paperName}}</option>
                             </select>
                         </div>
                     </div>
@@ -185,10 +185,16 @@
              papers:[],
              buildNum:'',
              classroom:'',
-             dataCount:''
+             dataCount:'',
+             pageNum:''
          },
          methods:{
-             searchExam:function(){
+             searchExam:function(obj){
+                 if(obj == 1){
+                     $("#pageNumId").val("1")
+                     this.pageNum = 1;
+                     this.getDataCount();
+                 }
                  var _this = this;
                  $.ajax({
                      type:"post",
@@ -278,7 +284,7 @@
                  var _this= this;
                  $.ajax({
                      type:"get",
-                     url:"http://localhost:8080/examsys/subject/findAll.do",
+                     url:"http://localhost:8080/examsys/subject/findAll.do?page=1&limit=999999999",
                      dataType:"json",
                      success:function (data) {
                          if(data.code == 0){
@@ -321,7 +327,7 @@
                      dataType:"json",
                      success:function (data) {
                          if(data.code == 0){
-                             _this.users = data.data.list;
+                             _this.users = data.data;
                          }
                      }
                  })
@@ -344,6 +350,7 @@
                  $.ajax({
                      type:"get",
                      url:"http://localhost:8080/examsys/getDataCount",
+                     data:$("#searchForm").serialize(),
                      dataType:"json",
                      success:function (data) {
                          if(data.code == 0){
@@ -406,8 +413,25 @@
                      laypage.render({
                          elem: 'pageDiv'
                          ,count: _this.dataCount
-                         ,limit:3
+                         ,limit:2
+                         ,curr:_this.pageNum
                          ,theme: '#1E9FFF'
+                         ,layout: ['count', 'prev', 'page', 'next']
+                         ,jump: function (obj, first) {
+                             //console.log(obj)
+                             //obj包含了当前分页的所有参数，比如：
+                             //console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                             //console.log(obj.limit); //得到每页显示的条数
+                             //首次不执行
+                             if (!first) {
+                                 $("#pageNumId").val(obj.curr);
+                                 $("#pageSizeId").val(obj.limit);
+                                 _this.searchExam();
+                                 _this.pageNum = $("#pageNumId").val();
+                                 //do something
+                                 //numpage(obj.curr, obj.limit)  // 分页点击传参
+                             }
+                         }
                      });
                      layui.form.render();
                  });

@@ -34,7 +34,7 @@
                 </if>
             </if>
         </where>
-        ORDER BY e.begin_time desc limit #{pageNum},#{pageSize}
+        ORDER BY e.begin_time desc limit #{firstNum},#{pageSize}
     </select>
 
     <!--添加考试场次-->
@@ -109,7 +109,7 @@
     </select>
 
     <select id="getPaperList" resultType="paper">
-        select paperid pid,papername pname from paper
+        select paperId ,paperName from paper
     </select>
 
     <select id="dataCount" resultType="int">
@@ -119,17 +119,17 @@
                 grade_id = #{gradeId}
             </if>
             <if test="subjectId != null and subjectId != ''">
-               and subject_d = #{subjectId}
+               and subject_id = #{subjectId}
             </if>
             <if test="beginTime != null or endTime != null">
                 <if test="beginTime != null and endTime == null">
-                   and begin_ime > #{beginTime}
+                   and begin_time > #{beginTime}
                 </if>
                 <if test="beginTime == null and endTime != null">
-                    and begin_ime <![CDATA[<]]> #{beginTime}
+                    and begin_time <![CDATA[<]]> #{beginTime}
                 </if>
                 <if test="beginTime != null and endTime != null">
-                    and begin_ime between #{beginTime} and #{endTime}
+                    and begin_time between #{beginTime} and #{endTime}
                 </if>
             </if>
         </where>

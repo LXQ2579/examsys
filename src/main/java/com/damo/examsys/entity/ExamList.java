@@ -97,6 +97,10 @@ public class ExamList implements Serializable {
     @ApiModelProperty("查询条件时使用的：当前页码")
     private Integer pageNum;
 
+    //从第几条开始从查起
+    @ApiModelProperty("查询条件时使用的：从第几条开始从查起")
+    private Integer firstNum;
+
     //每页显示条数
     @ApiModelProperty("查询条件时使用的：每页显示条数")
     private Integer pageSize;
