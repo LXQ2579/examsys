@@ -50,7 +50,6 @@ public class PaperServiceImpl implements PaperService {
         String subString = questionIds.substring(1);
 
         paper.setQuestionIds(subString);
-        System.out.println(subString);
         paperDao.add(paper);
 
     }
@@ -88,9 +87,9 @@ public class PaperServiceImpl implements PaperService {
 
         for (String questionId : questionIds) {
             Questions questions = questionsDao.findById(Integer.valueOf(questionId));
-            if ("选择题".equals(questions.getQuesType())){
+            if (1 == (questions.getTypeId())){
                 choiceQuestions.add(questions);
-            }else if ("填空".equals(questions.getQuesType())){
+            }else if (2 == (questions.getTypeId())){
                 completionQuestions.add(questions);
             }else{
                 shortAnswerQuestions.add(questions);

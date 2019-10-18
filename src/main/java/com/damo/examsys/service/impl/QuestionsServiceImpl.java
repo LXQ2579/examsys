@@ -7,6 +7,7 @@ import com.damo.examsys.entity.Questions;
 import com.damo.examsys.service.QuestionsService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Map;
  * @date 2019/10/14  15:58:00
  */
 @Service
+@CacheConfig(cacheNames = "questions")
 public class QuestionsServiceImpl implements QuestionsService {
 
     @Autowired

@@ -41,6 +41,8 @@ public class RedisConfig {
         //缓存配置map
         Map<String,RedisCacheConfiguration> cacheConfigurationMap = new HashMap<>();
         //自定义缓存名，后面使用的@Cacheable的CacheName
+        cacheConfigurationMap.put("paper",config);
+        cacheConfigurationMap.put("questions",config);
         cacheConfigurationMap.put("users",config);
         cacheConfigurationMap.put("default",config);
         //根据redis缓存配置和reid连接工厂生成redis缓存管理器
