@@ -14,4 +14,5 @@ public class Role implements Serializable {
     private String rname;
     private String rdesc;
     private List<Permission> permissionList;
+    private Integer isDeleted;
 }

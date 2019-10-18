@@ -27,7 +27,7 @@
     </select>
 
     <select id="findAllRolePerm" resultMap="rolePermMap">
-        select * from t_role where is_deleted = #{isDeleted}
+        select * from t_role
     </select>
 
     <select id="getPermissionList" resultMap="permissionMap">
@@ -53,9 +53,25 @@
         ON duplicate KEY UPDATE is_deleted = 0
 
     </insert>
+    <update id="updateRole" >
+        update t_role set
+        rname = #{rname} ,
+        rdesc = #{rdesc}
+        where rid = #{rid}
+    </update>
 
-
+    <update id="deleteRole">
+        update t_role set is_deleted = #{isDeleted} where rid = #{rid}
+    </update>
     <update id="deleteUserRoleByUserId" parameterType="int">
         update t_user_role set is_deleted =1 where uid = #{uid}
+    </update>
+
+    <update id="deleteAllRole">
+        update t_role set is_deleted = #{isDeleted} where rid in
+        <foreach collection="array" index="index" item="item"
+                 separator="," open="(" close=")">
+            #{item}
+        </foreach>
     </update>
 </mapper>

@@ -31,4 +31,11 @@ public interface RoleDao {
     Integer updateUserRole(List<Map<String, Integer>> list);
 
     Integer deleteUserRoleByUserId(Integer uid);
+
+    Integer updateRole(Role role);
+
+    Integer deleteRole(Integer rid ,Integer isDeleted);
+
+    Integer deleteAllRole(String[] rid ,Integer isDeleted);
+
 }
