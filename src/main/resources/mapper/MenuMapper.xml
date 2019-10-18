@@ -3,6 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.damo.examsys.dao.MenuDao">
+
+    <resultMap id="menuModuleMap" type="menuModule">
+        <id column="menuModule_id" property="menuModuleId"/>
+
+        <result column="menuModule_name" property="menuModuleName"/>
+
+        <collection property="child" ofType="menu" column="menuModule_id" 
+                    select="findMenuByModuleId"/>
+    </resultMap>
     <resultMap id="menuMap" type="menu">
         <id column="menu_id" property="menuId"/>
         <result column="title" property="title"/>
@@ -12,14 +21,6 @@
         <result column="icon" property="icon"/>
         <collection property="child" ofType="menu" column="menu_id"
                     select="findMenuByParentId"/>
-    </resultMap>
-    <resultMap id="menuModuleMap" type="menuModule">
-        <id column="menuModule_id" property="menuModuleId"/>
-
-        <result column="menuModule_name" property="menuModuleName"/>
-
-        <collection property="child" ofType="menu" column="menuModule_id" 
-                    select="findMenuByModuleId"/>
     </resultMap>
 <!--    private String menuId; //主键ID-->
 <!--    private String title; //菜单名称-->

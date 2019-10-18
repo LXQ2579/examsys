@@ -15,7 +15,7 @@ public interface UserDao {
      * 查找所有的用户信息
      * @return
      */
-    Page<User> findAllUser();
+    Page<User> findAllUser(Integer isDeleted);
 
     /**
      * 根据用户的ID更新用户的信息
@@ -24,5 +24,7 @@ public interface UserDao {
      */
     Integer updateUserInfo(HashMap map);
 
-    Integer deleteUserById(Integer uid);
+    Integer deleteUserById(Integer uid,Integer isDeleted);
+
+    Integer deleteUserByIds(String [] uid,Integer isDeleted);
 }

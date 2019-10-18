@@ -13,9 +13,11 @@ import java.util.Map;
  */
 
 public interface UserService {
-    Map<String,Object> findAllUser (int pageNum, int pageSize);
+    Map<String,Object> findAllUser (int pageNum, int pageSize,Integer isDeleted);
 
     JsonBean updateUserById(HashMap<String, Object> map);
 
-    JsonBean deleteUserById(Integer uid);
+    JsonBean deleteUserById(Integer uid , Integer isDeleted);
+
+    JsonBean deleteUserByIds(String [] uid,Integer isDeleted);
 }

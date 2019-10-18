@@ -3,6 +3,7 @@ package com.damo.examsys.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author sanriyue
@@ -15,4 +16,5 @@ public class Permission implements Serializable {
     private String type;
     private String url;
     private Integer parentId;
+    private List<Permission> permChild;
 }

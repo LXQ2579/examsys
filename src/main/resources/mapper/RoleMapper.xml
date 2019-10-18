@@ -4,9 +4,42 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.damo.examsys.dao.RoleDao">
+    <resultMap id="rolePermMap" type="role">
+        <id column="rid" property="rid"/>
+        <result column="rname" property="rname"/>
+        <result column="rdesc" property="rdesc"/>
+        <collection property="permissionList" ofType="permission" column="rid"
+                    select="getPermissionList"/>
+    </resultMap>
+
+    <resultMap id="permissionMap" type="permission">
+        <id column="pid" property="pid"/>
+        <result column="pname" property="pname"/>
+        <result column="pdesc" property="pdesc"/>
+        <result column="type" property="type"/>
+        <result column="url" property="url"/>
+        <result column="parentId" property="parentId"/>
+        <collection property="permChild" ofType="permission" column="pid"
+                    select="findPermChildByParentId"/>
+    </resultMap>
     <select id="findAllRole" resultType="role">
-        select * from t_role
+        select * from t_role where is_deleted = #{isDeleted}
     </select>
+
+    <select id="findAllRolePerm" resultMap="rolePermMap">
+        select * from t_role where is_deleted = #{isDeleted}
+    </select>
+
+    <select id="getPermissionList" resultMap="permissionMap">
+        select tp.pid, tp.pname , tp.pdesc , tp.type , tp.url , tp.parentId
+         from t_permission tp left join t_role_perm trp on tp.pid = trp.pid
+         where trp.rid = #{rid}
+    </select>
+
+    <select id="findPermChildByParentId" resultMap="permissionMap">
+        select * from t_permission where parentId =#{pid}
+    </select>
+
     <insert id="updateUserRole" parameterType="list">
         insert into t_user_role   (urid,uid,rid)
         values
@@ -20,6 +53,8 @@
         ON duplicate KEY UPDATE is_deleted = 0
 
     </insert>
+
+
     <update id="deleteUserRoleByUserId" parameterType="int">
         update t_user_role set is_deleted =1 where uid = #{uid}
     </update>

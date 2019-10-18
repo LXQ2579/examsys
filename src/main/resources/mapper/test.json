@@ -1,0 +1,42 @@
+{
+  "tr":{
+    "0":{
+      "sizzle1571311522021": {
+        "undefined":{
+          "parentNode":[2095,4,true]}}},
+    "1":{"sizzle1571311522021":{
+      "undefined":{"parentNode":[2566,16,true]}},
+      "jQuery112307475199554388473":97},
+    "2":{},
+    "length":3,
+    "prevObject":{
+      "0":{
+        "jQuery112307475199554388473":38,
+        "sizzle1571311522021":{
+          "undefined":{
+            "parentNode":[2264,2,true]}}},
+      "1":{"jQuery112307475199554388473":40,
+        "sizzle1571311522021":{
+          "undefined":{
+            "parentNode":[2566,16,true]}}},
+      "2":{"jQuery112307475199554388473":41},
+      "length":3,
+      "prevObject":{
+        "0":{
+          "jQuery112307475199554388473":35,
+          "sizzle1571311522021":{
+            "undefined":{
+              "parentNode":[2566,16,true]}}},
+        "length":1},
+      "selector":".layui-table-body"},
+    "selector":".layui-table-body tr[data-index=\"0\"]"},
+  "data":{"uid":1,"uname":"zhangsan","password":"01ddae4032e17a1c338baac9c4322b30",
+    "roleList":[{"rid":1,"rname":"admin","rdesc":"管理员",
+      "permissionList":null},
+      {"rid":2,"rname":"congress",
+        "rdesc":"教务","permissionList":null},
+      {"rid":3,"rname":"teacher","rdesc":"教师","permissionList":null}],
+    "userInfo":{"userinfoid":1,
+      "name":"张三","userid":1,"sex":"男"}},
+  "checked":false,
+  "type":"one"}

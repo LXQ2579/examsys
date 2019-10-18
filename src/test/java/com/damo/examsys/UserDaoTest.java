@@ -24,7 +24,14 @@ public class UserDaoTest {
     public void testFindAll(){
         PageHelper.startPage(1, 2);
 
-        PageInfo<User> pageInfo = new PageInfo<>(userDao.findAllUser());
+        PageInfo<User> pageInfo = new PageInfo<>(userDao.findAllUser(0));
         System.out.println(pageInfo);
+    }
+    @Test
+    public void testUpdateAll(){
+        String[] strings = {"1","2"};
+
+        Integer integer = userDao.deleteUserByIds(strings,0);
+        System.out.println(integer);
     }
 }

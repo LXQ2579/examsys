@@ -21,7 +21,7 @@
     </resultMap>
     <select id="findAllUser" resultMap="userMap">
         select * from t_user tu
-        inner join t_userinfo on userid = tu.uid where tu.is_deleted = 0
+        inner join t_userinfo on userid = tu.uid where tu.is_deleted = #{isDeleted}
     </select>
     <select id="getRoleList" resultType="role">
         select tr.rid,rname,rdesc from t_role tr
@@ -38,6 +38,13 @@
         WHERE tui.userinfoid=#{userInfouserinfoid}
     </update>
     <update id="deleteUserById" parameterType="int">
-        update t_user set is_deleted = 1 where uid = #{uid}
+        update t_user set is_deleted = #{isDeleted} where uid = #{uid}
+    </update>
+    <update id="deleteUserByIds" >
+        update t_user set is_deleted = #{isDeleted} where uid in
+        <foreach collection="array" index="index" item="item"
+                 separator="," open="(" close=")">
+            #{item}
+        </foreach>
     </update>
 </mapper>

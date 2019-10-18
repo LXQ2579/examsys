@@ -25,9 +25,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     RoleDao roleDao;
     @Override
-    public Map<String,Object> findAllUser(int pageNum, int pageSize) {
+    public Map<String,Object> findAllUser(int pageNum, int pageSize,Integer isDeleted) {
         PageHelper.startPage(pageNum,pageSize);
-        Page<User> allUser = userDao.findAllUser();
+        Page<User> allUser = userDao.findAllUser(isDeleted);
         if (allUser.get(0) == null){
             throw new RuntimeException("数据查询异常");
         }
@@ -72,15 +72,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JsonBean<String> deleteUserById(Integer uid) {
+    public JsonBean<String> deleteUserById(Integer uid , Integer isDeleted) {
         if (uid == null){
             return new JsonBean<String>(1,"参数错误");
         }
-        Integer integer = userDao.deleteUserById(uid);
+        Integer integer = userDao.deleteUserById(uid ,isDeleted);
         if (integer<1 ){
             throw new RuntimeException("删除错误，请检查");
         }
         return new JsonBean<>(0,"删除成功");
+    }
+
+    @Override
+    public JsonBean deleteUserByIds(String [] uid,Integer isDeleted) {
+        if (uid.length<1){
+            throw new RuntimeException("请选择数据");
+        }
+        Integer integer = userDao.deleteUserByIds(uid,isDeleted);
+        if (integer<1){
+            throw new RuntimeException("批量删除错误，请检查");
+        }
+        return new JsonBean<>(0,"批量删除成功");
     }
 
 
