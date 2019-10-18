@@ -1,6 +1,7 @@
 package com.damo.examsys.dao;
 
 import com.damo.examsys.entity.User;
+import com.damo.examsys.entity.UserInfo;
 import com.github.pagehelper.Page;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,4 +28,11 @@ public interface UserDao {
     Integer deleteUserById(Integer uid,Integer isDeleted);
 
     Integer deleteUserByIds(String [] uid,Integer isDeleted);
+
+    /**
+     * 通过userid查找userInfo
+     * @param uid
+     * @return
+     */
+    UserInfo findUserInfoByUid(Integer uid);
 }

@@ -47,4 +47,8 @@
             #{item}
         </foreach>
     </update>
+
+    <select id="findUserInfoByUid" resultType="userInfo">
+        select * from t_userinfo where userid= #{uid}
+    </select>
 </mapper>
