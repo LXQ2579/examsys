@@ -51,4 +51,34 @@ public class MenuServiceImpl implements MenuService {
         String s1 = s.replace("\"child\":[],", "");
         return s1;
     }
+
+    @Override
+    public Menu getBeforeMenu(Integer menuId) {
+        if (menuId == null){
+            throw new MyException(ErrorCode.MENUID_NULL,codeMsg.getMenuIdNull());
+        }
+        Menu menu = menuDao.getBeforeMenu(menuId);
+        if (menu == null){
+            throw new MyException(ErrorCode.MENU_NULL,codeMsg.getMenuNull());
+        }
+        return menu;
+    }
+
+
+
+    @Override
+    public String getBeforeRootMenu() {
+        List<MenuModule> rootMenu = menuDao.getBeforeRootMenu();
+
+        if (rootMenu ==null){
+            throw  new RuntimeException("根目录查询有误，请联系管理员");
+        }
+        HashMap<String, Object> hashMap = new HashMap<>();
+        for (MenuModule menu : rootMenu) {
+            hashMap.put(menu.getMenuModuleName(),menu.getChild());
+        }
+        String s = JSON.toJSONString(hashMap);
+        String s1 = s.replace("\"child\":[],", "");
+        return s1;
+    }
 }

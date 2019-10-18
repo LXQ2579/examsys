@@ -41,4 +41,23 @@ public class MenuController {
         return new JsonBean<>(0,menuService.getMenu(1));
     }
 
+    @CrossOrigin
+    @GetMapping("/beforeRootMenu.do")
+    public String beforeRootMenu(){
+
+        String rootMenu = menuService.getBeforeRootMenu();
+
+        return indexInitUtils.indexInit(rootMenu);
+
+    }
+
+    @CrossOrigin
+    @GetMapping("/getBeforeMenu.do")
+    public JsonBean<Menu> getBeforeMenu(String menuId){
+
+        return new JsonBean<>(0,menuService.getBeforeMenu(1));
+    }
+
+
+
 }

@@ -22,6 +22,29 @@
         <collection property="child" ofType="menu" column="menu_id"
                     select="findMenuByParentId"/>
     </resultMap>
+
+    <resultMap id="beforeMenuModuleMap" type="menuModule">
+        <id column="menuModule_id" property="menuModuleId"/>
+
+        <result column="menuModule_name" property="menuModuleName"/>
+
+        <collection property="child" ofType="menu" column="menuModule_id"
+                    select="findBeforeMenuByModuleId"/>
+    </resultMap>
+
+    <resultMap id="beforeMenuMap" type="menu">
+        <id column="menu_id" property="menuId"/>
+        <result column="title" property="title"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="href" property="href"/>
+        <result column="target" property="target"/>
+        <result column="icon" property="icon"/>
+        <collection property="child" ofType="menu" column="menu_id"
+                    select="findBeforeMenuByParentId"/>
+    </resultMap>
+
+
+
 <!--    private String menuId; //主键ID-->
 <!--    private String title; //菜单名称-->
 <!--    private String href;-->
@@ -44,5 +67,23 @@
     <select id="getRootMenu" resultMap="menuModuleMap">
             select * from t_menumodule
             ORDER BY menuModule_id asc
+    </select>
+
+    <select id="getBeforeMenu" resultMap="menuMap">
+            select * from t_menu_before where menu_id = #{menuId}
+    </select>
+
+    <select id="getBeforeRootMenu" resultMap="beforeMenuModuleMap">
+            select * from t_menumodule_before
+            ORDER BY menuModule_id asc
+    </select>
+
+    <select id="findBeforeMenuByModuleId" resultMap="beforeMenuMap">
+        select * from t_menu_before where module_id = #{menuModuleId}
+        ORDER BY menu_id asc
+    </select>
+
+    <select id="findBeforeMenuByParentId" resultMap="beforeMenuMap" parameterType="int">
+            select * from t_menu_before where parent_id =#{menuId}
     </select>
 </mapper>
