@@ -27,13 +27,13 @@ public interface StudentDao {
     /**
      * 修改学生信息
      */
-    public JsonBean updateStudent(Integer stuNum);
+    public void updateStudent(Student student);
 
     /**
      * 删除
      * @param stuNum
      */
-    public JsonBean deleteStudent(Integer stuNum);
+    public void deleteStudent(Integer stuNum);
 
     /**
      * 教师得到所有考生信息列表调用此方法

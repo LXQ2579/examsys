@@ -18,5 +18,9 @@ public interface StudentService {
 
     public List<Class> classList();
 
-    public JsonBean deleteStudent(Integer stuNum);
+    public void deleteStudent(Integer stuNum);
+
+    public List<Student> getStudents();
+
+    public void updateStudent(Student student);
 }

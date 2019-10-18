@@ -8,10 +8,7 @@ import com.damo.examsys.entity.Student;
 import com.damo.examsys.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,11 +36,10 @@ public class StudentController {
 
     @RequestMapping("/stuInfo.do")
     public String goStuInfo(){
-        return "before/test";
+        return "before/studentInfo";
     }
 
     @RequestMapping("/toAddStu.do")
-
     public String goToAdd(){
         return "before/addStudent";
     }
@@ -64,27 +60,42 @@ public class StudentController {
         return new JsonBean(0,list);
     }
 
-//    @RequestMapping("/goToUpdate.do")
-//    public String  goUpdate(){
-//
-//        return "before/updateStudent";
-//    }
-
     @RequestMapping("/getUpdateInfo.do")
     public String getStuPageInfo(Student student){
 
-        System.out.println(student.getStuNum());
-        System.out.println(student.getStuName());
-        return "before/updateStudent";
+        return "after/updateStudent";
     }
 
     @RequestMapping("/delStu.do")
     @ResponseBody
     public JsonBean delStudent(HttpServletRequest request){
         String stuNum = request.getParameter("stuNum");
-        JsonBean jsonBean = studentService.deleteStudent(Integer.parseInt(stuNum));
+        studentService.deleteStudent(Integer.parseInt(stuNum));
+        JsonBean jsonBean = new JsonBean();
+        jsonBean.setCode(0);
+        jsonBean.setData("删除成功");
         return jsonBean;
     }
 
+    @RequestMapping("/stuList.do")
+    @ResponseBody
+    public JsonBean stuList(){
+        List<Student> students = studentService.getStudents();
+            return new JsonBean(0,students);
+    }
+
+    @PostMapping("/updateStu.do")
+    @ResponseBody
+    public JsonBean updateStudent(Student student){
+        System.out.println(student.getStuNum());
+        System.out.println(student.getStuGender());
+        studentService.updateStudent(student);
+        return new JsonBean(0,"修改成功");
+    }
+
+    @RequestMapping("/goToStuList.do")
+    public String goToStuList(){
+        return "after/stuList";
+    }
 
 }

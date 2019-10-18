@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 /**
  * @author leizhonggang
  */
@@ -20,6 +22,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class StudentTest {
     @Autowired
     private StudentController studentController;
+    @Autowired
+    private StudentService studentService;
 
     @Test
     public void testFindStudentByNum(){
@@ -39,6 +43,14 @@ public class StudentTest {
         student.setClassId(3);
 //        JsonBean jsonBean = studentController.addStu(student);
 //        System.out.println(jsonBean.getData());
+    }
+
+    @Test
+    public void getStudents(){
+        List<Student> students = studentService.getStudents();
+        for (Student s:students) {
+            System.out.println(s);
+        }
     }
 
 }

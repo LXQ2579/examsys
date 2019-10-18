@@ -40,10 +40,21 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public JsonBean deleteStudent(Integer stuNum) {
-        JsonBean jsonBean = studentDao.deleteStudent(stuNum);
-        jsonBean.setCode(0);
-        jsonBean.setData("删除成功");
-        return jsonBean;
+    public void deleteStudent(Integer stuNum) {
+        studentDao.deleteStudent(stuNum);
+    }
+
+    @Override
+    public List<Student> getStudents() {
+        List<Student> students = studentDao.getStudents();
+        if (students != null){
+        return students;
+        }
+        return null;
+    }
+
+    @Override
+    public void updateStudent(Student student) {
+        studentDao.updateStudent(student);
     }
 }

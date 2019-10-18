@@ -42,4 +42,15 @@
         delete from student where stu_num=#{stuNum}
     </delete>
 
+    <select id="getStudents" resultMap="stuMapper">
+        SELECT s.stu_num,s.stu_name,s.stu_gender,s.stu_idnum,s.class_id,s.exam_id,c.class_name,e.begin_time,e.end_time,e.exam_address,su.sName
+        from student s,exam_list e,`subject` su,class c
+        where s.exam_id=e.list_id AND e.subject_id=su.sId and s.class_id=c.class_id
+    </select>
+
+    <update id="updateStudent">
+        update student set stu_name=#{stuName},stu_gender=trim(#{stuGender}),stu_idnum=#{stuIdnum} ,class_id=#{classId} where stu_num=#{stuNum}
+    </update>
+
+
 </mapper>
