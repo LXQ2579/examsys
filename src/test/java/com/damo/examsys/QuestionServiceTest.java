@@ -17,11 +17,28 @@ public class QuestionServiceTest extends ExamsysApplicationTests{
     private QuestionsService questionsService;
 
     @Test
-    public void testFindAll(){
+    public void testFindByTypeIdAndSubjectId(){
+        List<Questions> questions = questionsService.findByTypeIdAndSubjectId(1, 1, 6);
+        List<Questions> questions2 = questionsService.findByTypeIdAndSubjectId(2, 1, 6);
+        List<Questions> questions3 = questionsService.findByTypeIdAndSubjectId(3, 1, 6);
+        String questionIdsStr = getQuestionIdsStr(questions);
+        String questionIdsStr1 = getQuestionIdsStr(questions2);
+        String questionIdsStr2 = getQuestionIdsStr(questions3);
+//        System.out.println(questions.size());
+        System.out.println(questionIdsStr);
+        System.out.println(questionIdsStr1);
+        System.out.println(questionIdsStr2);
+    }
 
-//        List<Questions> list = questionsService.findAll();
-
-//        System.out.println(list);
+    private static String getQuestionIdsStr(List<Questions> list) {
+        if (list == null) {
+            return "";
+        }
+        String questionIdsStr = "";
+        for (Questions q : list) {
+            questionIdsStr = questionIdsStr + "," + q.getqId();
+        }
+        return questionIdsStr;
     }
 
 }

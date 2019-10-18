@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author liujiulong
@@ -19,6 +18,8 @@ public interface QuestionsDao {
 
     Questions findById(Integer qId);
 
+    List<Questions> findByIds(String [] questionIds);
+
     void update(Questions questions);
 
     void deleteById(Integer qId);
@@ -26,5 +27,7 @@ public interface QuestionsDao {
     void add(Questions questions);
 
     void batchInsert(List<Questions> questionsList);
+
+    List<Questions> findByTypeIdAndSubjectId(@Param(value = "typeId")Integer typeId, @Param(value = "subjectId") Integer subjectId, @Param(value = "count") Integer count);
 
 }

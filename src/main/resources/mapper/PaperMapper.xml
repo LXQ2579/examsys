@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+dao层接口的全限定名和namespace一样
+dao层接口中的方法名和映射文件中增删改查配置的statement id一致
+方法的参数和配置的输入参数保持一致
+方法的返回值类型和配置中返回类型保持一致
+ -->
+<mapper namespace="com.damo.examsys.dao.PaperDao">
+
+    <resultMap id="paperMap" type="Paper">
+        <id property="paperId" column="paperId"/>
+        <result property="paperName" column="paperName"/>
+        <result property="subjectId" column="subjectId"/>
+        <result property="subjectName" column="subjectName"/>
+        <result property="questionIds" column="questionIds"/>
+        <result property="allowTime" column="allowTime"/>
+        <result property="remark" column="remark"/>
+        <result property="score" column="score"/>
+        <result property="state" column="state"/>
+        <association property="subject" javaType="subject">
+            <id property="sId" column="sId"/>
+            <result property="sName" column="subjectName"/>
+        </association>
+        <!--        <collection property="questions" ofType="questions">-->
+        <!--            <id property="qId" column="qId"/>-->
+        <!--            <result property="title" column="title"/>-->
+        <!--            <result property="optionA" column="optionA"/>-->
+        <!--            <result property="optionB" column="optionB"/>-->
+        <!--            <result property="optionC" column="optionC"/>-->
+        <!--            <result property="optionD" column="optionD"/>-->
+        <!--            <result property="standardAnswer" column="standardAnswer"/>-->
+        <!--            <result property="answerDetail" column="answerDetail"/>-->
+        <!--            <result property="subjectId" column="subjectId"/>-->
+        <!--            <result property="subjectName" column="subjectName"/>-->
+        <!--            <result property="typeId" column="typeId"/>-->
+        <!--            <result property="quesTypeName" column="quesTypeName"/>-->
+        <!--            <result property="remark" column="remark"/>-->
+        <!--            <result property="score" column="score"/>-->
+        <!--        </collection>-->
+
+    </resultMap>
+
+    <select id="findAll" resultMap="paperMap">
+        select p.paperId, p.paperName, p.subjectId, p.questionIds, p.allowTime, p.remark, p.score, p.state, s.sId,
+        s.sName as subjectName
+        from paper p
+        left join subject s on p.subjectId = s.sid
+        <where>
+            <if test="paperName != null and paperName != ''">
+                and p.paperName like CONCAT('%','${paperName}','%')
+            </if>
+            <if test="subjectId != null and subjectId != ''">
+                and p.subjectId = #{subjectId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findById" resultMap="paperMap" parameterType="integer">
+        select p.paperId, p.paperName, p.subjectId, p.questionIds, p.allowTime, p.remark, p.score, p.state, s.sId, s.sName as subjectName
+        from paper p
+        left join subject s on p.subjectId = s.sid
+        where p.paperId = #{paperId}
+    </select>
+
+
+    <insert id="add" parameterType="paper">
+        insert into
+        paper (paperName, subjectId, questionIds, allowTime, remark, score)
+        values
+        (#{paperName}, #{subjectId}, #{questionIds}, #{allowTime}, #{remark}, #{score})
+
+    </insert>
+
+    <update id="update" parameterType="paper">
+         update paper
+         set
+         paperName = #{paperName}, subjectId = #{subjectId}, questionIds = #{questionIds}, allowTime = #{allowTime}, score = #{score}
+         where paperId = #{paperId}
+    </update>
+
+    <delete id="deleteById" parameterType="integer">
+        delete from paper where paperId = #{paperId}
+    </delete>
+
+
+</mapper>

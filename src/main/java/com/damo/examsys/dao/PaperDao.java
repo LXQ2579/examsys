@@ -1,6 +1,7 @@
 package com.damo.examsys.dao;
 
 import com.damo.examsys.entity.Paper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,10 +13,13 @@ import java.util.List;
 @Repository
 public interface PaperDao {
 
-    List<Paper> findAll();
+    List<Paper> findAll(@Param(value = "paperName")String paperName, @Param("subjectId")Integer subjectId);
 
-//    void add(Paper paper);
+    void add(Paper paper);
 
+    Paper findById(Integer paperId);
 
+    void update(Paper paper);
 
+    void deleteById(Integer paperId);
 }

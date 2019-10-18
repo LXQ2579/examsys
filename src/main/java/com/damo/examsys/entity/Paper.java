@@ -26,5 +26,29 @@ public class Paper implements Serializable {
     private Integer score;
     private Integer state;
 
+    private Integer choiceNum;
+    private Integer completionNum;
+    private Integer shortAnswerNum;
+
+
+    @Override
+    public String toString() {
+        return "Paper{" +
+                "paperId=" + paperId +
+                ", paperName='" + paperName + '\'' +
+                ", subjectId=" + subjectId +
+                ", subjectName='" + subjectName + '\'' +
+                ", subject=" + subject +
+                ", questionIds='" + questionIds + '\'' +
+                ", questions=" + questions +
+                ", allowTime=" + allowTime +
+                ", remark='" + remark + '\'' +
+                ", score=" + score +
+                ", state=" + state +
+                ", choiceNum=" + choiceNum +
+                ", completionNum=" + completionNum +
+                ", shortAnswerNum=" + shortAnswerNum +
+                '}';
+    }
 }
 

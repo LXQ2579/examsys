@@ -54,6 +54,14 @@ dao层接口中的方法名和映射文件中增删改查配置的statement id�
         </where>
     </select>
 
+    <select id="findByTypeIdAndSubjectId" resultMap="questionsMap" parameterType="map">
+        select *
+        from questions q
+        where q.typeId = #{typeId} and q.subjectId = #{subjectId}
+        Order By
+        rand() Limit #{count}
+    </select>
+
     <insert id="batchInsert" parameterType="list">
         insert into
         questions
@@ -81,6 +89,20 @@ dao层接口中的方法名和映射文件中增删改查配置的statement id�
         left join questions_type t on q.typeId = t.tid
         left join subject s on q.subjectId = s.sid
          where q.qId = #{qId}
+    </select>
+
+    <select id="findByIds" resultMap="questionsMap" parameterType="map">
+       select q.qId, q.title, q.optionA, q.optionB, q.optionB, q.optionC, q.optionD, q.standardAnswer, q.answerDetail, q.subjectId, q.typeId, t.tName as quesTypeName, q.remark, q.score, t.tId, s.sId, s.sName as subjectName
+        from questions q
+        left join questions_type t on q.typeId = t.tid
+        left join subject s on q.subjectId = s.sid
+        <where>
+            q.qId in
+            <foreach collection="array" item="questionId" separator="," open="(" close=")">
+                #{questionId}
+            </foreach>
+        </where>
+        order by q.typeId
     </select>
 
     <update id="update" parameterType="questions">

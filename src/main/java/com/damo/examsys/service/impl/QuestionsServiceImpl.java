@@ -74,4 +74,16 @@ public class QuestionsServiceImpl implements QuestionsService {
         }
         questionsDao.batchInsert(questionsList);
     }
+
+    @Override
+    public List<Questions> findByTypeIdAndSubjectId(Integer typeId, Integer subjectId, Integer count) {
+
+        if(count < 0){
+            throw  new RuntimeException("题目数量不能为负数");
+        }
+        if (count == 0 ){
+            return null;
+        }
+        return questionsDao.findByTypeIdAndSubjectId(typeId, subjectId, count);
+    }
 }

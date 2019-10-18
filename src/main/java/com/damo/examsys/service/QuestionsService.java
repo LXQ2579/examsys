@@ -1,6 +1,7 @@
 package com.damo.examsys.service;
 
 import com.damo.examsys.entity.Questions;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,9 @@ public interface QuestionsService {
     void add(Questions questions);
 
     void batchInsert(List<Questions> questionsList);
+
+    List<Questions> findByTypeIdAndSubjectId(Integer typeId, Integer subjectId, Integer count);
+
 
 
 }
