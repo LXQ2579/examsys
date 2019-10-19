@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>试卷增加</title>
+		<!--css路径-->
+		<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+		<script type="text/javascript" src="../layui/layui.js"></script>
+		<script type="text/javascript" src="../layui/layui.all.js"></script>
+		<script type="text/javascript" src="../js/jquery-1.12.2.min.js"></script>
+		<!-- <link rel="stylesheet" href="css/public.css" media="all"> -->
+	</head>
+	<body>
+
+		<form class="layui-form" id="add-form" lay-filter="example">
+			<div class="layui-form-item">
+				<label class="layui-form-label">学号：</label>
+				<div class="layui-input-block">
+					<input type="text" name="stuNum" lay-verify="" autocomplete="off" placeholder="请输入学号" class="layui-input">
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">姓名：</label>
+				<div class="layui-input-block">
+					<input type="text" name="stuName" lay-verify="" autocomplete="off" placeholder="请输入姓名" class="layui-input">
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">密码：</label>
+				<div class="layui-input-block">
+					<input type="text" name="stuPwd" lay-verify="" autocomplete="off" placeholder="请输入密码" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">性别</label>
+				<div class="layui-input-block">
+					<input type="radio" name="stuGender" value="男" title="男" checked="">
+					<input type="radio" name="stuGender" value="女" title="女">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">班级：</label>
+				<div class="layui-input-block">
+					<select name="classId" class="layui-input" id="classId" lay-filter="aihao">
+						<option value="">--请选择班级--</option>
+					</select>
+				</div>
+				
+				<div class="layui-form-item">
+					<label class="layui-form-label">身份证号：</label>
+					<div class="layui-input-block">
+						<input type="text" name="stuIdnum" lay-verify="" autocomplete="off" placeholder="请输入身份证号" class="layui-input">
+					</div>
+				</div>
+				
+			</div>
+			
+			
+
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
+		</form>
+
+		<script>
+			layui.use(['form', 'layer', 'layedit', 'laydate'], function() {
+				var form = layui.form,
+					layer = layui.layer;
+				
+				
+
+				//监听提交
+				form.on('submit(demo1)', function(data) {
+					$.ajax({
+						type: "post",
+						url: "http://127.0.0.1:8080/examsys/student/addStu.do",
+						data: data.field,
+						dataType: "json",
+						success: function(data) {
+							if (data.code === 0) {
+								layer.msg("学生信息添加成功", {
+										icon: 6,
+										time: 1500
+									},
+									function() {
+										var t = parent.layui.table;
+										var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+										parent.layer.close(index); //再执行关闭
+									});
+							} else {
+
+								layer.alert(data.data, {
+									icon: 2,
+									time: 2000
+								});
+							}
+						},
+
+					});
+					return false;
+				});
+
+
+			});
+		</script>
+		<script type="text/javascript">
+			$.ajax({
+				url: "http://127.0.0.1:8080/examsys/student/getClass.do",
+				dataType: "json",
+				type: "post",
+				success: function(returnData) {
+					$(returnData.data).each(function(index, item) {
+						var html = "<option value=" + item.classId + ">" + item.className + "</option>";
+						$("#classId").append(html);
+					})
+					layui.form.render();
+				}
+			});
+		</script>
+
+
+	</body>
+</html>

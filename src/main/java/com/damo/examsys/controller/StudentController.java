@@ -46,12 +46,10 @@ public class StudentController {
     }
 
     @PostMapping("/addStu.do")
-    public String addStu(Student student){
+    @ResponseBody
+    public JsonBean addStu(Student student){
         JsonBean jsonBean = studentService.addStudent(student);
-        if (jsonBean.getCode()==0){
-        return "index";
-        }
-        return null;
+       return jsonBean;
     }
 
     @RequestMapping("/getClass.do")

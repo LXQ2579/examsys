@@ -83,17 +83,34 @@
                     }},
                 {field: 'stuIdnum', title: '身份证号', width: 180 },
                 {field: 'examAddress', width: 100, title: '考场信息',templet: function(d){
+                        if(d.stuInfo.examAddress == null){
+                           d.stuInfo.examAddress = '暂无';
+                           return  d.stuInfo.examAddress;
+                           }
                         return  d.stuInfo.examAddress
                 }},
+
                 {field: 'sName', width: 100, title: '考试学科',templet: function(d){
-                        return  d.stuInfo.sname
-                } },
+                        if( d.stuInfo.sname == null){
+                            d.stuInfo.sname = '暂无';
+                            return   d.stuInfo.sname;
+                        }
+                            return  d.stuInfo.sname
+                        } },
                 {field: 'beginTime', width: 150, title: '开始时间',templet: function(d){
-                        return  d.stuInfo.beginTime
+                        if( d.stuInfo.beginTime == null){
+                             d.stuInfo.beginTime = '暂无';
+                             return   d.stuInfo.beginTime;
+                                }
+                             return  d.stuInfo.beginTime
                 }},
                 {field: 'endTime', width: 150, title: '结束时间', templet: function(d){
-                        return  d.stuInfo.endTime
-                }},
+                         if( d.stuInfo.endTime == null){
+                              d.stuInfo.endTime = '暂无';
+                              return   d.stuInfo.endTime;
+                                }
+                              return  d.stuInfo.endTime
+                 }},
                 {title: '操作', width: 150, templet: '#currentTableBar', fixed: "right", align: "center"}
                     ]
                 ],
