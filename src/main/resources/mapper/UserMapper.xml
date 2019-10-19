@@ -51,4 +51,49 @@
     <select id="findUserInfoByUid" resultType="userInfo">
         select * from t_userinfo where userid= #{uid}
     </select>
+
+
+
+
+    <!--    老师登录-->
+    <select id="findByName" resultType="com.damo.examsys.entity.User">
+        select * from t_user where uname = #{uname}
+    </select>
+    <!--    学生登录-->
+    <select id="findByStuName" resultType="com.damo.examsys.entity.Student">
+        select  * from student where stu_name = #{stuName}
+    </select>
+    <!--    注册User-->
+    <insert id="addUser">
+        insert into t_user (uname,password) values (#{uname},#{password})
+     </insert>
+    <!--    添加uid、rid到urid-->
+    <insert id="addId">
+        insert into t_user_role(uid,rid)values (#{uid},#{rid})
+    </insert>
+    <!--添加userInfo-->
+    <insert id="addUserInfo">
+        insert into t_userinfo (name,userid,sex)values (#{name},#{userId},#{sex})
+    </insert>
+
+    <!--    通过ur表查询rid-->
+    <select id="findByUid" resultType="int">
+        select  rid from t_user_role where uid = #{uid}
+    </select>
+    <!--    查询所有角色-->
+    <select id = "findAllRoles" resultType="string">
+        select rdesc from t_role
+    </select>
+
+    <!--查询权限-->
+    <select id="findPermsByName" resultType="string" parameterType="string">
+        select DISTINCT p.pdesc from t_user u
+        INNER JOIN t_user_role ur
+        on u.uid = ur.uid
+        INNER JOIN t_role_perm rp
+        on ur.rid = rp.rid
+        INNER JOIN t_permission p
+        on rp.pid = p.pid
+        where u.uname = #{uname} and p.pdesc is not null
+    </select>
 </mapper>

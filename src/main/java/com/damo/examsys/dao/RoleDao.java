@@ -40,4 +40,8 @@ public interface RoleDao {
 
     Integer deleteAllRole(String[] rid ,Integer isDeleted);
 
+
+    //通过角色名查询rid
+    public Integer findRid(String rdesc);
+
 }

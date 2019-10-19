@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.damo.examsys.dao.ClassDao">
+    <resultMap id="" type="class">
+        <id column="class_Id" property="classId"></id>
+        <result column="class_name" property="className"/>
+        <result column="build_num" property="buildNum"/>
+        <result column="classroom" property="classRoom"/>
+
+    </resultMap>
+    <select id="findAllClass" resultType="string">
+        select class_name from class
+    </select>
+</mapper>

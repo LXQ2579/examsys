@@ -74,4 +74,9 @@
             #{item}
         </foreach>
     </update>
+
+
+    <select id="findRid" resultType="Integer">
+        select rid from t_role where rdesc = #{rdesc}
+    </select>
 </mapper>

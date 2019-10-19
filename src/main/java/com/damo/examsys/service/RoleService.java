@@ -19,4 +19,7 @@ public interface RoleService {
     JsonBean<String> deleteRole(Integer rid, Integer isDeleted);
 
     JsonBean<String> deleteAllRole(String[] rids, Integer isDeleted);
+
+
+    public Integer findByRdesc(String rdesc);
 }

@@ -20,4 +20,6 @@ public class Student implements Serializable {
     private Integer examId;
     private StuInfo stuInfo;
 
+//    private String stuIdNum;
+
 }

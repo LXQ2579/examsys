@@ -3,7 +3,9 @@ package com.damo.examsys.service.impl;
 import com.damo.examsys.common.JsonBean;
 import com.damo.examsys.dao.RoleDao;
 import com.damo.examsys.dao.UserDao;
+import com.damo.examsys.entity.Class;
 import com.damo.examsys.entity.Role;
+import com.damo.examsys.entity.Student;
 import com.damo.examsys.entity.User;
 import com.damo.examsys.service.UserService;
 import com.github.pagehelper.Page;
@@ -95,5 +97,57 @@ public class UserServiceImpl implements UserService {
         return new JsonBean<>(0,"批量删除成功");
     }
 
+
+    //老师登录
+    @Override
+    public User findByName(String uname) {
+
+        return userDao.findByName(uname);
+    }
+    //获取权限信息
+    @Override
+    public List<String> findPermsByName(String name) {
+
+        return userDao.findPermsByName(name);
+    }
+    @Override
+    //学生登录
+    public Student findByStuName(String name){
+        return userDao.findByStuName(name);
+    }
+    //注册
+    @Override
+    public void addUser(String uname,String password){
+        userDao.addUser(uname,password);
+    }
+    //添加uid、rid到urid
+    @Override
+    public void addId(Integer uid, Integer rid) {
+        userDao.addId(uid, rid);
+    }
+    //查询班级
+    @Override
+    public Class findByClassName(String className) {
+
+        return userDao.findByClassName(className);
+    }
+
+    @Override
+    public void addUserIfo(String name, Integer userId, String sex) {
+        userDao.addUserInfo(name, userId, sex);
+    }
+
+    @Override
+    public List<Integer> findByUid(Integer uid) {
+
+        return userDao.findByUid(uid);
+    }
+
+    @Override
+    public List<String> findAllRoles() {
+        List<String>list = userDao.findAllRoles();
+
+        return list;
+    }
 
 }

@@ -67,4 +67,11 @@ public class RoleServiceImpl implements RoleService {
         }
          return new JsonBean<>(0,"批量删除角色异常");
     }
+
+
+    @Override
+    public Integer findByRdesc(String rdesc) {
+        roleDao.findRid(rdesc);
+        return roleDao.findRid(rdesc);
+    }
 }

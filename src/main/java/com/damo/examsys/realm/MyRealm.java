@@ -14,14 +14,15 @@ import org.apache.shiro.subject.PrincipalCollection;
  */
 public class MyRealm extends AuthorizingRealm {
 
+//
 //    @Autowired
-//    @Lazy
+// //   @Lazy
 //    private UserService userService;
-
-    //获取授权信息
+//
+//    //获取授权信息
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-
+//
 //        //获取合法登陆的用户的用户名
 //        String name = (String) principalCollection.getPrimaryPrincipal();
 //
@@ -29,18 +30,18 @@ public class MyRealm extends AuthorizingRealm {
 //
 //        //创建授权信息
 //        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-//       info.setStringPermissions(new HashSet<>(permsList));
+//        info.setStringPermissions(new HashSet<>(permsList));
 //
 //        return info;
         return null;
     }
-
-    //获取认证信息
+//
+//    //获取认证信息
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-
-//        String name = (String) authenticationToken.getPrincipal();
-//        User user = userService.findUserByName(name);
+//
+//        String uname = (String) authenticationToken.getPrincipal();
+//        User user = userService.findByName(uname);
 //        SimpleAuthenticationInfo info = null;
 //
 //        if (user == null) {
@@ -50,15 +51,16 @@ public class MyRealm extends AuthorizingRealm {
 //            //第一个参数: 用户身份信息 用户名
 //            //第二个参数: 用户身份信息 密码
 //            //第三个参数: realm的名称
-//            info = new SimpleAuthenticationInfo(name, user.getPassword(), ByteSource.Util.bytes("liujiulong"), this.getName());
+//            info = new SimpleAuthenticationInfo(uname, user.getPassword(), ByteSource.Util.bytes("haha"), this.getName());
+//
 //        }
 //        return info;
         return null;
     }
-
-//设置simpleHash 加密方式模版
+//
+////设置simpleHash 加密方式模版
 //    public static void main(String[] args) {
-//        SimpleHash simpleHash = new SimpleHash("md5", "666", "liujiulong", 1);
+//        SimpleHash simpleHash = new SimpleHash("md5", "123", "haha", 1);
 //        System.out.println(simpleHash.toHex());
 //    }
 }

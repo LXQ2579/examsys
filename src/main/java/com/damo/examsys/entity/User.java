@@ -15,4 +15,7 @@ public class User implements Serializable {
     private String password;
     private List<Role> roleList;
     private UserInfo userInfo;
+
+    private Integer isDeleted;
+    private Role role;
 }
