@@ -1,22 +1,17 @@
 package com.damo.examsys.service.impl;
 
-import com.alibaba.druid.util.StringUtils;
 import com.damo.examsys.dao.ExamListDao;
 import com.damo.examsys.entity.ExamList;
 import com.damo.examsys.entity.Grade;
 import com.damo.examsys.entity.Paper;
 import com.damo.examsys.exception.MyException;
 import com.damo.examsys.service.ExamListService;
-import io.swagger.models.auth.In;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 /**
  *                     .::::.
@@ -190,5 +185,17 @@ public class ExamListServiceImpl implements ExamListService {
             }
         }
         return examListDao.dataCount(examList);
+    }
+
+    @Override
+    public List<ExamList> hasExamList(Map<String, Integer> pageMap, String paperName, Integer gradeId, Integer subjectId) {
+        PageHelper.startPage(pageMap.get("page"), pageMap.get("limit"));
+        return examListDao.hasExamList(paperName, gradeId, subjectId);
+    }
+
+    @Override
+    public List<ExamList> notExamList(Map<String, Integer> pageMap, String paperName, Integer gradeId, Integer subjectId) {
+        PageHelper.startPage(pageMap.get("page"), pageMap.get("limit"));
+        return examListDao.notExamList(paperName, gradeId, subjectId);
     }
 }

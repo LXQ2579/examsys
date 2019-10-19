@@ -135,4 +135,52 @@
         </where>
     </select>
 
+
+
+    <select id="hasExamList" resultType="examList">
+        SELECT   e.list_id,e.begin_time,e.end_time,e.subject_id,s.sName,e.paper_id,
+        e.exam_address,e.Invigilator, e.grade_id,e.operator_id,
+        g.grade_name,p.paperName paperName
+        FROM  exam_list e
+        LEFT JOIN subject s ON e.subject_id = s.sId
+        LEFT JOIN t_grade g ON g.grade_id = e.grade_id
+        LEFT JOIN paper p ON p.paperId = e.paper_id
+        <where>
+            <if test="gradeId != null and gradeId != ''">
+                and e.grade_id = #{gradeId}
+            </if>
+            <if test="subjectId != null and subjectId != ''">
+                and e.subject_id = #{subjectId}
+            </if>
+            <if test="paperName != null and paperName != ''">
+                and p.paperName like CONCAT('%','${paperName}','%')
+            </if>
+            and e.end_time &lt; now()
+        </where>
+        ORDER BY e.end_time desc
+    </select>
+
+    <select id="notExamList" resultType="examList">
+        SELECT   e.list_id,e.begin_time,e.end_time,e.subject_id,s.sName,e.paper_id,
+        e.exam_address,e.Invigilator, e.grade_id,e.operator_id,
+        g.grade_name,p.paperName paperName,e.begin_time - now()   remainTime
+        FROM  exam_list e
+        LEFT JOIN subject s ON e.subject_id = s.sId
+        LEFT JOIN t_grade g ON g.grade_id = e.grade_id
+        LEFT JOIN paper p ON p.paperId = e.paper_id
+        <where>
+            <if test="gradeId != null and gradeId != ''">
+                and e.grade_id = #{gradeId}
+            </if>
+            <if test="subjectId != null and subjectId != ''">
+                and e.subject_id = #{subjectId}
+            </if>
+            <if test="paperName != null and paperName != ''">
+                and p.paperName like CONCAT('%','${paperName}','%')
+            </if>
+            and e.end_time > now()
+        </where>
+        ORDER BY e.end_time desc
+    </select>
+
 </mapper>

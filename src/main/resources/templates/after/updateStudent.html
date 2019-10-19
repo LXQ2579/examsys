@@ -41,9 +41,26 @@
             </div>
 
             <div class="layui-form-item">
+                <label class="layui-form-label">班级</label>
+                <div class="layui-input-block">
+                    <select id="options" name="classId"  lay-filter="aihao">
+                        <option value=""></option>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
                 <label class="layui-form-label">身份证号</label>
                 <div class="layui-input-block">
                     <input type="text" name="stuIdnum" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">考场信息</label>
+                <div class="layui-input-block">
+                    <input type="text" name="examAddress" autocomplete="off" class="layui-input">
                 </div>
             </div>
 
@@ -55,18 +72,21 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">班级</label>
-                <div class="layui-input-block">
-                    <select id="options" name="classId"  lay-filter="aihao">
-                        <option value=""></option>
-
-                    </select>
+                <div class="layui-inline">
+                    <label class="layui-form-label">考试时间</label>
+                    <div class="layui-input-inline" style="width: 150px;">
+                        <input type="text" name="beginTime" placeholder="无" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 150px;">
+                        <input type="text" name="endTime" placeholder="无" autocomplete="off" class="layui-input">
+                    </div>
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">修改信息</button>
                 </div>
             </div>
         </form>
@@ -188,14 +208,15 @@
             //表单初始赋值
             form.val('example', {
 
-                "stuName": data.stuName ,// "name": "value"
+                "stuName": data.stuName ,
 
                 "stuGender": data.stuGender,
 
                 "stuIdnum": data.stuIdnum,
                 "className": data.stuInfo.className,
-                // "options":data.classId,
-
+                "examAddress": data.stuInfo.examAddress,
+                "beginTime": data.stuInfo.beginTime,
+                "endTime": data.stuInfo.endTime,
 
                 "close": true, //开关状态
 

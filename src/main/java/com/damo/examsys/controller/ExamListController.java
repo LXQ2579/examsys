@@ -6,15 +6,20 @@ import com.damo.examsys.entity.ExamList;
 import com.damo.examsys.entity.Grade;
 import com.damo.examsys.entity.Paper;
 import com.damo.examsys.service.ExamListService;
+import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *                     .::::.
@@ -163,5 +168,30 @@ public class ExamListController {
         jb.setCode(ErrorCode.SUCCESS);
         jb.setData(dataCount);
         return jb;
+    }
+
+    @GetMapping(value = "/examList/findHasExamList.do")
+    @ResponseBody
+    public JsonBean findHasExamList(Integer page, Integer limit, String paperName, Integer gradeId, Integer subjectId){
+        Map<String, Integer> pageMap = new HashMap<>();
+        pageMap.put("page", page);
+        pageMap.put("limit", limit);
+        List<ExamList> list = examListService.hasExamList(pageMap, paperName, gradeId, subjectId);
+        long total = ((Page) list).getTotal();
+
+        return new JsonBean<>(0, list, "已经考过的考试遍历成功", (int) total);
+    }
+
+
+    @GetMapping(value = "/examList/findNotExamList.do")
+    @ResponseBody
+    public JsonBean findNotExamList(Integer page, Integer limit, String paperName, Integer gradeId, Integer subjectId){
+        Map<String, Integer> pageMap = new HashMap<>();
+        pageMap.put("page", page);
+        pageMap.put("limit", limit);
+        List<ExamList> list = examListService.notExamList(pageMap, paperName, gradeId, subjectId);
+        long total = ((Page) list).getTotal();
+
+        return new JsonBean<>(0, list, "已经考过的考试遍历成功", (int) total);
     }
 }

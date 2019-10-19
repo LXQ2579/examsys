@@ -43,9 +43,10 @@
     </delete>
 
     <select id="getStudents" resultMap="stuMapper">
-        SELECT s.stu_num,s.stu_name,s.stu_gender,s.stu_idnum,s.class_id,s.exam_id,c.class_name,e.begin_time,e.end_time,e.exam_address,su.sName
-        from student s,exam_list e,`subject` su,class c
-        where s.exam_id=e.list_id AND e.subject_id=su.sId and s.class_id=c.class_id
+        SELECT s.stu_num,s.stu_name,s.stu_gender,s.stu_idnum,s.class_id,s.exam_id,e.begin_time,e.end_time,e.exam_address,c.class_name,su.sName
+        from student s LEFT JOIN exam_list e on s.exam_id=e.list_id
+        LEFT JOIN `subject` su on e.subject_id=su.sId
+        LEFT JOIN class c on s.class_id=c.class_id
     </select>
 
     <update id="updateStudent">
