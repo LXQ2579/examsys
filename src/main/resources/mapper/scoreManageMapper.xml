@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.damo.examsys.dao.ScoreManageDao">
+    <resultMap id="allExamScoreMap" type="scoreManage">
+        <id column="score_id" property="scoreId"></id>
+        <result column="stu_num" property="stuNum"></result>
+        <result column="subject_id" property="subjectId"></result>
+        <result column="paper_id" property="paperId"></result>
+        <result column="examlist_id" property="examlistId"></result>
+        <result column="raters" property="raters"></result>
+        <result column="score_state" property="scoreState"></result>
+        <result column="getScore" property="getScore"></result>
+        <association property="student" column="stu_num" select="com.damo.examsys.dao.StudentDao.findStuByNum"></association>
+        <association property="subject" column="subject_id" select="com.damo.examsys.dao.SubjectDao.findById"></association>
+        <association property="paper" column="paper_id" select="com.damo.examsys.dao.PaperDao.findById"></association>
+        <association property="examList" column="examlist_id" select="com.damo.examsys.dao.ExamListDao.getExamListById"></association>
+        <association property="userInfo" column="raters" select="com.damo.examsys.dao.UserDao.findUserInfoByUid"></association>
+    </resultMap>
+
+    <select id="findAllExamScore" resultMap="allExamScoreMap">
+        SELECT s.score_id,s.examlist_id,s.paper_id,s.subject_id,
+               s.stu_num,s.raters,s.score_state,s.score getScore
+         FROM t_score s
+         LEFT JOIN student stu ON stu.stu_num = s.stu_num
+         <where>
+             <if test="classId != null and classId !=''">
+                 stu.class_id = #{classId}
+             </if>
+             <if test="stuName != null and stuName != '' ">
+                and  stu.stu_name LIKE "%"#{stuName}"%"
+             </if>
+             <if test="subjectId != null and subjectId != ''">
+                 and subject_id = #{subjectId}
+             </if>
+             <if test="scoreState != null and scoreState !=''">
+                 and s.score_state = #{scoreState}
+             </if>
+         </where>
+        limit #{page},#{limit}
+    </select>
+
+
+
+    <select id="findDataCount" resultType="int" >
+        SELECT count(s.score_id) FROM t_score s
+       LEFT JOIN subject sub on s.subject_id = sub.sId
+       LEFT JOIN exam_list e ON s.examlist_id = e.list_id
+       LEFT JOIN paper p ON p.paperId = s.paper_id
+       LEFT JOIN t_userinfo u ON u.userid = s.raters
+       LEFT JOIN student stu ON stu.stu_num = s.stu_num
+        <where>
+            <if test="classId != null and classId !=''">
+                stu.class_id = #{classId}
+            </if>
+            <if test="stuName != null and stuName != '' ">
+                and  stu.stu_name LIKE "%"#{stuName}"%"
+            </if>
+            <if test="subjectId != null and subjectId != ''">
+                and s.subject_id = #{subjectId}
+            </if>
+            <if test="scoreState != null and scoreState !=''">
+                and s.score_state = #{scoreState}
+            </if>
+        </where>
+    </select>
+
+</mapper>
