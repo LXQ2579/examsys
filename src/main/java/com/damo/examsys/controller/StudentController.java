@@ -87,8 +87,6 @@ public class StudentController {
     @PostMapping("/updateStu.do")
     @ResponseBody
     public JsonBean updateStudent(Student student){
-        System.out.println(student.getStuNum());
-        System.out.println(student.getStuGender());
         studentService.updateStudent(student);
         return new JsonBean(0,"修改成功");
     }
