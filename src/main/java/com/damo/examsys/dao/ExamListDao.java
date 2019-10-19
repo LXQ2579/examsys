@@ -3,12 +3,8 @@ package com.damo.examsys.dao;
 import com.damo.examsys.entity.ExamList;
 import com.damo.examsys.entity.Grade;
 import com.damo.examsys.entity.Paper;
-import com.sun.deploy.panel.ITreeNode;
-import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
-import java.util.Map;
 
 public interface ExamListDao {
 
