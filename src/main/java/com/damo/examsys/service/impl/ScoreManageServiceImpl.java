@@ -55,6 +55,7 @@ public class ScoreManageServiceImpl  implements ScoreManageService {
      * 查找所有考生的试卷信息
      * @return
      */
+    @Override
     public List<ScoreManage> findAllExamScore(HashMap<String, Object> condition){
         Integer pageFirst = (Integer.valueOf(condition.get("page").toString()) - 1)*Integer.valueOf(condition.get("limit").toString());
         condition.put("page",pageFirst);
@@ -67,6 +68,7 @@ public class ScoreManageServiceImpl  implements ScoreManageService {
      * @param condition
      * @return
      */
+    @Override
     public Integer findDataCount(HashMap<String, Object> condition){
         return scoreManageDao.findDataCount(condition);
     }
