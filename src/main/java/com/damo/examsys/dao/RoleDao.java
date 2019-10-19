@@ -2,6 +2,7 @@ package com.damo.examsys.dao;
 
 import com.damo.examsys.entity.Permission;
 import com.damo.examsys.entity.Role;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Map;
 /**
  * @author sanriyue
  */
+@Repository
 public interface RoleDao {
     /**
      * 仅仅获取角色的列表

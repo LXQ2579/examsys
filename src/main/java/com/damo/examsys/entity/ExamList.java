@@ -105,5 +105,7 @@ public class ExamList implements Serializable {
     @ApiModelProperty("查询条件时使用的：每页显示条数")
     private Integer pageSize;
 
+    private Long remainTime;
+
 
 }
