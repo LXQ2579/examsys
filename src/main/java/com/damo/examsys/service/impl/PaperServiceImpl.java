@@ -9,6 +9,9 @@ import com.damo.examsys.service.PaperService;
 import com.damo.examsys.service.QuestionsService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import java.util.Map;
  * @date 2019/10/17  11:58:00
  */
 @Service
+@CacheConfig(cacheNames = "paper")
 public class PaperServiceImpl implements PaperService {
 
     @Autowired
@@ -63,16 +67,19 @@ public class PaperServiceImpl implements PaperService {
     }
 
     @Override
+    @CacheEvict(key = "'questions'.concat(#paperId)")
     public void update(Paper paper) {
         paperDao.update(paper);
     }
 
     @Override
+    @CacheEvict(key = "'questions'.concat(#paperId)")
     public void deleteById(Integer paperId) {
         paperDao.deleteById(paperId);
     }
 
     @Override
+    @Cacheable(key = "'questions'.concat(#paperId)")
     public QuestionsInfo getQuestions(Integer paperId) {
         Paper paper = paperDao.findById(paperId);
         String questionIds1 = paper.getQuestionIds();
@@ -105,11 +112,8 @@ public class PaperServiceImpl implements PaperService {
         questionsInfo.setCompletionQuestionsLength(completionQuestions.size());
         questionsInfo.setShortAnswerQuestionsLength(shortAnswerQuestions.size());
 
-
-
         return questionsInfo;
     }
-
 
     private static String getQuestionIdsStr(List<Questions> list) {
         if (list == null) {

@@ -3,8 +3,10 @@ package com.damo.examsys.service;
 import com.damo.examsys.entity.ExamList;
 import com.damo.examsys.entity.Grade;
 import com.damo.examsys.entity.Paper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ExamListService {
 
@@ -56,6 +58,12 @@ public interface ExamListService {
      * @return
      */
     Integer dataCount(ExamList examList);
+
+
+    List<ExamList> hasExamList(Map<String, Integer> pageMap, String paperName, Integer gradeId, Integer subjectId);
+
+    List<ExamList> notExamList(Map<String, Integer> pageMap, String paperName, Integer gradeId,  Integer subjectId);
+
 
 
 }
