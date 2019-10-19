@@ -5,6 +5,7 @@ import com.damo.examsys.entity.Class;
 import com.damo.examsys.entity.Student;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author leizhonggang
@@ -20,7 +21,7 @@ public interface StudentService {
 
     public void deleteStudent(Integer stuNum);
 
-    public List<Student> getStudents();
+    public List<Student> getStudents(Map<String, Integer> pageMap, Integer stuNum, String stuName, Integer classId);
 
     public void updateStudent(Student student);
 }

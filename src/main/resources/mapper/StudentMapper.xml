@@ -47,6 +47,17 @@
         from student s LEFT JOIN exam_list e on s.exam_id=e.list_id
         LEFT JOIN `subject` su on e.subject_id=su.sId
         LEFT JOIN class c on s.class_id=c.class_id
+        <where>
+            <if test="stuNum != null and stuNum != ''">
+                and s.stu_num like CONCAT('%','${stuNum}','%')
+            </if>
+            <if test="stuName != null and stuName != ''">
+                and s.stu_name like CONCAT('%','${stuName}','%')
+            </if>
+            <if test="classId != null and classId != ''">
+                and s.class_id = #{classId}
+            </if>
+        </where>
     </select>
 
     <update id="updateStudent">

@@ -5,10 +5,12 @@ import com.damo.examsys.dao.StudentDao;
 import com.damo.examsys.entity.Class;
 import com.damo.examsys.entity.Student;
 import com.damo.examsys.service.StudentService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author leizhonggang
@@ -45,12 +47,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudents() {
-        List<Student> students = studentDao.getStudents();
-        if (students != null){
+    public List<Student> getStudents(Map<String, Integer> pageMap, Integer stuNum, String stuName, Integer classId) {
+        PageHelper.startPage(pageMap.get("page"), pageMap.get("limit"));
+        List<Student> students = studentDao.getStudents(stuNum, stuName, classId);
         return students;
-        }
-        return null;
     }
 
     @Override

@@ -39,7 +39,7 @@ public interface StudentDao {
      * 教师得到所有考生信息列表调用此方法
      * @return
      */
-    public List<Student> getStudents();
+    public List<Student> getStudents(Integer stuNum, String stuName, Integer classId);
 
     /**
      * 通过科目id来查询考生信息

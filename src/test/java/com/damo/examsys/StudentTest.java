@@ -47,10 +47,10 @@ public class StudentTest {
 
     @Test
     public void getStudents(){
-        List<Student> students = studentService.getStudents();
-        for (Student s:students) {
-            System.out.println(s);
-        }
+//        List<Student> students = studentService.getStudents();
+//        for (Student s:students) {
+//            System.out.println(s);
+//        }
     }
 
 }

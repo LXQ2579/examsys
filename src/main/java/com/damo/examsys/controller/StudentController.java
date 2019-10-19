@@ -6,12 +6,13 @@ import com.damo.examsys.common.JsonBean;
 import com.damo.examsys.entity.Class;
 import com.damo.examsys.entity.Student;
 import com.damo.examsys.service.StudentService;
+import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -79,9 +80,15 @@ public class StudentController {
 
     @RequestMapping("/stuList.do")
     @ResponseBody
-    public JsonBean stuList(){
-        List<Student> students = studentService.getStudents();
-            return new JsonBean(0,students);
+    public JsonBean stuList(Integer page, Integer limit, Integer stuNum, String stuName, Integer classId){
+
+        HashMap<String, Integer> pageMap = new HashMap<>();
+        pageMap.put("page", page);
+        pageMap.put("limit", limit);
+
+        List<Student> students = studentService.getStudents(pageMap, stuNum, stuName, classId);
+        long total = ((Page) students).getTotal();
+        return new JsonBean<List<Student>>(0,students, "查询成功", (int)total);
     }
 
     @PostMapping("/updateStu.do")
