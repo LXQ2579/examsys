@@ -104,7 +104,7 @@ var data = {
 function test(test_id) {
     if(test_id!=""){
         $.ajax({
-            type : 'POST',
+            type : 'get',
             url : 'data/exam.json',
             data : {'testId':test_id},
             dataType : "json",

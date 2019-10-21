@@ -59,11 +59,11 @@
 			</div>
 		</fieldset>
 
-		<table class="layui-hide" id="stuExamTable" lay-filter="user"></table>
+		<table class="layui-hide" id="stuExamTable" lay-filter="stuExamTable"></table>
 
-		<script type="text/html" id="barDemo">
-			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail"><i class="layui-icon"></i>查看</a>
-			<a class="layui-btn layui-btn-xs" lay-event="edit" id="correct"><i class="layui-icon"></i>阅卷</a>
+		<script type="text/html" id="correctBar">
+			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="onlyRead"><i class="layui-icon"></i>查看</a>
+			<a class="layui-btn layui-btn-xs" lay-event="correct-paper" id="correct"><i class="layui-icon"></i>阅卷</a>
 		</script>
 
 	</div>
@@ -76,7 +76,7 @@
 	layui.use(['table','form'], function(){
 		var table = layui.table
 		    ,form = layui.form;
-
+		var $ = layui.$;
 		//方法级渲染
 		var dataTable = table.render({
 			elem: '#stuExamTable'
@@ -107,7 +107,7 @@
 					,{field:'name', title:'改卷人', width:100,templet: function(res){
 						return res.userInfo.name
 					}}
-					,{fixed: 'right', title:'操作', align: 'center',toolbar: '#barDemo'}
+					,{fixed: 'right', title:'操作', align: 'center',toolbar: '#correctBar'}
 				]
 			],
 			done: function(res, curr, count){
@@ -139,8 +139,6 @@
 				,layout: ['count', 'prev', 'page', 'next']
 			}
 		});
-
-		var $ = layui.$;
 
 		$.ajax({
 			type:"get",
@@ -190,6 +188,34 @@
 				}
 			});
 		});
+
+       table.on('tool(stuExamTable)',function (obj) {
+		   var data = obj.data;
+		   if(obj.event === 'correct-paper'){
+			   layer.open({
+				   type: 1,
+				   title:'<p style="text-align: center">批阅试卷</p>',
+				   area: ['95%', '95%'],
+				   fixed: false, //不固定
+				   anim: Math.floor(Math.random()*7),
+				   maxmin: true,
+				   content: 'http://localhost:8080/examsys/before/index.html'
+			   });
+		   }
+
+		   if(obj.event === 'onlyRead'){
+			   layer.open({
+				   type: 2,
+				   title:'<p style="text-align: center">查看试卷</p>',
+				   area: ['95%', '95%'],
+				   fixed: false, //不固定
+				   anim: Math.floor(Math.random()*7),
+				   maxmin: true,
+				   content: 'http://localhost:8080/examsys/before/index.html'
+			   });
+		   }
+	   });
+
 
 
 	});
