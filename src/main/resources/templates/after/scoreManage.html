@@ -193,13 +193,13 @@
 		   var data = obj.data;
 		   if(obj.event === 'correct-paper'){
 			   layer.open({
-				   type: 1,
+				   type: 2,
 				   title:'<p style="text-align: center">批阅试卷</p>',
 				   area: ['95%', '95%'],
 				   fixed: false, //不固定
 				   anim: Math.floor(Math.random()*7),
 				   maxmin: true,
-				   content: 'http://localhost:8080/examsys/before/index.html'
+				   content: 'http://localhost:8080/examsys/after/paperDetail.html?event=1&stuNum='+data.stuNum+'&paperId='+data.paperId
 			   });
 		   }
 
@@ -211,7 +211,7 @@
 				   fixed: false, //不固定
 				   anim: Math.floor(Math.random()*7),
 				   maxmin: true,
-				   content: 'http://localhost:8080/examsys/before/index.html'
+				   content: 'http://localhost:8080/examsys/after/paperDetail.html?event=0&stuNum='+data.stuNum+'&paperId='+data.paperId
 			   });
 		   }
 	   });

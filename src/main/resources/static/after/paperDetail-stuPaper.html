@@ -1,0 +1,226 @@
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>远程教育考试平台_在线考试</title>
+		<link href="../../css/main.css" rel="stylesheet" type="text/css" />
+		<link href="../../css/iconfont.css" rel="stylesheet" type="text/css" />
+		<link href="../../css/test.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="../../js/vue.min.js"></script>
+		<script type="text/javascript" src="../../lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="../../css/font.css" />
+		<script type="text/javascript" src="../../lib/layui-v2.5.4/lay/modules/layer.js"></script>
+	</head>
+
+	<body>
+
+		<div class="main" id="app">
+			<div style="font-size: 20px;text-align: center;margin-top: 20px;">{{paper.paperName}}
+			</div><br/>
+			
+			<div style="font-size: 20px;">考试总分：{{paper.score}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				考试时间：{{paper.allowTime}}分钟</div>
+			<br /><br />
+
+			<!--nr start-->
+			<div class="test_main">
+				<div class="nr_left">
+					<div class="test">
+
+						<div class="test_content">
+							<div class="test_content_title">
+								<h2>单选题</h2>
+								<p>
+									<span>共</span><i class="content_lit">{{radioLen}}</i><span>题，</span><span>合计</span><i class="content_fs">{{radioLen*5}}</i><span>分</span>
+								</p>
+							</div>
+						</div>
+						<div class="test_content_nr">
+							<ul v-for="(radio,index) in  radioList">
+
+								<li :id="'1000'+index">
+									<div class="test_content_nr_tt">
+										<i>{{index+1}}</i><span>(5分)</span>
+										<font>{{radio.title}}</font><b class="icon iconfont">&#xe881;</b>
+									</div>
+
+									<div class="test_content_nr_main">
+										<ul>
+
+											<li class="option">
+
+												<label :for="'R'+index">
+													A.
+													<p class="ue" style="display: inline;">{{radio.optionA}}</p>
+												</label>
+											</li>
+
+											<li class="option">
+
+												<label :for="'R'+index">
+													B.
+													<p class="ue" style="display: inline;">{{radio.optionB}}</p>
+												</label>
+											</li>
+
+											<li class="option">
+
+												<label :for="'R'+index">
+													C.
+													<p class="ue" style="display: inline;">{{radio.optionC}}</p>
+												</label>
+											</li>
+
+											<li class="option">
+
+												<label :for="'R'+index">
+													D.
+													<p class="ue" style="display: inline;">{{radio.optionD}}</p>
+												</label>
+											</li>
+										</ul>
+										<div>正确答案：<br />&nbsp;&nbsp;&nbsp;&nbsp;{{radio.standardAnswer}}</div><br /><br /><br>
+										<div>考生答案：<br />&nbsp;&nbsp;&nbsp;&nbsp;{{radio.standardAnswer}}</div><br /><br /><br>
+									</div>
+								</li>
+							</ul>
+						</div>
+
+						<div class="test_content">
+							<div class="test_content_title">
+								<h2>填空题</h2>
+								<p>
+									<span>共</span><i class="content_lit">{{completionLen}}</i><span>题，</span><span>合计</span><i class="content_fs">{{completionLen*2}}</i><span>分</span>
+								</p>
+							</div>
+						</div>
+						<div class="test_content_nr">
+							
+							<ul v-for="(completion , index) in completionList">
+								
+								<li :id="'1000'+index">
+									<div class="test_content_nr_tt">
+										<i>{{index+1}}</i><span>(2分)</span>
+										<font>{{completion.title}}</font><b class="icon iconfont">&#xe881;</b>
+									</div>
+										
+									<div class="test_content_nr_main">
+										<div>答案：<br />&nbsp;&nbsp;&nbsp;&nbsp;{{completion.standardAnswer}}</div><br /><br /><br>
+									</div>
+								</li>
+								
+							</ul>
+						</div>
+						<div class="test_content">
+						    <div class="test_content_title">
+						        <h2>简答题</h2>
+						        <p>
+						            <span>共</span><i class="content_lit">{{shortLen}}</i><span>题，</span><span>合计</span><i
+						                class="content_fs">{{shortLen*10}}</i><span>分</span>
+						        </p>
+						    </div>
+						</div>
+						<div class="test_content_nr">
+						
+							<ul v-for="(short,index) in shortList">
+								
+								
+								<li :id="'1000'+index">
+									<div class="test_content_nr_tt">
+										<i>{{index+1}}</i><span>(2分)</span>
+										<font>{{short.title}}</font><b class="icon iconfont">&#xe881;</b>
+									</div>
+										
+									<div class="test_content_nr_main">
+										<div>答案：<br />&nbsp;&nbsp;&nbsp;&nbsp;{{short.standardAnswer}}</div><br /><br /><br>
+
+									</div>
+								</li>
+
+							</ul>
+							
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			var vue = new Vue({
+				el: "#app",
+				data: {
+					paper: {},
+					completionList: {},
+					radioList: {},
+					shortList: {},
+					radioLen: 0,
+					shortLen: 0,
+					completionLen: 0,
+					time: 0,
+					answers:[]
+
+				},
+				methods: {
+					loadData1: function() { //试题绑定
+						var _this = this;
+						var op = window.location.search;
+						alert(op.substring(16,20));
+						this.event =  op.substring(7,8);
+
+						$.ajax({
+							type: "post",
+							url: "http://127.0.0.1:8080/examsys/paper/findById.do" + window.location.search,
+							dataType: "json",
+							success: function(data) {
+								_this.paper = data.data;
+							}
+						});
+
+						$.ajax({
+							type: "Post",
+							url: "http://127.0.0.1:8080/examsys/paper/getQuestions.do" + window.location.search,
+							dataType: "json",
+							success: function(data) {
+
+								if (data.code === 0) {
+									_this.completionList = data.data.completionQuestions;
+
+									_this.completionLen = data.data.completionQuestionsLength;
+
+									_this.radioList = data.data.choiceQuestions;
+
+									_this.radioLen = data.data.choiceQuestionsLength;
+
+									_this.shortList = data.data.shortAnswerQuestions;
+
+									_this.shortLen = data.data.shortAnswerQuestionsLength;
+
+								}
+							}
+						});
+
+						$.ajax({
+							type: "post",
+							url: "http://127.0.0.1:8080/examsys/getAnswer" + window.location.search,
+							dataType: "json",
+							success: function(data) {
+								_this.answers = data.data;
+							}
+						});
+					}
+				},
+				created: function() {
+					this.loadData1();
+
+				}
+			})
+		</script>
+
+	</body>
+
+</html>
