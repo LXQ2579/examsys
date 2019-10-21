@@ -63,10 +63,10 @@ public class ScoreManageController {
      */
     @ResponseBody
     @RequestMapping("/findAllExamInfo")
-   public JsonBean<List<ScoreManage>> findAllExamScore(@RequestParam HashMap<String, Object> condition){
+   public JsonBean<List<ScoreManage>> findAllExamScore(@RequestParam HashMap<String, Object> condition, Integer examListId){
 
         System.out.println(condition.toString());
-        List<ScoreManage> scoreManageList = scoreManageService.findAllExamScore(condition);
+        List<ScoreManage> scoreManageList = scoreManageService.findAllExamScore(condition, examListId);
 
         JsonBean<List<ScoreManage>> jb = new JsonBean<>();
         jb.setCode(ErrorCode.SUCCESS);

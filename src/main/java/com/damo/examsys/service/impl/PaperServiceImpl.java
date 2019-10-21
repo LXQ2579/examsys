@@ -47,6 +47,17 @@ public class PaperServiceImpl implements PaperService {
         List<Questions> completionQuestionsList = questionsService.findByTypeIdAndSubjectId(2, paper.getSubjectId(), paper.getCompletionNum());
         List<Questions> shortAnswerQuestionsList = questionsService.findByTypeIdAndSubjectId(3, paper.getSubjectId(), paper.getShortAnswerNum());
 
+        if (choiceQuestionsList.size() < paper.getChoiceNum()){
+            throw new RuntimeException("题库选择题数量不足");
+        }
+        if (completionQuestionsList.size() < paper.getCompletionNum()){
+            throw new RuntimeException("题库填空题数量不足");
+        }
+        if (shortAnswerQuestionsList.size() < paper.getShortAnswerNum()){
+            throw new RuntimeException("题库简答题数量不足");
+        }
+
+
         String questionIds = getQuestionIdsStr(choiceQuestionsList) + getQuestionIdsStr(completionQuestionsList) + getQuestionIdsStr(shortAnswerQuestionsList);
        if (questionIds.equals("")){
            throw new RuntimeException("该科目题库为空");

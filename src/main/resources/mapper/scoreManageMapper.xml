@@ -38,6 +38,7 @@
              <if test="scoreState != null and scoreState !=''">
                  and s.score_state = #{scoreState}
              </if>
+             and s.examlist_id = #{examListId}
          </where>
         limit #{page},#{limit}
     </select>

@@ -31,7 +31,7 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 未登陆情况下，访问需要登陆后才能访问资源时，跳转到指定资源（比如登陆页面）
-        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setLoginUrl("/loginUser.html");
         // 当没有权限访问某些资源时，跳转到的资源
         shiroFilterFactoryBean.setUnauthorizedUrl("/noPerms");
 
@@ -50,12 +50,12 @@ public class ShiroConfig {
 
         // authc:必须认证通过才可以访问;
         // anon: 匿名访问
-//        filterChainDefinitionMap.put("/js/**", "anon");
-//        filterChainDefinitionMap.put("/css/**", "anon");
-//        filterChainDefinitionMap.put("/layui/**", "anon");
-//        filterChainDefinitionMap.put("/api/**", "anon");
-//        filterChainDefinitionMap.put("/login/**", "anon");
-//        filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/js/**", "anon");
+        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/layui/**", "anon");
+        filterChainDefinitionMap.put("/api/**", "anon");
+        filterChainDefinitionMap.put("/login/**", "anon");
+        filterChainDefinitionMap.put("/login", "anon");
 //        //退出是, 指定logout过滤器
 //        filterChainDefinitionMap.put("/logout", "logout");
 //

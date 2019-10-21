@@ -11,7 +11,7 @@ public interface ScoreManageService {
      * 查找所有考生的试卷信息
      * @return
      */
-    List<ScoreManage> findAllExamScore(HashMap<String, Object> condition);
+    List<ScoreManage> findAllExamScore(HashMap<String, Object> condition, Integer examListId);
 
     /**
      *

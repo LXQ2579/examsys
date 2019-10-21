@@ -56,10 +56,11 @@ public class ScoreManageServiceImpl  implements ScoreManageService {
      * @return
      */
     @Override
-    public List<ScoreManage> findAllExamScore(HashMap<String, Object> condition){
+    public List<ScoreManage> findAllExamScore(HashMap<String, Object> condition, Integer examListId){
         Integer pageFirst = (Integer.valueOf(condition.get("page").toString()) - 1)*Integer.valueOf(condition.get("limit").toString());
         condition.put("page",pageFirst);
         condition.put("limit",Integer.valueOf(condition.get("limit").toString()));
+        condition.put("examListId", examListId);
         return scoreManageDao.findAllExamScore(condition);
     }
 
