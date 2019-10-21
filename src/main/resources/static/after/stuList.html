@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>考生信息</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+	</head>
+	<script type="text/javascript" src="../js/jquery-1.12.2.min.js"></script>
+	<body class="layui-layout-body">
+		
+		<div style="height: 70px;text-align: center; background-color: #C8EBFA;">
+		    <h1 style="text-align: center;padding-top: 20px">学生信息</h1>
+		</div>
+				
+				<div class="layui-form searchDiv">
+				    <div class="layui-form-item" style="margin-left: 450px">
+				        <div class="layui-input-inline">
+				            <input type="text" class="layui-input" id="stuNum" name="stuNum" placeholder="学号">
+				        </div>
+						<div class="layui-input-inline">
+						    <input type="text" class="layui-input" id="stuName" name="stuName" placeholder="姓名">
+						</div>
+				       <div class="layui-input-inline">
+				        	<select name="classId" class="layui-input" id="classId" >
+				        		<option value="">班级</option>
+				        	</select>
+				        </div>
+				        <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" data-type="reload"
+				            style="height:38px">
+				            <i class="layui-icon layui-icon-search"></i>
+				        </button>
+				    </div>
+				</div>
+				
+				
+				
+				<div class="layui-btn-group">
+					<button class="layui-btn data-add-btn">添加</button>
+					<button class="layui-btn layui-btn-danger data-delete-btn">删除</button>
+				</div>
+				<table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+				<script type="text/html" id="currentTableBar">
+					<a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+		<script src="../layui/layui.js"></script>
+		<script src="../layui/layui.all.js" charset="utf-8"></script>
+		<script>
+			layui.use(['form', 'table'], function() {
+				var $ = layui.jquery,
+					form = layui.form,
+					table = layui.table;
+
+				table.render({
+					id:'studentTable',
+					elem: '#currentTableId',
+					url: 'http://localhost:8080/examsys/student/stuList.do',
+					cols: [
+						[{
+								type: "checkbox",
+								fixed: "left"
+							},
+							{
+								field: 'stuNum',
+								title: '学号',
+								sort: true
+							},
+							{
+								field: 'stuName',
+								title: '姓名'
+							},
+							{
+								field: 'stuGender',
+								title: '性别',
+								sort: true
+							},
+							{
+								field: 'className',
+								title: '班级',
+								templet: function(d) {
+									return d.stuInfo.className
+								}
+							},
+							{
+								field: 'stuIdnum',
+								title: '身份证号',
+							},
+
+							{
+								title: '操作',
+								templet: '#currentTableBar',
+								fixed: "right",
+								align: "center"
+							}
+						]
+					],
+					page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+						layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+							//,curr: 5 //设定初始在第 5 页
+							,
+						groups: 3 //只显示 1 个连续页码
+							,
+						first: "首页" //不显示首页
+							,
+						last: "尾页" //不显示尾页
+							,
+						limit: 8,
+						limits: [5, 8, 20]
+
+					}
+				});
+
+				// 监听搜索操作
+				form.on('submit(data-search-btn)', function(data) {
+					var result = JSON.stringify(data.field);
+					layer.alert(result, {
+						title: '最终的搜索信息'
+					});
+
+					//执行搜索重载
+					table.reload('currentTableId', {
+						page: {
+							curr: 1
+						},
+						where: {
+							searchParams: result
+						}
+					}, 'data');
+
+					return false;
+				});
+
+				// 监听添加操作
+				$(".data-add-btn").on("click", function() {
+					layer.open({
+						type: 2 //页面层
+						,area: ['800px', '700px']
+
+						,title: '修改用户信息'
+						,shade: 0.6 //遮罩透明度
+						,maxmin: true //允许全屏最小化
+						,anim: Math.floor(Math.random()*10+1) //0-6的动画形式，-1不开启
+						,content: 'addStu.html',
+						success: function (layero, index) {
+
+							// 获取子页面的iframe
+							var iframe = window['layui-layer-iframe' + index];
+							// 向子页面的全局函数child传参
+							iframe.child(data);
+						}
+					})
+				});
+
+				// 监听删除操作
+				$(".data-delete-btn").on("click", function() {
+					var checkStatus = table.checkStatus('currentTableId'),
+						data = checkStatus.data;
+					layer.alert(JSON.stringify(data));
+				});
+
+				//监听表格复选框选择
+				table.on('checkbox(currentTableFilter)', function(obj) {
+					console.log(obj)
+				});
+
+				table.on('tool(currentTableFilter)', function(obj) {
+					var data = obj.data;
+					if (obj.event === 'edit') {
+						// layer.alert('编辑行：<br>' + JSON.stringify(data))
+						layer.open({
+							type: 2 //页面层
+								,
+							area: ['850px', '700px']
+
+								,
+							title: '修改用户信息',
+							shade: 0.4 //遮罩透明度
+								,
+							maxmin: true //允许全屏最小化
+								,
+							anim: Math.floor(Math.random() * 10 + 1) //0-6的动画形式，-1不开启
+								,
+							content: 'updateStudent.html',
+							success: function(layero, index) {
+								// 获取子页面的iframe
+								var iframe = window['layui-layer-iframe' + index];
+								// 向子页面的全局函数child传参
+								iframe.child(data);
+							}
+						})
+					} else if (obj.event === 'delete') {
+						layer.confirm('确认删除？', function(index) {
+
+							obj.del();
+							$.ajax({
+								type: "get",
+								url: "http://localhost:8080/examsys/student/delStu.do?stuNum=" + data.stuNum,
+								success: function(msg) {
+									if (msg.code == 0) {
+										layer.msg(msg.data);
+									}
+								}
+							})
+							layer.close(index);
+						});
+					}
+				});
+				
+				var active = {
+				    reload: function(){
+				        //执行重载
+				        table.reload('studentTable', {
+				            page: {
+				                curr: 1 //重新从第 1 页开始
+				            }
+				            ,where: { // 额外需要提交的参数\
+				                stuName:$("#stuName").val(),
+				                stuNum:$("#stuNum").val(),
+								classId:$("#classId").val()
+				            }
+				        });
+				    }
+				};
+				
+				$('.searchDiv .layui-btn').on('click', function(){
+				    var type = $(this).data('type');
+				    active[type] ? active[type].call(this) : '';
+				});
+				
+
+			});
+		</script>
+
+		<script type="text/javascript">
+			$.ajax({
+				url: "http://127.0.0.1:8080/examsys/student/getClass.do",
+				dataType: "json",
+				type: "post",
+				success: function(returnData) {
+					$(returnData.data).each(function(index, item) {
+						var html = "<option value=" + item.classId + ">" + item.className + "</option>";
+						$("#classId").append(html);
+					})
+					layui.form.render();
+				}
+			});
+		</script>
+
+
+	</body>
+</html>

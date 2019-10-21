@@ -67,7 +67,7 @@ public class ExamListServiceImpl implements ExamListService {
             }
         }
         if(examList.getPageSize() == null){
-            examList.setPageSize(2);
+            examList.setPageSize(8);
         }
         if(examList.getPageNum() == null){
             examList.setPageNum(1);
