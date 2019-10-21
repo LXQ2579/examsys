@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.damo.examsys.dao.StuPaperInfoDao">
+
+    <resultMap id="stuPaperInfoMap" type="stuPaperInfo">
+        <id column="stu_paper_id" property="stuPaperId"></id>
+        <result column="stu_num" property="stuNum"></result>
+        <result column="list_id" property="listId"></result>
+        <collection property="answerList" ofType="stuAnswer">
+            <id column="stu_answer_id" property="stuAnswerId"></id>
+            <result column="stu_num" property="stuNum"></result>
+            <result column="paper_id" property="paperId"></result>
+            <result column="question_id" property="questionId"></result>
+            <result column="stu_answer" property="stuAnswer"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getStuPaperInfo" resultMap="stuPaperInfoMap">
+         SELECT  *   FROM   t_stu_paper p,   exam_list e,  t_stu_answer a WHERE
+	        e.list_id = p.list_id
+            AND a.paper_id = e.paper_id
+            AND p.stu_num = a.stu_num
+            AND a.stu_num = 1001
+            AND a.paper_id = 1
+    </select>
+
+</mapper>
