@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+dao层接口的全限定名和namespace一样
+dao层接口中的方法名和映射文件中增删改查配置的statement id一致
+方法的参数和配置的输入参数保持一致
+方法的返回值类型和配置中返回类型保持一致
+ -->
+<mapper namespace="com.damo.examsys.dao.SubExamInfoDao">
+
+
+    <select id="findSubNames" resultType="subject">
+        select sId,sName from subject
+    </select>
+
+    <select id="findAllSubInfo" parameterType="integer" resultType="subExamInfo">
+        SELECT s.sId,s.sName,e.list_id,e.begin_time,e.end_time,e.exam_address,e.subject_id
+        from `subject` s,exam_list e
+        WHERE s.sId=e.subject_id and e.subject_id=#{subjectId}
+    </select>
+
+    <select id="findSubInfo" resultType="subExamInfo">
+        SELECT e.list_id,s.sId,s.sName,e.begin_time,e.end_time,e.exam_address,e.subject_id
+        from exam_list e LEFT JOIN `subject` s
+        on e.subject_id=s.sId
+        <where>
+            <if test="sId != null and sId != ''">
+                and s.sId = #{sId}
+            </if>
+        </where>
+    </select>
+
+    <update id="chooseSubject" parameterType="integer">
+        update student s set s.exam_id=#{listId} where s.stu_num=#{stuNum}
+    </update>
+
+
+    <select id="findById" resultType="subject" parameterType="integer">
+        select * from subject where sId = #{subjectId}
+    </select>
+
+    <update id="update" parameterType="subject">
+        update subject set sName = #{sName}, remark = #{remark} where sId = #{sId}
+    </update>
+
+    <insert id="add" parameterType="subject">
+        insert into subject values (null, #{sName}, #{remark})
+    </insert>
+
+    <delete id="deleteById" parameterType="integer">
+        delete from subject where sId = #{subjectId}
+    </delete>
+
+</mapper>

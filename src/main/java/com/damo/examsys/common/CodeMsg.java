@@ -26,4 +26,7 @@ public class CodeMsg {
     private String menuIdNull;
     @Value("${code.9002}")
     private String menuNull;
+
+    @Value("${code.1803}")
+    private String examAlready;
 }

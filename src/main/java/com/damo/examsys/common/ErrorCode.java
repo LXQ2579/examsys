@@ -38,4 +38,7 @@ public class ErrorCode {
 
     //不能为空
     public static int MENU_NULL=9002;
+
+    //已有考试
+    public static int EXAM_ALREADY=1803;
 }
